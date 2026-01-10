@@ -25,5 +25,16 @@ public class PortfolioManager {
         return false;
     }
 
+    public boolean buyAsset(String address, ASSET_TYPE asset_type, Account account){
+        for (Portfolio portfolio : portfolioList) {
+            if(portfolio.getAddress().equals(address)) {
+                if(asset_type == ASSET_TYPE.CryptocurrencyToken)  return portfolio.buyAsset(new CryptocurrencyToken(), account);
+                else return portfolio.buyAsset(new Stock(), account);
+            }
+        }
+        return false;
+    }
+
+    
 
 }

@@ -11,10 +11,13 @@ public class Transaction {
     private double amountOfMoney;
     private static ArrayList<Transaction> transactionList = new ArrayList<>();
 
-    public Transaction(Account emitterAccount, Account receiverAccount){
+    public Transaction(Portfolio emitter, Portfolio receiver, Account emitterAccount, Account receiverAccount, double amountOfMoney){
+        this.emitter = emitter;
+        this.receiver = receiver;
         this.emitterAccount = emitterAccount;
         this.receiverAccount = receiverAccount;
         this.transactionAsset = null;
+        this.amountOfMoney = amountOfMoney;
     }
 
     public Transaction(Account emitterAccount, Asset transactionAsset){

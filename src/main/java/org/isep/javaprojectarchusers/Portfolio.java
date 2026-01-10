@@ -27,7 +27,27 @@ public class Portfolio {
 
     public boolean buyAsset(Asset asset, Account account){
         Transaction transaction = new Transaction(account, asset);
+        if (transaction.validateTransaction()){
+            assetList.add(asset);
+            return true;
+        }
+        else return false;
+    }
+
+    public boolean sellAsset(Asset asset, Account account){
+        Transaction transaction = new Transaction(asset, account);
+        if(transaction.validateTransaction()){
+            for(int i = 0; i < assetList.size(); i++) if(assetList.get(i).equals(asset)) assetList.remove(i);
+            return true;
+        }
+        else return false;
+    }
+
+    public boolean transferMoney(Account emitterAccount, Account receiverAccount){
+        Transaction transaction = new Transaction(emitterAccount, receiverAccount);
         return transaction.validateTransaction();
     }
+
+    public
 
 }

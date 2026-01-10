@@ -7,8 +7,8 @@ public class Asset {
         return String.valueOf(value);
     }
 
-//    @Override
-//    public String toString(){
-//        return this.getInfo();
-//    }
+    @Override
+    public String toString(){
+        return this.getInfo();
+    }
 }
