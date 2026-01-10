@@ -20,14 +20,14 @@ public class Transaction {
         this.amountOfMoney = amountOfMoney;
     }
 
-    public Transaction(Account emitterAccount, Asset transactionAsset){
+    public Transaction(Portfolio emitter, Account emitterAccount, Asset transactionAsset, double amountOfMoney){
         this.emitterAccount = emitterAccount;
         this.receiverAccount = null;
         this.transactionAsset = transactionAsset;
 
     }
 
-    public Transaction(Asset transactionAsset, Account receiverAccount){
+    public Transaction(Portfolio receiver, Asset transactionAsset, Account receiverAccount, double amountOfMoney){
         this.emitterAccount = null;
         this.receiverAccount = receiverAccount;
         this.transactionAsset = transactionAsset;

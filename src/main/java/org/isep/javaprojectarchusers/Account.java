@@ -22,6 +22,10 @@ public class Account {
         balance += amount;
     }
 
+    public Portfolio getPortfolio() {
+        return portfolio;
+    }
+
     @Override
     public String toString(){
         return this.userName + " : " + accountType;

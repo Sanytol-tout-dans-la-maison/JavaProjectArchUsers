@@ -25,8 +25,8 @@ public class Portfolio {
         this.manager = manager;
     }
 
-    public boolean buyAsset(Asset asset, Account account){
-        Transaction transaction = new Transaction(account, asset);
+    public boolean buyAsset(Asset asset, Account emitterAccount){
+        Transaction transaction = new Transaction(this, emitterAccount, asset, asset.getValue() );
         if (transaction.validateTransaction()){
             assetList.add(asset);
             return true;
@@ -35,7 +35,7 @@ public class Portfolio {
     }
 
     public boolean sellAsset(Asset asset, Account account){
-        Transaction transaction = new Transaction(asset, account);
+        Transaction transaction = new Transaction(account.getPortfolio(), asset, account, asset.getValue());
         if(transaction.validateTransaction()){
             for(int i = 0; i < assetList.size(); i++) if(assetList.get(i).equals(asset)) assetList.remove(i);
             return true;
@@ -43,11 +43,10 @@ public class Portfolio {
         else return false;
     }
 
-    public boolean transferMoney(Account emitterAccount, Account receiverAccount){
-        Transaction transaction = new Transaction(emitterAccount, receiverAccount);
+    public boolean transferMoney(Account emitterAccount, Account receiverAccount, double amountOfMoney){
+        Transaction transaction = new Transaction(this, receiverAccount.getPortfolio(), emitterAccount, receiverAccount, amountOfMoney);
         return transaction.validateTransaction();
     }
 
-    public
 
 }

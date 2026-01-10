@@ -35,6 +35,15 @@ public class PortfolioManager {
         return false;
     }
 
+    public boolean sellAsset(String address, Asset asset, Account account) {
+        for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.sellAsset(asset, account);
+        return false;
+    }
+
+    public boolean transferMoney(String address, Account emitterAccount, Account receiverAccount, double amountOfMoeny) {
+        for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.transferMoney(emitterAccount, receiverAccount, amountOfMoeny);
+        return false;
+    }
     
 
 }
