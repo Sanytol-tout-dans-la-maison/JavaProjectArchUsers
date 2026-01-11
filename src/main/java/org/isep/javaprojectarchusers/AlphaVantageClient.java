@@ -9,7 +9,7 @@ package org.isep.javaprojectarchusers;
 //import java.net.URL;
 //public class AlphaVantageClient {
 
-//    private static final String API_KEY = "YOUR_KEY";
+//    private static final String API_KEY = "LKAC3T7BRU8XTY5X";
 //
 //
 //    public static double getStockPrice(String symbol) throws Exception {
