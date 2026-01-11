@@ -23,6 +23,9 @@ public class Portfolio {
         this.address = address;
         this.description = description;
         this.manager = manager;
+
+        this.assetList = new ArrayList<>();
+        this.accountList = new ArrayList<>();
     }
 
     public boolean buyAsset(Asset asset, Account emitterAccount){
