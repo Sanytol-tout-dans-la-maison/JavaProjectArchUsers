@@ -1,5 +1,6 @@
 package org.isep.javaprojectarchusers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class PortfolioManager {
@@ -12,8 +13,14 @@ public class PortfolioManager {
         return userName;
     }
 
-    public boolean login() {
-        return true;
+    public boolean login(String inputEmail, String inputPassword) throws IOException {
+        ArrayList<String> email = new ArrayList<>();
+        ArrayList<String> password = new ArrayList<>();
+        String name = "";
+        boolean cond = false;
+        LoginExtraction.extract(email,password);
+        for(int i = 0; i < email.size(); i++) if(inputEmail.equals(email.get(i)) && inputPassword.equals(password.get(i))) cond = true;
+        return cond;
     }
 
     public void createPortfolio(String address, String description) {
