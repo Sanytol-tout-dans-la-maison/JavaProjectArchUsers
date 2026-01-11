@@ -8,6 +8,10 @@ public class PortfolioManager {
     private String password;
     private ArrayList<Portfolio> portfolioList;
 
+    public PortfolioManager(){
+        this.portfolioList = new ArrayList<>();
+    }
+
     @Override
     public String toString() {
         return userName;
