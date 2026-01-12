@@ -5,10 +5,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class PortfolioManager {
-    private ArrayList<Portfolio> portfolioList;
-    private String userName;
-    ArrayList<String> emailList = new ArrayList<>();
-    ArrayList<String> passwordList = new ArrayList<>();
+    private static ArrayList<Portfolio> portfolioList;
+    private static String userName;
+    private static ArrayList<String> emailList = new ArrayList<>();
+    private static ArrayList<String> passwordList = new ArrayList<>();
 
     public PortfolioManager(){
         this.portfolioList = new ArrayList<>();
@@ -19,7 +19,7 @@ public class PortfolioManager {
         return userName;
     }
 
-    public boolean login(String inputEmail, String inputPassword) throws IOException, NoSuchAlgorithmException {
+    public static boolean login(String inputEmail, String inputPassword) throws IOException, NoSuchAlgorithmException {
         ArrayList<String> email = new ArrayList<>();
         ArrayList<String> password = new ArrayList<>();
         String name = "";
@@ -34,15 +34,15 @@ public class PortfolioManager {
         return cond;
     }
 
-    public boolean register(String inputEmail, String inputPassword, String confirmPassword) throws IOException, NoSuchAlgorithmException {
-        if(!inputPassword.equals(confirmPassword)) return false;
-        else if(inputEmail.isEmpty() || inputPassword.isEmpty()) return false;
+    public static byte register(String inputEmail, String inputPassword, String confirmPassword) throws IOException, NoSuchAlgorithmException {
+        if(!inputPassword.equals(confirmPassword)) return -1;
+        else if(inputEmail.isEmpty() || inputPassword.isEmpty()) return 0;
         else{
             LoginExtraction.extract(emailList, passwordList);
             emailList.addLast(inputEmail);
             passwordList.addLast(inputPassword);
             LoginSave.save(emailList, passwordList);
-            return true;
+            return 1;
         }
     }
 
