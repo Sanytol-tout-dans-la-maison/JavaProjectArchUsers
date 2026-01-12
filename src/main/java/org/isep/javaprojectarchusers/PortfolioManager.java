@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class PortfolioManager {
-    private String userName;
-    private String password;
     private ArrayList<Portfolio> portfolioList;
+    private String userName;
+    ArrayList<String> emailList = new ArrayList<>();
+    ArrayList<String> passwordList = new ArrayList<>();
 
     public PortfolioManager(){
         this.portfolioList = new ArrayList<>();
@@ -23,8 +24,25 @@ public class PortfolioManager {
         String name = "";
         boolean cond = false;
         LoginExtraction.extract(email,password);
-        for(int i = 0; i < email.size(); i++) if(inputEmail.equals(email.get(i)) && inputPassword.equals(password.get(i))) cond = true;
+        for(int i = 0; i < email.size(); i++) {
+            if(inputEmail.equals(email.get(i)) && inputPassword.equals(password.get(i))) {
+                userName = inputEmail;
+                cond = true;
+            }
+        }
         return cond;
+    }
+
+    public boolean register(String inputEmail, String inputPassword, String confirmPassword) throws IOException {
+        if(!inputPassword.equals(confirmPassword)) return false;
+        else if(inputEmail.isEmpty() || inputPassword.isEmpty()) return false;
+        else{
+            LoginExtraction.extract(emailList, passwordList);
+            emailList.addLast(inputEmail);
+            passwordList.addLast(inputPassword);
+            LoginSave.save(emailList, passwordList);
+            return true;
+        }
     }
 
     public void createPortfolio(String address, String description) {
