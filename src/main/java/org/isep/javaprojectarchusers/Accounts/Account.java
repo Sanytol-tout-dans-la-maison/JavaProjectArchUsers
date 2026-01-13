@@ -2,16 +2,60 @@ package org.isep.javaprojectarchusers.Accounts;
 
 import org.isep.javaprojectarchusers.Portfolio;
 
+/**
+ * The {@code Account} superclass represent bank accounts.
+ * <p>
+ *     It contains the majors methods to interact with the account.<br>
+ *     It has subclass that has different additional functions.
+ * </p>
+ *
+ */
 public class Account {
+    /** Name of the user of this account. */
     private String userName;
+
+    /** The {@link Portfolio} object the account is in. */
     private Portfolio portfolio;
+
+
+    /** Amount of money this account has. */
     private double balance;
+
+    /** Type of the account */
     private static final String accountType = "account";
 
+    /**Idk what this is*/
+    final float OVERDRAW_LIMIT; //moved here cause present in both subclass
+
+
+    /** Temporary constructor
+     * @param userName Name of the user
+     * @param OVERDRAW_LIMIT idk what is this supposed to be.
+     * @param balance initial account balance
+     * @param portfolio The {@link Portfolio} object to this account
+     */
+    public Account(String userName, float OVERDRAW_LIMIT, double balance, Portfolio portfolio) {
+        this.userName = userName;
+        this.OVERDRAW_LIMIT = OVERDRAW_LIMIT;
+        this.balance = balance;
+        this.portfolio = portfolio;
+    }
+
+
+    /** Get the balance of the account.
+     * @return balance
+     */
     public double getBalance(){
         return balance;
     }
 
+
+
+    /** Function to withdraw money from this account.
+     *
+     * @param amount amount of money to withdraw; must not be {@code null}
+     * @return Tells if withdraw has been successful or not.
+     */
     public boolean withdraw(double amount){
         if(amount < balance){
             balance -= amount;
@@ -20,14 +64,30 @@ public class Account {
         else return false;
     }
 
+
+
+    /** Add the amount specified into the account.
+     *
+     * @param amount Amount of money to add.
+     */
     public void deposit(double amount){
         balance += amount;
     }
 
+
+
+    /**
+     * @return The {@link Portfolio} object this account is present in.
+     */
     public Portfolio getPortfolio() {
         return portfolio;
     }
 
+
+
+    /**Custom toString
+     * @return "{@code userName} : {@code accountType}"
+     */
     @Override
     public String toString(){
         return this.userName + " : " + accountType;
