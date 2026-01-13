@@ -1,5 +1,7 @@
 package org.isep.javaprojectarchusers;
 
+import org.isep.javaprojectarchusers.Accounts.Account;
+
 import java.util.ArrayList;
 
 public class Portfolio {

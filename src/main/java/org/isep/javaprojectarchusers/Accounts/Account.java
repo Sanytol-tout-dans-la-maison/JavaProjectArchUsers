@@ -1,4 +1,6 @@
-package org.isep.javaprojectarchusers;
+package org.isep.javaprojectarchusers.Accounts;
+
+import org.isep.javaprojectarchusers.Portfolio;
 
 public class Account {
     private String userName;
