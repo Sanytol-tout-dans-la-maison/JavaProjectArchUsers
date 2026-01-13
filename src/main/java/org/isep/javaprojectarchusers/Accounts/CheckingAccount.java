@@ -14,7 +14,7 @@ public class CheckingAccount extends Account {
     final double WITHDRAWAL_LIMIT;
 
     public CheckingAccount(String userName, float OVERDRAW_LIMIT, double balance, Portfolio portfolio, double INTEREST_RATES, double WITHDRAWAL_LIMIT) {
-        super(userName, OVERDRAW_LIMIT, balance, portfolio);
+        super(userName, AccountType.CHECKING, OVERDRAW_LIMIT, balance, portfolio);
         this.INTEREST_RATES = INTEREST_RATES;
         this.WITHDRAWAL_LIMIT = WITHDRAWAL_LIMIT;
     }

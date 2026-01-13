@@ -15,30 +15,32 @@ public class Account {
     private String userName;
 
     /** The {@link Portfolio} object the account is in. */
-    private Portfolio portfolio;
+    private final Portfolio portfolio;
 
 
     /** Amount of money this account has. */
     private double balance;
 
     /** Type of the account */
-    private static final String accountType = "account";
+    private final AccountType accountType;
 
-    /**Idk what this is*/
+    /**I don't know what this is*/
     final float OVERDRAW_LIMIT; //moved here cause present in both subclass
 
 
     /** Temporary constructor
-     * @param userName Name of the user
-     * @param OVERDRAW_LIMIT idk what is this supposed to be.
-     * @param balance initial account balance
-     * @param portfolio The {@link Portfolio} object to this account
+     * @param userName Name of the user.
+     * @param accountType The type of the account.
+     * @param OVERDRAW_LIMIT I don't know what is this supposed to be.
+     * @param balance initial account balance.
+     * @param portfolio The {@link Portfolio} object to this account.
      */
-    public Account(String userName, float OVERDRAW_LIMIT, double balance, Portfolio portfolio) {
+    public Account(String userName,AccountType accountType, float OVERDRAW_LIMIT, double balance, Portfolio portfolio) {
         this.userName = userName;
         this.OVERDRAW_LIMIT = OVERDRAW_LIMIT;
         this.balance = balance;
         this.portfolio = portfolio;
+        this.accountType = accountType;
     }
 
 

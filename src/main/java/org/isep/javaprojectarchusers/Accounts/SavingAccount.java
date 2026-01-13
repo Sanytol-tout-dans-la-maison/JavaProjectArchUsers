@@ -10,8 +10,8 @@ public class SavingAccount extends Account {
     /**This is the rent the account user has to pay per month?*/
     final float RENT; // I don't think this is final. but I'll set this like that for now.
 
-    public SavingAccount(String userName, float OVERDRAW_LIMIT, double balance, Portfolio portfolio, float RENT) {
-        super(userName, OVERDRAW_LIMIT, balance, portfolio);
+    public SavingAccount(String userName, String accountType, float OVERDRAW_LIMIT, double balance, Portfolio portfolio, float RENT) {
+        super(userName, AccountType.SAVING, OVERDRAW_LIMIT, balance, portfolio);
         this.RENT = RENT;
     }
 
