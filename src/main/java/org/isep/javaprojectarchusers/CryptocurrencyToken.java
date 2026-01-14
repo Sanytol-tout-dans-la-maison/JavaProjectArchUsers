@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class CryptocurrencyToken extends Asset{
     private String cryptoName;
     private static ArrayList<CryptocurrencyToken> cryptocurrencyTokenList = new ArrayList<>();
+    private final ASSET_TYPE assetType = ASSET_TYPE.CryptocurrencyToken;
 
     @Override
     public String toString(){
@@ -16,8 +17,7 @@ public class CryptocurrencyToken extends Asset{
     }
 
     public CryptocurrencyToken(String cryptoName){
-        super(0.0);
-        this.cryptoName = cryptoName;
+        super(cryptoName, 0.0);
         cryptocurrencyTokenList.add(this);
     }
 }
