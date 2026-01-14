@@ -10,17 +10,17 @@ public class Events {
 
     @JsonProperty("valueImpact")
     private double valueImpact;
-    @JsonProperty("type")
+    @JsonProperty("eventType")
     private EVENT_TYPE eventType;
     @JsonProperty("date")
-    private LocalDate date;
+    private String date;
     @JsonProperty("asset")
     private Asset asset;
 
     private static ArrayList<Events> eventList = new ArrayList<>();
 
     @JsonCreator
-    public Events(@JsonProperty("eventType") EVENT_TYPE eventType, @JsonProperty("valueImpact") double valueImpact, @JsonProperty("date") LocalDate date, @JsonProperty("asset") Asset asset){
+    public Events(@JsonProperty("eventType") EVENT_TYPE eventType, @JsonProperty("valueImpact") double valueImpact, @JsonProperty("date") String date, @JsonProperty("asset") Asset asset){
         this.eventType = eventType;
         this.valueImpact = valueImpact;
         this.date = date;
@@ -28,34 +28,34 @@ public class Events {
         eventList.add(this);
     }
 
-    public EVENT_TYPE getEventType(){
+    public @JsonProperty("eventType")EVENT_TYPE getEventType(){
         return eventType;
     }
 
-    public void setTest(EVENT_TYPE eventType) {
+    public void setEventType(@JsonProperty("eventType")EVENT_TYPE eventType) {
         this.eventType = eventType;
     }
 
-    public double getValueImpact() {
+    public @JsonProperty("valueImpact")double getValueImpact() {
         return valueImpact;
     }
-    public void setValueImpact(double valueImpact) {
+    public void setValueImpact(@JsonProperty("valueImpact")double valueImpact) {
         this.valueImpact = valueImpact;
     }
 
-    public LocalDate getDate() {
+    public @JsonProperty("date")String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(@JsonProperty("date")String date) {
         this.date = date;
     }
 
-    public Asset getAsset() {
+    public @JsonProperty("asset")Asset getAsset() {
         return asset;
     }
 
-    public void setAsset(Asset asset) {
+    public void setAsset(@JsonProperty("asset")Asset asset) {
         this.asset = asset;
     }
 
