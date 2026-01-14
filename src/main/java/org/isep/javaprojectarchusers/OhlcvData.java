@@ -7,9 +7,9 @@ public class OhlcvData {
     private double high;
     private double low;
     private double close;
-    private long volume;
+    private double volume;
 
-    public OhlcvData(LocalDate date, double open, double high, double low, double close, long volume) {
+    public OhlcvData(LocalDate date, double open, double high, double low, double close, double volume) {
         this.date = date;
         this.open = open;
         this.high = high;
@@ -38,7 +38,7 @@ public class OhlcvData {
         return close;
     }
 
-    public long getVolume() {
+    public double getVolume() {
         return volume;
     }
 
