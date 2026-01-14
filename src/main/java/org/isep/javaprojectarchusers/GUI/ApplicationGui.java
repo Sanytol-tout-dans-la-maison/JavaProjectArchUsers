@@ -33,7 +33,7 @@ public class ApplicationGui extends Application {
         URL resourcePath;
 
         try {
-            resourcePath = Objects.requireNonNull(getClass().getResource("login-view.fxml"));
+            resourcePath = Objects.requireNonNull(getClass().getResource("MainPageView.fxml"));
             logger.fine("Resource path: " + resourcePath);
 
         } catch (NullPointerException e) {
