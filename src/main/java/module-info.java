@@ -7,9 +7,13 @@ module org.isep.javaprojectarchusers {
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.core;
+    requires java.logging;
+    requires javafx.graphics;
 
     opens org.isep.javaprojectarchusers to javafx.fxml;
     exports org.isep.javaprojectarchusers;
     exports org.isep.javaprojectarchusers.Accounts;
     opens org.isep.javaprojectarchusers.Accounts to javafx.fxml;
+    exports org.isep.javaprojectarchusers.GUI;
+    opens org.isep.javaprojectarchusers.GUI to javafx.fxml;
 }

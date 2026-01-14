@@ -1,4 +1,4 @@
-package org.isep.javaprojectarchusers;
+package org.isep.javaprojectarchusers.GUI;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,10 +7,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.isep.javaprojectarchusers.PortfolioManager;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 
 public class RegistrationWindowController {
     @FXML
