@@ -10,8 +10,9 @@ import java.util.ArrayList;
 
 public class TestJson {
     public static void main() throws IOException {
-        Events event = new Events(EVENT_TYPE.Crash, 0.7, LocalDate.of(2026,01,12));
-        Events event2 = new Events(EVENT_TYPE.Covid_19, 0.5, LocalDate.of(2019,10,1));
+        ArrayList<Asset> assetList = Asset.getAssetList();
+        Events event = new Events(EVENT_TYPE.Crash, 0.7, LocalDate.of(2026,01,12), assetList.getFirst());
+        Events event2 = new Events(EVENT_TYPE.Covid_19, 0.5, LocalDate.of(2019,10,1), assetList.getFirst());
         ArrayList<Events> list= new ArrayList<Events>();
         list.add(event);
         list.add(event2);
