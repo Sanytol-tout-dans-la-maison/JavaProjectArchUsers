@@ -18,7 +18,7 @@ public class EventsManager {
         for(LocalDate date = beginDate; date.isBefore(endDate); date.plusDays(1)){
             while(randomGenerator.nextBoolean()){
                 EVENT_TYPE eventType = eventTypes[randomGenerator.nextInt(0, eventTypes.length-1)];
-                eventList.add(new Events(eventType, randomGenerator.nextDouble(0.1, 0.95), date, assetList.get(randomGenerator.nextInt(0, assetList.size()-1))));
+                eventList.add(new Events(eventType, randomGenerator.nextDouble(0.1, 0.95), date.toString(), assetList.get(randomGenerator.nextInt(0, assetList.size()-1))));
             }
         }
         EventSave.save(eventList);
