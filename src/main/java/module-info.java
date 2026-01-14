@@ -7,4 +7,6 @@ module org.isep.javaprojectarchusers {
 
     opens org.isep.javaprojectarchusers to javafx.fxml;
     exports org.isep.javaprojectarchusers;
+    exports org.isep.javaprojectarchusers.Accounts;
+    opens org.isep.javaprojectarchusers.Accounts to javafx.fxml;
 }
