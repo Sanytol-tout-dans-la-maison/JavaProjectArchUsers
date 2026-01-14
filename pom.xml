@@ -84,9 +84,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>org.isep.javaprojectarchusers/org.isep.javaprojectarchusers.HelloApplication
-                            </mainClass>
-                            <launcher>app</launcher>
+                            <mainClass>org.isep.javaprojectarchusers/org.isep.javaprojectarchusers.GUI.ApplicationGui</mainClass>                            <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
                             <noManPages>true</noManPages>

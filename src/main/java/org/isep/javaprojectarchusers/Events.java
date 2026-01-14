@@ -6,6 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * Do not touch this class. If you wish to implement more events, just go to EVENT_TYPE enumerations.
+ * Same for ASSET_TYPE.
+ */
 public class Events {
 
     @JsonProperty("valueImpact")
