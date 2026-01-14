@@ -46,7 +46,7 @@ public class ApplicationGui extends Application {
 
         Scene scene;
 
-        logger.info("Loading FXML: login-view.fxml");
+        logger.info("Loading FXML: MainPageView.fxml");
         try {
             scene = new Scene(FXMLLoader.load(resourcePath));
 

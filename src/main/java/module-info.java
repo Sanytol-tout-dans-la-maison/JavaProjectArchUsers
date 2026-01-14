@@ -5,6 +5,7 @@ module org.isep.javaprojectarchusers {
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
     requires java.logging;
+    requires javafx.graphics;
 
     opens org.isep.javaprojectarchusers to javafx.fxml;
     exports org.isep.javaprojectarchusers;
