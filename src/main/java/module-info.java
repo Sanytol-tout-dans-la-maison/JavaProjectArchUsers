@@ -4,6 +4,9 @@ module org.isep.javaprojectarchusers {
 
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
+    requires com.fasterxml.jackson.annotation;
+    requires com.fasterxml.jackson.databind;
+    requires com.fasterxml.jackson.core;
     requires java.logging;
     requires javafx.graphics;
 
