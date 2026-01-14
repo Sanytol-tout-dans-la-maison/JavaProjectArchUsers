@@ -5,6 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 
+/**
+ * Please make sure the ASSET_TYPE and names are correct. The code relies on these to work properly,
+ * as JSON doesn't store subclasses
+ */
 public class Asset {
     private double value;
     private static ArrayList<Asset> assetList = new ArrayList<>();
