@@ -71,7 +71,7 @@ public class AlphaVantageClient {
                     volume = stats.get("5. volume").asDouble();
                 }
 
-                dataList.add(new OhlcvData(LocalDate.parse(dateStr), open, high, low, close, volume));
+                dataList.add(new OhlcvData(LocalDate.parse(dateStr), open, high, low, close, (long) volume));
             }
 
             Collections.reverse(dataList);
