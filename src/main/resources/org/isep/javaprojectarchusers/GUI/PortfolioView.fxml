@@ -1,42 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+<AnchorPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" spacing="0">
+        <HBox spacing="0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <!-- Left fixed panel -->
-                <ScrollPane minWidth="120" prefWidth="200" maxWidth="200"
-                            fitToWidth="true" hbarPolicy="NEVER">
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxWidth="200" minWidth="120" prefWidth="200">
                     <content>
                         <VBox spacing="10">
                             <children>
                                 <VBox>
                                     <children>
-                                        <Label text="Accounts:"/>
+                                        <Label text="Accounts:" />
 
-                                        <Button text="Account" maxWidth="1.7976931348623157E308"/>
-                                        <Button text="Account" maxWidth="1.7976931348623157E308"/>
-                                        <Button text="Account" maxWidth="1.7976931348623157E308"/>
+                                        <Button maxWidth="1.7976931348623157E308" text="Account" />
+                                        <Button maxWidth="1.7976931348623157E308" text="Account" />
+                                        <Button maxWidth="1.7976931348623157E308" text="Account" />
                                     </children>
                                 </VBox>
 
                                 <VBox>
                                     <children>
-                                        <Label text="Actions:"/>
+                                        <Label text="Actions:" />
 
-                                        <Button text="Action" maxWidth="1.7976931348623157E308"/>
-                                        <Button text="Action" maxWidth="1.7976931348623157E308"/>
-                                        <Button text="Action" maxWidth="1.7976931348623157E308"/>
-                                        <Button text="Action" maxWidth="1.7976931348623157E308"/>
+                                        <Button maxWidth="1.7976931348623157E308" text="Action" />
+                                        <Button maxWidth="1.7976931348623157E308" text="Action" />
+                                        <Button maxWidth="1.7976931348623157E308" text="Action" />
+                                        <Button maxWidth="1.7976931348623157E308" text="Action" />
                                     </children>
                                 </VBox>
 
@@ -48,7 +46,7 @@
                 </ScrollPane>
 
                 <!-- Right flexible panel -->
-                <Pane HBox.hgrow="ALWAYS" minWidth="500" minHeight="500"/>
+                <Pane fx:id="actionPane" minHeight="500" minWidth="500" HBox.hgrow="ALWAYS" />
             </children>
         </HBox>
     </children>

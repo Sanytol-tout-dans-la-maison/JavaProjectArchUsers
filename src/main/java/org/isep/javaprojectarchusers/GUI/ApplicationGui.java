@@ -4,18 +4,15 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.logging.Level;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class ApplicationGui extends Application {
 
     private static final Logger logger = Logger.getLogger(ApplicationGui.class.getName());
-
 
 
     public static void main(String[] args) {
@@ -25,7 +22,7 @@ public class ApplicationGui extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage){
+    public void start(Stage primaryStage) {
         logger.setLevel(Level.FINE);
 
 
@@ -37,11 +34,10 @@ public class ApplicationGui extends Application {
             logger.fine("Resource path: " + resourcePath);
 
         } catch (NullPointerException e) {
-            logger.severe("The fxml file hasn't been found. "+ e);
+            logger.severe("The fxml file hasn't been found. " + e);
             throw new RuntimeException(e);
 
         }
-
 
 
         Scene scene;
