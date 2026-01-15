@@ -9,7 +9,7 @@
    <children>
       <TabPane fx:id="portfolioHolder" nodeOrientation="LEFT_TO_RIGHT" prefHeight="398.0" prefWidth="600.0">
          <tabs>
-            <Tab closable="false" text="+">
+            <Tab closable="false" text="🏠">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               </content>

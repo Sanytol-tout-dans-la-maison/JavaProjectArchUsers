@@ -123,4 +123,12 @@ public class Portfolio {
     public void setBlockchain(LinkedList<Block> blockchain) {
         this.blockchain = blockchain;
     }
+
+    public ArrayList<Asset> getAssetList() {
+        return assetList;
+    }
+
+    public ArrayList<Account> getAccountList() {
+        return accountList;
+    }
 }

@@ -2,6 +2,7 @@ package org.isep.javaprojectarchusers.GUI;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
+import org.isep.javaprojectarchusers.Asset;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.DateTickUnit;
@@ -28,6 +29,8 @@ public class ActionController {
     private JFreeChart chart;
 
     private static final Logger logger = Logger.getLogger(ActionController.class.getName());
+
+    private Asset asset;
 
 
     /**
@@ -105,4 +108,7 @@ public class ActionController {
 
     }
 
+    public void setAsset(Asset asset) {
+        this.asset = asset;
+    }
 }
