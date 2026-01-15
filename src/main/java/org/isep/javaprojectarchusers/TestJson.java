@@ -27,15 +27,18 @@ public class TestJson {
 //        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
         ArrayList<Events> copyList = objectMapper.readValue(file, new TypeReference<ArrayList<Events>>(){});
         for (Events e : copyList) System.out.println(e);
+        MainBackEnd.extractPortfolios();
+        Blockchain.extractBlockchain();
         PortfolioManager portfolioManager = new PortfolioManager();
         portfolioManager.createPortfolio("test1","first test");
         portfolioManager.createPortfolio("test2", "second test");
         portfolioManager.getPortfolio("test1").createCheckingAccount("testAccount1");
         portfolioManager.getPortfolio("test2").createCheckingAccount("testAccount2");
-        Transaction test1 = new Transaction(portfolioManager.getPortfolio("test1"),portfolioManager.getPortfolio("test2"),portfolioManager.getPortfolio("test1").getAccount("testAccount1"),portfolioManager.getPortfolio("test2").getAccount("testAccount2"),90);
+        Transaction test1 = new Transaction(portfolioManager.getPortfolio("test1").getAddress(),portfolioManager.getPortfolio("test2").getAddress(),portfolioManager.getPortfolio("test1").getAccount("testAccount1").getUserName(),portfolioManager.getPortfolio("test2").getAccount("testAccount2").getUserName(),90);
         System.out.println(Blockchain.getLast().getTransactions());
-        Transaction test2 = new Transaction(portfolioManager.getPortfolio("test1"),portfolioManager.getPortfolio("test2"),portfolioManager.getPortfolio("test1").getAccount("testAccount1"),portfolioManager.getPortfolio("test2").getAccount("testAccount2"),9000);
+        Transaction test2 = new Transaction(portfolioManager.getPortfolio("test1").getAddress(),portfolioManager.getPortfolio("test2").getAddress(),portfolioManager.getPortfolio("test1").getAccount("testAccount1").getUserName(),portfolioManager.getPortfolio("test2").getAccount("testAccount2").getUserName(),9000);
         System.out.println(Blockchain.getLast().getTransactions());
         MainBackEnd.savePortfolios();
+        Blockchain.saveBlockchain();
     }
 }

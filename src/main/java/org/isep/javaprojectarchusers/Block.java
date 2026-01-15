@@ -1,10 +1,13 @@
 package org.isep.javaprojectarchusers;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class Block {
-    private Deque<Transaction> transactions;
+    private @JsonProperty("block") Deque<Transaction> transactions;
 
     public Block() {
         this.transactions = new ArrayDeque<Transaction>();
@@ -14,6 +17,11 @@ public class Block {
         return transactions;
     }
 
+    public void setTransactions(Deque<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    @JsonIgnore
     public void add(Transaction transaction) {
         if (transactions.size() == 10) {
             Block newBlock = new Block();

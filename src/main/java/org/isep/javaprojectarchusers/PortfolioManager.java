@@ -1,5 +1,6 @@
 package org.isep.javaprojectarchusers;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.isep.javaprojectarchusers.Accounts.Account;
 
 import java.io.IOException;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 
 public class PortfolioManager {
     private ArrayList<Portfolio> portfolioList;
-    private String userName;
+    private @JsonProperty("userName") String userName;
     private static ArrayList<String> emailList = new ArrayList<>();
     private static ArrayList<String> passwordList = new ArrayList<>();
 
@@ -18,6 +19,10 @@ public class PortfolioManager {
 
     public String getUserName() {
         return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @Override
@@ -58,7 +63,7 @@ public class PortfolioManager {
     }
 
     public boolean buyAsset(String address, Asset asset, Account account) {
-        for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.buyAsset(asset, account);
+        for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.buyAsset(asset, account.getUserName());
         return false;
     }
 
@@ -66,9 +71,9 @@ public class PortfolioManager {
         for (Portfolio portfolio : portfolioList) {
             if(portfolio.getAddress().equals(address)) {
                 if (asset_type == ASSET_TYPE.CryptocurrencyToken)
-                    return portfolio.buyAsset(new CryptocurrencyToken("Bitcoin"), account);
+                    return portfolio.buyAsset(new CryptocurrencyToken("Bitcoin"), account.getUserName());
                 else {
-                    return portfolio.buyAsset(new Stock("Action Générique", 0.0), account);
+                    return portfolio.buyAsset(new Stock("Action Générique", 0.0), account.getUserName());
                 }
             }
 
@@ -77,7 +82,7 @@ public class PortfolioManager {
     }
 
     public boolean sellAsset(String address, Asset asset, Account account) {
-        for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.sellAsset(asset, account);
+        for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.sellAsset(asset, account.getUserName());
         return false;
     }
 
