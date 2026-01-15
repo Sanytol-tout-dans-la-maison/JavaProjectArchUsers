@@ -42,7 +42,7 @@ public class PortfolioManager {
                 cond = true;
             }
         }
-        getPortfolios();
+        addPortfolios();
         return cond;
     }
 
@@ -100,7 +100,7 @@ public class PortfolioManager {
         return null;
     }
 
-    public void getPortfolios(){
+    public void addPortfolios(){
         for(Portfolio p : MainBackEnd.getPortfolioArrayList()) if(p.getManager().getUserName().equals(userName)) portfolioList.add(p);
     }
 }
