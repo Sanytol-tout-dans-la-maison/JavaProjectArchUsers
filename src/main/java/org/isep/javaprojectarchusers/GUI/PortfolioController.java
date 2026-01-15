@@ -3,6 +3,8 @@ package org.isep.javaprojectarchusers.GUI;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import org.isep.javaprojectarchusers.Portfolio;
 
 import java.io.IOException;
 import java.net.URL;
@@ -10,8 +12,17 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 public class PortfolioController {
+    private Portfolio portfolio;
+
     @FXML
     private HBox portfolioSep;
+
+    @FXML
+    private VBox accountsId;
+
+    @FXML
+    private VBox actionsId;
+
 
     private static final Logger logger = Logger.getLogger(PortfolioController.class.getName());
 
@@ -34,7 +45,11 @@ public class PortfolioController {
 
         logger.info("Loading FXML: actionView.fxml");
         try {
-            portfolioSep.getChildren().add(FXMLLoader.load(resourcePath));
+            FXMLLoader loader = new FXMLLoader(resourcePath);
+
+            portfolioSep.getChildren().add(loader.load());
+
+            ActionController controller = loader.getController();
 
 
         } catch (IOException e) {
@@ -45,5 +60,11 @@ public class PortfolioController {
 
 
     }
+
+    public void setPortfolio(Portfolio portfolio) {
+        logger.info("Portfolio set successfully");
+        this.portfolio = portfolio;
+    }
+
 
 }

@@ -3,10 +3,14 @@ package org.isep.javaprojectarchusers.GUI;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.isep.javaprojectarchusers.Portfolio;
+import org.isep.javaprojectarchusers.PortfolioManager;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,8 +24,12 @@ public class MainPageController {
     private TabPane portfolioHolder;
 
 
-    public void portfolioAsTab() {
-        String portfolioName = "test";
+    /**
+     * Create the portfolio interface in a tab on the main window.
+     * @param portfolio The portfolio to display.
+     */
+    public void portfolioAsTab(Portfolio portfolio) {
+        String portfolioName = portfolio.getAddress();
 
         logger.fine("Finding resource.");
         URL resourcePath;
@@ -38,9 +46,32 @@ public class MainPageController {
 
         Tab portfolioContainer = new Tab(portfolioName);
 
+
+
+        ContextMenu contextMenu = new ContextMenu();
+
+        MenuItem openInAnotherWindow = new MenuItem("Open in another window.");
+        openInAnotherWindow.setOnAction(e -> {
+            portfolioContainer.getTabPane().getTabs().remove(portfolioContainer);
+            portfolioAsWindow(portfolio);
+        });
+
+
+        contextMenu.getItems().addAll(openInAnotherWindow);
+
+        // Attach context menu to tab
+        portfolioContainer.setContextMenu(contextMenu);
+
         logger.info("Loading FXML: PortfolioView.fxml");
         try {
-            portfolioContainer.setContent(FXMLLoader.load(resourcePath));
+            FXMLLoader loader = new FXMLLoader(resourcePath);
+
+            portfolioContainer.setContent(loader.load());
+
+            PortfolioController controller = loader.getController();
+
+            controller.setPortfolio(portfolio);
+
 
 
 
@@ -54,9 +85,11 @@ public class MainPageController {
     }
 
 
-
-    public void portfolioAsWindow() {
-        String portfolioName = "test";
+    /** Create the portfolio interface in a separate window.
+     * @param portfolio The portfolio to display.
+     */
+    public void portfolioAsWindow(Portfolio portfolio) {
+        String portfolioName = portfolio.getAddress();
 
         logger.fine("Finding resource.");
         URL resourcePath;
@@ -77,7 +110,15 @@ public class MainPageController {
 
         logger.info("Loading FXML: PortfolioView.fxml");
         try {
-            portfolioAnchor = FXMLLoader.load(resourcePath);
+
+            FXMLLoader loader = new FXMLLoader(resourcePath);
+
+            portfolioAnchor = loader.load();
+
+            PortfolioController controller = loader.getController();
+
+            controller.setPortfolio(portfolio);
+
 
 
         } catch (IOException e) {
@@ -85,19 +126,21 @@ public class MainPageController {
             throw new RuntimeException(e);
 
         }
+
+
         Scene scene = new Scene(portfolioAnchor);
+
+        portfolioStage.setTitle(portfolioName);
         portfolioStage.setScene(scene);
+
         portfolioStage.show();
-
-
-
 
     }
 
     @FXML
     public void initialize() {
-        portfolioAsTab();
-        portfolioAsWindow();
+        Portfolio portfolio = new Portfolio("testPortfolio", "Desc for the test", new PortfolioManager());
+        portfolioAsTab(portfolio);
 
     }
 
