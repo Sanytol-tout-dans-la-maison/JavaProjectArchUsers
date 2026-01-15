@@ -3,11 +3,11 @@ package org.isep.javaprojectarchusers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,131 +16,140 @@ import java.util.Map;
 
 public class AlphaVantageClient {
 
-    private static final String API_KEY = "LKAC3T7BRU8XTY5X"; // Ta clé
+    private static final String API_KEY = "LWQOIBMC5YRMRFDT";
     private static final String BASE_URL = "https://www.alphavantage.co/query?";
+    private static final String CACHE_FILE = "market_data_cache.json"; // Notre "Base de données" locale
 
     public static ArrayList<OhlcvData> getMarketData(String symbol, boolean isCrypto) {
-        ArrayList<OhlcvData> dataList = new ArrayList<>();
+        String jsonResponse = "";
 
-        // Construction de l'URL
+        // ÉTAPE 1 : On essaie de télécharger les données fraîches
+        try {
+            System.out.println("[Backend] Tentative de connexion API...");
+            jsonResponse = downloadDataFromApi(symbol, isCrypto);
+
+            // Si l'API répond une erreur (quota), on lance une exception pour passer au cache
+            if (jsonResponse.contains("Error Message") || jsonResponse.contains("Information")) {
+                throw new RuntimeException("Quota API dépassé ou Erreur.");
+            }
+
+            // Si succès, on sauvegarde dans le fichier (Mise à jour du cache)
+            saveCache(jsonResponse);
+            System.out.println("[Backend] Données fraîches sauvegardées dans le cache.");
+
+        } catch (Exception e) {
+            System.err.println("[Backend] ⚠️ Impossible de joindre l'API (" + e.getMessage() + ")");
+            // ÉTAPE 2 : Si échec, on essaie de lire le fichier local
+            jsonResponse = loadCache();
+        }
+
+        // ÉTAPE 3 : On transforme le JSON (qu'il vienne du Web ou du Fichier) en Objets
+        if (jsonResponse != null && !jsonResponse.isEmpty()) {
+            return parseJsonData(jsonResponse, isCrypto);
+        } else {
+            // ÉTAPE 4 : Si même le fichier n'existe pas, on génère du faux (Dernier recours)
+            System.err.println("[Backend] Cache vide. Génération de Mock.");
+            return getMockData(symbol);
+        }
+    }
+
+    // --- MÉTHODES UTILITAIRES ---
+
+    // Téléchargement Web
+    private static String downloadDataFromApi(String symbol, boolean isCrypto) throws IOException {
         String function = isCrypto ? "DIGITAL_CURRENCY_DAILY" : "TIME_SERIES_DAILY";
         String symbolParam = isCrypto ? "&symbol=" + symbol + "&market=USD" : "&symbol=" + symbol;
-        // on ajoute outputsize=compact pour économiser de la data (100 derniers jours)
-        String urlStr = BASE_URL + "function=" + function + symbolParam + "&outputsize=compact&apikey=" + API_KEY;
+        String urlStr = BASE_URL + "function=" + function + symbolParam + "&outputsize=full&apikey=" + API_KEY;
+        // Note: j'ai mis "full" pour avoir tout l'historique, remets "compact" si c'est trop lourd
 
+        URL url = new URL(urlStr);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setConnectTimeout(5000);
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        StringBuilder response = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) response.append(line);
+        reader.close();
+        return response.toString();
+    }
+
+    // Sauvegarde dans un fichier
+    private static void saveCache(String data) {
         try {
-            System.out.println("1. Tentative de connexion API pour " + symbol + "...");
+            Files.write(Paths.get(CACHE_FILE), data.getBytes());
+        } catch (IOException e) {
+            System.err.println("Erreur sauvegarde cache : " + e.getMessage());
+        }
+    }
 
-            // --- 1. CONNEXION RESEAU ---
-            URL url = new URL(urlStr);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setConnectTimeout(5000); // 5 secondes max pour se connecter
-            conn.setReadTimeout(5000);
-
-            if (conn.getResponseCode() != 200) {
-                throw new RuntimeException("Erreur HTTP : " + conn.getResponseCode());
+    // Lecture du fichier
+    private static String loadCache() {
+        try {
+            if (Files.exists(Paths.get(CACHE_FILE))) {
+                System.out.println("[Backend] 📂 Chargement depuis la base de données locale (Cache).");
+                return new String(Files.readAllBytes(Paths.get(CACHE_FILE)));
             }
+        } catch (IOException e) {
+            System.err.println("Erreur lecture cache.");
+        }
+        return null;
+    }
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            StringBuilder response = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
-            }
-            reader.close();
-
-            // --- 2. ANALYSE DU JSON (JACKSON) ---
+    // Parsing JSON (Transformation Texte -> Objets Java)
+    private static ArrayList<OhlcvData> parseJsonData(String json, boolean isCrypto) {
+        ArrayList<OhlcvData> list = new ArrayList<>();
+        try {
             ObjectMapper mapper = new ObjectMapper();
-            JsonNode root = mapper.readTree(response.toString());
+            JsonNode root = mapper.readTree(json);
 
-            // --- 3. VERIFICATION DES ERREURS API ---
-            // C'est ici qu'on évite le crash !
-            if (root.has("Note") || root.has("Information") || root.has("Error Message")) {
-                System.err.println("⚠️ API LIMITÉE OU ERREUR : " + root.toString());
-                System.out.println("-> Passage automatique aux données de simulation (Mock).");
-                return getMockData(symbol);
-            }
+            // Vérification si le JSON contient une erreur (même dans le cache)
+            if (root.has("Note") || root.has("Information")) return new ArrayList<>();
 
-            // Récupération du nœud principal (Time Series)
             String timeSeriesKey = isCrypto ? "Time Series (Digital Currency Daily)" : "Time Series (Daily)";
             JsonNode timeSeries = root.get(timeSeriesKey);
 
-            if (timeSeries == null) {
-                System.err.println("⚠️ Pas de données 'Time Series' trouvées.");
-                return getMockData(symbol);
-            }
+            if (timeSeries == null) return list;
 
-            // --- 4. PARSING DES DONNÉES RÉELLES ---
             Iterator<Map.Entry<String, JsonNode>> fields = timeSeries.fields();
             while (fields.hasNext()) {
                 Map.Entry<String, JsonNode> entry = fields.next();
                 String dateStr = entry.getKey();
                 JsonNode stats = entry.getValue();
 
-                double open, high, low, close, volume;
-
-                // Utilisation de .path() au lieu de .get() pour éviter le NullPointerException
+                double close = 0;
+                // Logique souple pour trouver le prix de fermeture
                 if (isCrypto) {
-                    open = stats.path("1a. open (USD)").asDouble(0);
-                    high = stats.path("2a. high (USD)").asDouble(0);
-                    low = stats.path("3a. low (USD)").asDouble(0);
-                    close = stats.path("4a. close (USD)").asDouble(0);
-                    volume = stats.path("5. volume").asDouble(0);
-
-                    // Fallback si l'API change de format (parfois "4. close" au lieu de "4a...")
-                    if (close == 0) close = stats.path("4. close").asDouble(0);
+                    if(stats.has("4a. close (USD)")) close = stats.get("4a. close (USD)").asDouble();
+                    else if(stats.has("4. close")) close = stats.get("4. close").asDouble();
                 } else {
-                    open = stats.path("1. open").asDouble(0);
-                    high = stats.path("2. high").asDouble(0);
-                    low = stats.path("3. low").asDouble(0);
-                    close = stats.path("4. close").asDouble(0);
-                    volume = stats.path("5. volume").asDouble(0);
+                    if(stats.has("4. close")) close = stats.get("4. close").asDouble();
                 }
 
-                // On ajoute seulement si on a réussi à lire un prix
+                // On simplifie pour l'exemple (tu peux tout parser si tu veux)
                 if (close != 0) {
-                    dataList.add(new OhlcvData(LocalDate.parse(dateStr), open, high, low, close, volume));
+                    list.add(new OhlcvData(LocalDate.parse(dateStr), close, close, close, close, 0));
                 }
             }
-
-            // Remettre dans l'ordre chronologique (le JSON arrive souvent inversé)
-            Collections.reverse(dataList);
-            System.out.println("✅ Données API récupérées avec succès (" + dataList.size() + " jours)");
-
+            Collections.reverse(list);
+            System.out.println("[Backend] " + list.size() + " valeurs chargées.");
         } catch (Exception e) {
-            // --- 5. GESTION DES CRASH ---
-            System.err.println("❌ Erreur ou Pas d'internet : " + e.getMessage());
-            System.out.println("-> Chargement des données de SECOURS.");
-            return getMockData(symbol);
+            e.printStackTrace();
         }
-
-        if (dataList.isEmpty()) return getMockData(symbol); // Sécurité ultime
-        return dataList;
+        return list;
     }
 
-    // --- GENERATEUR DE DONNÉES DE SECOURS (MOCK) ---
+    // Données de secours (Mathématiques)
     private static ArrayList<OhlcvData> getMockData(String symbol) {
         ArrayList<OhlcvData> mocks = new ArrayList<>();
-        double price = symbol.equals("BTC") ? 20000.0 : 150.0; // Prix de base selon l'actif
-
-        // On génère 60 jours de données
-        for (int i = 0; i < 60; i++) {
-            LocalDate date = LocalDate.now().minusDays(60 - i);
-
-            // Mouvement aléatoire
-            double change = (Math.random() - 0.5) * (price * 0.05);
-            double close = price + change;
-            double open = price;
-            double high = Math.max(open, close) * 1.01;
-            double low = Math.min(open, close) * 0.99;
-            double volume = 1000 + Math.random() * 5000;
-
-            mocks.add(new OhlcvData(date, open, high, low, close, volume));
-            price = close; // Le prix de clôture devient la base du lendemain
+        double price = 20000.0;
+        for (int i = 0; i < 100; i++) {
+            LocalDate date = LocalDate.now().minusDays(100 - i);
+            double close = price * (1 + (Math.random() - 0.5) * 0.05);
+            mocks.add(new OhlcvData(date, close, close, close, close, 5000));
+            price = close;
         }
-
-        System.out.println("--> Données MOCK générées pour " + symbol);
         return mocks;
     }
 }
