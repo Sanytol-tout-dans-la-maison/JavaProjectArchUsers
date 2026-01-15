@@ -2,32 +2,46 @@ package org.isep.javaprojectarchusers.GUI;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import org.isep.javaprojectarchusers.Accounts.Account;
+import org.isep.javaprojectarchusers.Asset;
 import org.isep.javaprojectarchusers.Portfolio;
-
+import org.isep.javaprojectarchusers.PortfolioManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+
+
 public class PortfolioController {
-    private Portfolio portfolio;
+    private Portfolio portfolio = new Portfolio("", "", new PortfolioManager());
 
     @FXML
     private HBox portfolioSep;
 
     @FXML
-    private VBox accountsId;
-
+    private ListView<Account> accountList;
     @FXML
-    private VBox actionsId;
+    private ListView<Asset> assetList;
+
+    private AnchorPane actionPane= new AnchorPane();
 
 
     private static final Logger logger = Logger.getLogger(PortfolioController.class.getName());
 
     @FXML
     public void initialize() {
+        genAssetList();
+        genAccountList();
+    }
+
+
+
+    private void showAsset(Asset asset){
 
         logger.fine("Finding resource.");
         URL resourcePath;
@@ -47,9 +61,15 @@ public class PortfolioController {
         try {
             FXMLLoader loader = new FXMLLoader(resourcePath);
 
-            portfolioSep.getChildren().add(loader.load());
+            actionPane.getChildren().clear();
+            actionPane.getChildren().add(loader.load());
+
+
+            portfolioSep.getChildren().add(actionPane);
 
             ActionController controller = loader.getController();
+
+            controller.setAsset(asset);
 
 
         } catch (IOException e) {
@@ -58,12 +78,81 @@ public class PortfolioController {
 
         }
 
-
     }
 
+
+    /** Set the portfolio this controller is assigned to.
+     * @param portfolio the {@link Portfolio} the class is linked to.
+     */
     public void setPortfolio(Portfolio portfolio) {
         logger.info("Portfolio set successfully");
         this.portfolio = portfolio;
+    }
+
+
+    /**
+     * Generate the buttons to select which action to interact.
+     */
+
+    private void genAssetList() {
+
+        for (Asset asset : portfolio.getAssetList()) {
+            assetList.getItems().add(asset);
+        }
+
+        assetList.setCellFactory(lv -> new ListCell<Asset>() {
+            @Override
+            protected void updateItem(Asset asset, boolean empty) {
+                super.updateItem(asset, empty);
+
+                if (empty || asset == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    setText(asset.getAssetName());
+                }
+            }
+        });
+
+        assetList.getSelectionModel().selectedItemProperty().addListener(
+                (obs, o, selectedAsset) -> {
+                    if (selectedAsset != null) {
+                        showAsset(selectedAsset);
+                    }
+                }
+        );
+
+    }
+
+    private void genAccountList() {
+
+        for (Account account : portfolio.getAccountList()) {
+            accountList.getItems().add(account);
+        }
+
+        accountList.setCellFactory(lv -> new ListCell<Account>() {
+            @Override
+            protected void updateItem(Account account, boolean empty) {
+                super.updateItem(account, empty);
+
+                if (empty || account == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    setText(account.getUserName());
+                }
+            }
+        });
+
+        accountList.getSelectionModel().selectedItemProperty().addListener(
+                (obs, o, selectedAsset) -> {
+                    if (selectedAsset != null) {
+
+                    }
+                }
+        );
+
+
     }
 
 
