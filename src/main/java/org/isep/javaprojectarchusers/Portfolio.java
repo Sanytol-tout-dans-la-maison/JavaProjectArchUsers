@@ -1,6 +1,7 @@
 package org.isep.javaprojectarchusers;
 
 import org.isep.javaprojectarchusers.Accounts.Account;
+import org.isep.javaprojectarchusers.Accounts.CheckingAccount;
 
 import java.util.ArrayList;
 
@@ -53,5 +54,18 @@ public class Portfolio {
         return transaction.validateTransaction();
     }
 
+    public void createCheckingAccount(String userName){
+        CheckingAccount account = new CheckingAccount(userName, 2000, 1000, this, 0, 200);
+        accountList.add(account);
+    }
+
+    /**
+     * @param userName username to search
+     * @return account of the user, if not found returns null
+     */
+    public Account getAccount(String userName){
+        for(Account a : accountList) if(a.getUserName().equals(userName)) return a;
+        return null;
+    }
 
 }

@@ -80,6 +80,13 @@ public class PortfolioManager {
         for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.transferMoney(emitterAccount, receiverAccount, amountOfMoeny);
         return false;
     }
-    
 
+    /**
+     * @param address address to search
+     * @return portfolio bearing the address, else returns null
+     */
+    public Portfolio getPortfolio(String address){
+        for (Portfolio p : portfolioList) if(p.getAddress().equals(address)) return p;
+        return null;
+    }
 }

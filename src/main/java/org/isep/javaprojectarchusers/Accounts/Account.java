@@ -85,7 +85,12 @@ public class Account {
         return portfolio;
     }
 
-
+    /**
+     * @return userName of the account
+     */
+    public String getUserName() {
+        return userName;
+    }
 
     /**Custom toString
      * @return "{@code userName} : {@code accountType}"
