@@ -29,6 +29,11 @@ public class Portfolio {
 
         this.assetList = new ArrayList<>();
         this.accountList = new ArrayList<>();
+        MainBackEnd.addPortfolio(this);
+    }
+
+    public PortfolioManager getManager() {
+        return manager;
     }
 
     public boolean buyAsset(Asset asset, Account emitterAccount){

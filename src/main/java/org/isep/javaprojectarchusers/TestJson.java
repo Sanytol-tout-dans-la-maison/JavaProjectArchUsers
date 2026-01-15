@@ -36,5 +36,6 @@ public class TestJson {
         System.out.println(Blockchain.getLast().getTransactions());
         Transaction test2 = new Transaction(portfolioManager.getPortfolio("test1"),portfolioManager.getPortfolio("test2"),portfolioManager.getPortfolio("test1").getAccount("testAccount1"),portfolioManager.getPortfolio("test2").getAccount("testAccount2"),9000);
         System.out.println(Blockchain.getLast().getTransactions());
+        MainBackEnd.savePortfolios();
     }
 }

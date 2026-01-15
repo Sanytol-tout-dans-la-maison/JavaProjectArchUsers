@@ -7,8 +7,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class PortfolioManager {
-    private static ArrayList<Portfolio> portfolioList;
-    private static String userName;
+    private ArrayList<Portfolio> portfolioList;
+    private String userName;
     private static ArrayList<String> emailList = new ArrayList<>();
     private static ArrayList<String> passwordList = new ArrayList<>();
 
@@ -16,12 +16,16 @@ public class PortfolioManager {
         this.portfolioList = new ArrayList<>();
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
     @Override
     public String toString() {
         return userName;
     }
 
-    public static boolean login(String inputEmail, String inputPassword) throws IOException, NoSuchAlgorithmException {
+    public boolean login(String inputEmail, String inputPassword) throws IOException, NoSuchAlgorithmException {
         ArrayList<String> email = new ArrayList<>();
         ArrayList<String> password = new ArrayList<>();
         String name = "";
@@ -33,6 +37,7 @@ public class PortfolioManager {
                 cond = true;
             }
         }
+        getPortfolios();
         return cond;
     }
 
@@ -88,5 +93,9 @@ public class PortfolioManager {
     public Portfolio getPortfolio(String address){
         for (Portfolio p : portfolioList) if(p.getAddress().equals(address)) return p;
         return null;
+    }
+
+    public void getPortfolios(){
+        for(Portfolio p : MainBackEnd.getPortfolioArrayList()) if(p.getManager().getUserName().equals(userName)) portfolioList.add(p);
     }
 }
