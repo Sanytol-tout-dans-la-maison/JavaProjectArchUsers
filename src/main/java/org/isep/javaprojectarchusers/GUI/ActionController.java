@@ -9,6 +9,9 @@ import org.jfree.data.time.ohlc.OHLCSeries;
 import org.jfree.data.time.ohlc.OHLCSeriesCollection;
 import org.jfree.chart.ChartFactory;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 public class ActionController {
 
@@ -17,6 +20,8 @@ public class ActionController {
 
     private OHLCSeries series = new OHLCSeries("Price");;
     private JFreeChart chart;
+
+    private static final Logger logger = Logger.getLogger(ActionController.class.getName());
 
 
 
@@ -45,6 +50,7 @@ public class ActionController {
     }
 
     public void displayCandle() {
+
         OHLCSeriesCollection dataset = new OHLCSeriesCollection();
 
         dataset.addSeries(series);
@@ -68,13 +74,18 @@ public class ActionController {
 
     @FXML
     public void initialize() {
+
+        //logger.setLevel(Level.FINE);
+        logger.fine("creating OHLC");
         Object[][] elements = {
-                {new Day(8,1,2005),2,5,1,4},
-                {new Day(7,1,2005),7,9,5,6}
+                {new Day(8,1,2005),2.0,5.0,1.0,4.0},
+                {new Day(7,1,2005),7.0,9.0,5.0,6.0}
         };
 
+        logger.fine("Adding the data in the series");
         addMultiplesOHLCData(elements);
 
+        logger.info("Displaying the candle");
         displayCandle();
 
     }
