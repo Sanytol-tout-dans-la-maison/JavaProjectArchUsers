@@ -71,8 +71,8 @@ public class Portfolio {
     }
 
     @JsonIgnore
-    public boolean transferMoney(Account emitterAccount, Account receiverAccount, double amountOfMoney){
-        Transaction transaction = new Transaction(this.getAddress(), receiverAccount.getPortfolio(), emitterAccount.getUserName(), receiverAccount.getUserName(), amountOfMoney);
+    public boolean transferMoney(String emitterAccount, String receiverAccount, double amountOfMoney){
+        Transaction transaction = new Transaction(this.getAddress(), MainBackEnd.searchAccount(receiverAccount).getPortfolio(), emitterAccount, receiverAccount, amountOfMoney);
         return transaction.validateTransaction();
     }
 

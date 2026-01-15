@@ -87,7 +87,7 @@ public class PortfolioManager {
     }
 
     public boolean transferMoney(String address, Account emitterAccount, Account receiverAccount, double amountOfMoeny) {
-        for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.transferMoney(emitterAccount, receiverAccount, amountOfMoeny);
+        for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.transferMoney(emitterAccount.getUserName(), receiverAccount.getUserName(), amountOfMoeny);
         return false;
     }
 
