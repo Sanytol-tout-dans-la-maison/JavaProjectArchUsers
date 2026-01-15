@@ -1,15 +1,24 @@
 package org.isep.javaprojectarchusers;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.isep.javaprojectarchusers.Accounts.Account;
+import org.isep.javaprojectarchusers.Accounts.CheckingAccount;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Portfolio {
 
+    @JsonProperty("address")
     private String address;
+    @JsonProperty("description")
     private String description;
+    @JsonProperty("manager")
     private PortfolioManager manager;
+    @JsonIgnore
     private ArrayList<Asset> assetList;
+    @JsonIgnore
     private ArrayList<Account> accountList;
 
     @Override
@@ -17,21 +26,19 @@ public class Portfolio {
         return this.address + " : " + this.description + ", manager: " + manager.toString();
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public Portfolio(String address, String description, PortfolioManager manager){
+    public Portfolio(@JsonProperty("address") String address, @JsonProperty("description") String description, @JsonProperty("manager") PortfolioManager manager){
         this.address = address;
         this.description = description;
         this.manager = manager;
-
         this.assetList = new ArrayList<>();
         this.accountList = new ArrayList<>();
+        MainBackEnd.addPortfolio(this);
     }
 
-    public boolean buyAsset(Asset asset, Account emitterAccount){
-        Transaction transaction = new Transaction(this, emitterAccount, asset, asset.getValue() );
+
+    @JsonIgnore
+    public boolean buyAsset(Asset asset, String emitterAccount){
+        Transaction transaction = new Transaction(address, emitterAccount, asset, asset.getValue() );
         if (transaction.validateTransaction()){
             assetList.add(asset);
             return true;
@@ -39,8 +46,9 @@ public class Portfolio {
         else return false;
     }
 
-    public boolean sellAsset(Asset asset, Account account){
-        Transaction transaction = new Transaction(account.getPortfolio(), asset, account, asset.getValue());
+    @JsonIgnore
+    public boolean sellAsset(Asset asset, String account){
+        Transaction transaction = new Transaction(MainBackEnd.searchAccount(account).getPortfolio(), account, asset, asset.getValue());
         if(transaction.validateTransaction()){
             for(int i = 0; i < assetList.size(); i++) if(assetList.get(i).equals(asset)) assetList.remove(i);
             return true;
@@ -48,10 +56,49 @@ public class Portfolio {
         else return false;
     }
 
+    @JsonIgnore
     public boolean transferMoney(Account emitterAccount, Account receiverAccount, double amountOfMoney){
-        Transaction transaction = new Transaction(this, receiverAccount.getPortfolio(), emitterAccount, receiverAccount, amountOfMoney);
+        Transaction transaction = new Transaction(this.getAddress(), receiverAccount.getPortfolio(), emitterAccount.getUserName(), receiverAccount.getUserName(), amountOfMoney);
         return transaction.validateTransaction();
     }
 
+    @JsonIgnore
+    public void createCheckingAccount(String userName){
+        CheckingAccount account = new CheckingAccount(userName, 2000, 1000, this, 0, 200);
+        accountList.add(account);
+    }
 
+    /**
+     * @param userName username to search
+     * @return account of the user, if not found returns null
+     */
+    @JsonIgnore
+    public Account getAccount(String userName){
+        for(Account a : accountList) if(a.getUserName().equals(userName)) return a;
+        return null;
+    }
+
+    public PortfolioManager getManager() {
+        return manager;
+    }
+
+    public void setManager(PortfolioManager manager) {
+        this.manager = manager;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address){
+        this.address = address;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

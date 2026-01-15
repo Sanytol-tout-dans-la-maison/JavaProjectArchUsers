@@ -15,7 +15,7 @@ public class Account {
     private String userName;
 
     /** The {@link Portfolio} object the account is in. */
-    private final Portfolio portfolio;
+    private final String portfolio;
 
 
     /** Amount of money this account has. */
@@ -39,7 +39,7 @@ public class Account {
         this.userName = userName;
         this.OVERDRAW_LIMIT = OVERDRAW_LIMIT;
         this.balance = balance;
-        this.portfolio = portfolio;
+        this.portfolio = portfolio.getAddress();
         this.accountType = accountType;
     }
 
@@ -81,11 +81,16 @@ public class Account {
     /**
      * @return The {@link Portfolio} object this account is present in.
      */
-    public Portfolio getPortfolio() {
+    public String getPortfolio() {
         return portfolio;
     }
 
-
+    /**
+     * @return userName of the account
+     */
+    public String getUserName() {
+        return userName;
+    }
 
     /**Custom toString
      * @return "{@code userName} : {@code accountType}"
