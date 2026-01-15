@@ -10,6 +10,8 @@ module org.isep.javaprojectarchusers {
     requires java.logging;
     requires javafx.graphics;
     requires java.desktop;
+    requires org.jfree.jfreechart;
+    requires org.jfree.chart.fx;
 
     opens org.isep.javaprojectarchusers to javafx.fxml;
     exports org.isep.javaprojectarchusers;
