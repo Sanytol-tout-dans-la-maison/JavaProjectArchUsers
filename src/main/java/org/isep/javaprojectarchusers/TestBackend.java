@@ -8,9 +8,7 @@ public class TestBackend {
 
         // Test de ta méthode
         String symbol = "BTC";
-        ArrayList<OhlcvData> data = AlphaVantageClient.getMarketData(symbol, true);
-
-        // Vérification
+        ArrayList<OhlcvData> data = AlphaVantageClient.getInstance().getMarketData("BTC", true);        // Vérification
         if (data.isEmpty()) {
             System.err.println("ERREUR : Aucune donnée récupérée !");
         } else {
