@@ -9,6 +9,7 @@ module org.isep.javaprojectarchusers {
     requires com.fasterxml.jackson.core;
     requires java.logging;
     requires javafx.graphics;
+    requires java.desktop;
 
     opens org.isep.javaprojectarchusers to javafx.fxml;
     exports org.isep.javaprojectarchusers;
