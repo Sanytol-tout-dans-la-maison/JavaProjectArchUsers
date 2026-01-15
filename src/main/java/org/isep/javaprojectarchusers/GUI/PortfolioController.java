@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 
 public class PortfolioController {
-    private Portfolio portfolio = new Portfolio("", "", new PortfolioManager());
+    private Portfolio portfolio;
 
     @FXML
     private HBox portfolioSep;
@@ -35,6 +35,9 @@ public class PortfolioController {
 
     @FXML
     public void initialize() {
+    }
+
+    public void updateVisuals() {
         genAssetList();
         genAccountList();
     }

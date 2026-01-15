@@ -9,6 +9,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.isep.javaprojectarchusers.Asset;
 import org.isep.javaprojectarchusers.Portfolio;
 import org.isep.javaprojectarchusers.PortfolioManager;
 
@@ -71,7 +72,7 @@ public class MainPageController {
             PortfolioController controller = loader.getController();
 
             controller.setPortfolio(portfolio);
-
+            controller.updateVisuals();
 
 
 
@@ -118,7 +119,7 @@ public class MainPageController {
             PortfolioController controller = loader.getController();
 
             controller.setPortfolio(portfolio);
-
+            controller.updateVisuals();
 
 
         } catch (IOException e) {
@@ -140,6 +141,7 @@ public class MainPageController {
     @FXML
     public void initialize() {
         Portfolio portfolio = new Portfolio("testPortfolio", "Desc for the test", new PortfolioManager());
+        portfolio.buyAsset(new Asset("test",5),null);
         portfolioAsTab(portfolio);
 
     }
