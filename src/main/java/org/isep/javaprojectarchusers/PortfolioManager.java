@@ -103,4 +103,9 @@ public class PortfolioManager {
     public void getPortfolios(){
         for(Portfolio p : MainBackEnd.getPortfolioArrayList()) if(p.getManager().getUserName().equals(userName)) portfolioList.add(p);
     }
+
+    public ArrayList<Portfolio> getPortfolioList() {
+        return portfolioList;
+    }
+
 }

@@ -35,6 +35,7 @@ public class PortfolioController {
 
     @FXML
     public void initialize() {
+        portfolioSep.getChildren().add(actionPane);
     }
 
     public void updateVisuals() {
@@ -68,7 +69,7 @@ public class PortfolioController {
             actionPane.getChildren().add(loader.load());
 
 
-            portfolioSep.getChildren().add(actionPane);
+
 
             ActionController controller = loader.getController();
 

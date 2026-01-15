@@ -78,7 +78,7 @@ public class Portfolio {
 
     @JsonIgnore
     public void createCheckingAccount(String userName){
-        CheckingAccount account = new CheckingAccount(userName, 2000, 1000, this, 0, 200);
+        CheckingAccount account = new CheckingAccount(userName, 2000, 1000, this.address, 0, 200);
         accountList.add(account);
     }
 

@@ -33,13 +33,13 @@ public class Account {
      * @param accountType The type of the account.
      * @param OVERDRAW_LIMIT I don't know what is this supposed to be.
      * @param balance initial account balance.
-     * @param portfolio The {@link Portfolio} object to this account.
+     * @param portfolioAddress The address of the {@link Portfolio} object linked to this account.
      */
-    public Account(String userName,AccountType accountType, float OVERDRAW_LIMIT, double balance, Portfolio portfolio) {
+    public Account(String userName,AccountType accountType, float OVERDRAW_LIMIT, double balance, String portfolioAddress) {
         this.userName = userName;
         this.OVERDRAW_LIMIT = OVERDRAW_LIMIT;
         this.balance = balance;
-        this.portfolio = portfolio.getAddress();
+        this.portfolio = portfolioAddress;
         this.accountType = accountType;
     }
 

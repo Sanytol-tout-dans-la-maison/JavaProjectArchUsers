@@ -7,9 +7,9 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.isep.javaprojectarchusers.GUI.MainPageController">
    <children>
-      <TabPane fx:id="portfolioHolder" nodeOrientation="LEFT_TO_RIGHT" prefHeight="398.0" prefWidth="600.0">
+   <TabPane fx:id="portfolioHolder" nodeOrientation="LEFT_TO_RIGHT" prefHeight="398.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
          <tabs>
-            <Tab closable="false" text="🏠">
+            <Tab closable="false" onSelectionChanged="#test" text="🏠">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               </content>

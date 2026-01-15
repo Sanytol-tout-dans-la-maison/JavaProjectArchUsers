@@ -15,6 +15,7 @@ import org.isep.javaprojectarchusers.PortfolioManager;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -24,9 +25,12 @@ public class MainPageController {
     @FXML
     private TabPane portfolioHolder;
 
+    private ArrayList<Portfolio> portfolioList;
+
 
     /**
      * Create the portfolio interface in a tab on the main window.
+     *
      * @param portfolio The portfolio to display.
      */
     public void portfolioAsTab(Portfolio portfolio) {
@@ -48,7 +52,6 @@ public class MainPageController {
         Tab portfolioContainer = new Tab(portfolioName);
 
 
-
         ContextMenu contextMenu = new ContextMenu();
 
         MenuItem openInAnotherWindow = new MenuItem("Open in another window.");
@@ -67,13 +70,13 @@ public class MainPageController {
         try {
             FXMLLoader loader = new FXMLLoader(resourcePath);
 
+
             portfolioContainer.setContent(loader.load());
 
             PortfolioController controller = loader.getController();
 
             controller.setPortfolio(portfolio);
             controller.updateVisuals();
-
 
 
         } catch (IOException e) {
@@ -86,7 +89,9 @@ public class MainPageController {
     }
 
 
-    /** Create the portfolio interface in a separate window.
+    /**
+     * Create the portfolio interface in a separate window.
+     *
      * @param portfolio The portfolio to display.
      */
     public void portfolioAsWindow(Portfolio portfolio) {
@@ -140,11 +145,19 @@ public class MainPageController {
 
     @FXML
     public void initialize() {
-        Portfolio portfolio = new Portfolio("testPortfolio", "Desc for the test", new PortfolioManager());
-        portfolio.buyAsset(new Asset("test",5),null);
-        portfolioAsTab(portfolio);
-
     }
 
+    public void setPortfolioList(ArrayList<Portfolio> portfolioList) {
+        this.portfolioList = portfolioList;
+    }
 
+    public void updateVisuals() {
+        for (Portfolio portfolio : portfolioList) {
+            portfolioAsTab(portfolio);
+        }
+    }
+
+    public void test() {
+        System.out.println("switch");
+    }
 }
