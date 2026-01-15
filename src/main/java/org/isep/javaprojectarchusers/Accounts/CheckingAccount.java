@@ -8,14 +8,25 @@ import org.isep.javaprojectarchusers.Portfolio;
  */
 public class CheckingAccount extends Account {
     /**idk what this is*/
-    final double INTEREST_RATES;
 
-    /**Limit the user can withdraw at once?*/
+    /**
+     * Limit the user can withdraw at once?
+     */
     final double WITHDRAWAL_LIMIT;
 
-    public CheckingAccount(String userName, float OVERDRAW_LIMIT, double balance, Portfolio portfolio, double INTEREST_RATES, double WITHDRAWAL_LIMIT) {
+    public CheckingAccount(String userName, float OVERDRAW_LIMIT, double balance, Portfolio portfolio, double WITHDRAWAL_LIMIT) {
         super(userName, AccountType.CHECKING, OVERDRAW_LIMIT, balance, portfolio);
-        this.INTEREST_RATES = INTEREST_RATES;
+
         this.WITHDRAWAL_LIMIT = WITHDRAWAL_LIMIT;
     }
+
+    @Override
+    public boolean withdraw(double amount) {
+        if (-WITHDRAWAL_LIMIT <this.getBalance()-amount){
+            return false;
+        }
+        return super.withdraw(amount);
+    }
+
+
 }
