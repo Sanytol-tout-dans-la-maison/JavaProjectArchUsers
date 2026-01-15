@@ -25,10 +25,12 @@ public class AlphaVantageClient {
     private static AlphaVantageClient instance;
 
     // Constructeur privé pour empêcher "new AlphaVantageClient()"
-    private AlphaVantageClient() {}
+    private AlphaVantageClient() {
+    }
 
     /**
      * Point d'accès unique à l'instance du client (Pattern Singleton).
+     *
      * @return L'instance unique de AlphaVantageClient.
      */
     public static synchronized AlphaVantageClient getInstance() {
@@ -41,19 +43,17 @@ public class AlphaVantageClient {
     // --- CONSTANTES ---
     private static final String API_KEY = "LWQOIBMC5YRMRFDT";
     private static final String BASE_URL = "https://www.alphavantage.co/query?";
-    private static final String CACHE_FILE = "market_data_cache.json"; // Notre "Base de données" locale
+    private static final String CACHE_FILE = "src/main/resources/org/isep/javaprojectarchusers/market_data_cache.json"; // Notre "Base de données" locale
 
-    public static ArrayList<OhlcvData> getMarketData(String symbol, boolean isCrypto) {
+    public ArrayList<OhlcvData> getMarketData(String symbol, boolean isCrypto) {
         String jsonResponse = "";
 
         /**
          * Récupère les données historiques du marché.
-         * <p>
          * Stratégie de résilience :
          * 1. Tente l'API AlphaVantage (Online).
          * 2. Si échec, tente le Cache local (Offline).
          * 3. Si échec, génère des données Mock (Secours).
-         * </p>
          *
          * @param symbol   Le symbole boursier (ex: "BTC", "IBM").
          * @param isCrypto True si c'est une crypto-monnaie.
@@ -85,15 +85,15 @@ public class AlphaVantageClient {
             return parseJsonData(jsonResponse, isCrypto);
         } else {
             // ÉTAPE 4 : Si même le fichier n'existe pas, on génère du faux (Dernier recours)
-            System.err.println("[Backend] Cache vide. Génération de Mock.");
-            return getMockData(symbol);
+            System.err.println("[Backend] Cache vide. Génération et SAUVEGARDE d'un Mock.");
+            return generateAndSaveMock(symbol, isCrypto);
         }
     }
 
     // --- MÉTHODES UTILITAIRES ---
 
     // Téléchargement Web
-    private static String downloadDataFromApi(String symbol, boolean isCrypto) throws IOException {
+    private String downloadDataFromApi(String symbol, boolean isCrypto) throws IOException {
         String function = isCrypto ? "DIGITAL_CURRENCY_DAILY" : "TIME_SERIES_DAILY";
         String symbolParam = isCrypto ? "&symbol=" + symbol + "&market=USD" : "&symbol=" + symbol;
         String urlStr = BASE_URL + "function=" + function + symbolParam + "&outputsize=full&apikey=" + API_KEY;
@@ -113,7 +113,7 @@ public class AlphaVantageClient {
     }
 
     // Sauvegarde dans un fichier
-    private static void saveCache(String data) {
+    private void saveCache(String data) {
         try {
             Files.write(Paths.get(CACHE_FILE), data.getBytes());
         } catch (IOException e) {
@@ -122,7 +122,7 @@ public class AlphaVantageClient {
     }
 
     // Lecture du fichier
-    private static String loadCache() {
+    private String loadCache() {
         try {
             if (Files.exists(Paths.get(CACHE_FILE))) {
                 System.out.println("[Backend] 📂 Chargement depuis la base de données locale (Cache).");
@@ -135,7 +135,7 @@ public class AlphaVantageClient {
     }
 
     // Parsing JSON (Transformation Texte -> Objets Java)
-    private static ArrayList<OhlcvData> parseJsonData(String json, boolean isCrypto) {
+    private ArrayList<OhlcvData> parseJsonData(String json, boolean isCrypto) {
         ArrayList<OhlcvData> list = new ArrayList<>();
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -158,10 +158,10 @@ public class AlphaVantageClient {
                 double close = 0;
                 // Logique souple pour trouver le prix de fermeture
                 if (isCrypto) {
-                    if(stats.has("4a. close (USD)")) close = stats.get("4a. close (USD)").asDouble();
-                    else if(stats.has("4. close")) close = stats.get("4. close").asDouble();
+                    if (stats.has("4a. close (USD)")) close = stats.get("4a. close (USD)").asDouble();
+                    else if (stats.has("4. close")) close = stats.get("4. close").asDouble();
                 } else {
-                    if(stats.has("4. close")) close = stats.get("4. close").asDouble();
+                    if (stats.has("4. close")) close = stats.get("4. close").asDouble();
                 }
 
                 // On simplifie pour l'exemple (tu peux tout parser si tu veux)
@@ -187,6 +187,47 @@ public class AlphaVantageClient {
             mocks.add(new OhlcvData(date, close, close, close, close, 5000));
             price = close;
         }
+        return mocks;
+    }
+
+    // --- Génère un JSON et le force dans le fichier ---
+    private ArrayList<OhlcvData> generateAndSaveMock(String symbol, boolean isCrypto){
+        ArrayList<OhlcvData> mocks = new ArrayList<>();
+        StringBuilder jsonBuilder = new StringBuilder();
+
+        // On fabrique manuellement le JSON pour tromper le système au prochain démarrage
+        String seriesKey = isCrypto ? "Time Series (Digital Currency Daily)" : "Time Series (Daily)";
+        jsonBuilder.append("{ \"Meta Data\": {\"Info\": \"Mock Generated\"}, \"").append(seriesKey).append("\": {");
+
+        double price = 20000.0;
+
+        // On génère 100 jours
+        for (int i = 0; i < 100; i++) {
+            LocalDate date = LocalDate.now().minusDays(i);
+            // Petit mouvement de prix aléatoire
+            price = price * (1 + (Math.random() - 0.5) * 0.05);
+
+            // 1. Ajout à la liste pour l'affichage immédiat
+            mocks.add(new OhlcvData(date, price, price, price, price, 5000));
+
+            // 2. Ajout au texte JSON pour la sauvegarde
+            jsonBuilder.append("\"").append(date).append("\": {");
+            if (isCrypto) {
+                jsonBuilder.append("\"4a. close (USD)\": \"").append(price).append("\"");
+            } else {
+                jsonBuilder.append("\"4. close\": \"").append(price).append("\"");
+            }
+            jsonBuilder.append("}"); // Fin de la journée
+
+            if (i < 99) jsonBuilder.append(","); // Virgule entre chaque jour
+        }
+        jsonBuilder.append("}}"); // Fin du JSON
+
+        // SAUVEGARDE PHYSIQUE
+        saveCache(jsonBuilder.toString());
+        System.out.println("[Backend] ✅ Fichier '" + CACHE_FILE + "' créé avec succès (Données simulées).");
+
+        Collections.reverse(mocks);
         return mocks;
     }
 }
