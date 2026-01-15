@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.isep.javaprojectarchusers.GUI.PortfolioController">
     <children>
-        <HBox spacing="0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <HBox fx:id="portfolioSep" spacing="0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <!-- Left fixed panel -->
                 <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxWidth="200" minWidth="120" prefWidth="200">
@@ -46,7 +46,6 @@
                 </ScrollPane>
 
                 <!-- Right flexible panel -->
-                <Pane fx:id="actionPane" minHeight="500" minWidth="500" HBox.hgrow="ALWAYS" />
             </children>
         </HBox>
     </children>

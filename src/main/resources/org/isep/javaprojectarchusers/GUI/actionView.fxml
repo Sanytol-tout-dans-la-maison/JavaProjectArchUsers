@@ -3,6 +3,6 @@
 
 
 <AnchorPane fx:id="chartPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.isep.javaprojectarchusers.GUI.ActionController"/>
+            fx:controller="org.isep.javaprojectarchusers.GUI.ActionController" minHeight="500" minWidth="500" />
 
 
