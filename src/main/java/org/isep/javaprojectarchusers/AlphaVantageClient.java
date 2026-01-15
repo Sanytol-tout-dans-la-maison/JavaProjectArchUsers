@@ -14,8 +14,31 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * Client API pour AlphaVantage (Singleton).
+ * Gère la récupération, la mise en cache et la simulation des données boursières.
+ */
+
 public class AlphaVantageClient {
 
+    // --- PARTIE 1 : SINGLETON (Architecture) ---
+    private static AlphaVantageClient instance;
+
+    // Constructeur privé pour empêcher "new AlphaVantageClient()"
+    private AlphaVantageClient() {}
+
+    /**
+     * Point d'accès unique à l'instance du client (Pattern Singleton).
+     * @return L'instance unique de AlphaVantageClient.
+     */
+    public static synchronized AlphaVantageClient getInstance() {
+        if (instance == null) {
+            instance = new AlphaVantageClient();
+        }
+        return instance;
+    }
+
+    // --- CONSTANTES ---
     private static final String API_KEY = "LWQOIBMC5YRMRFDT";
     private static final String BASE_URL = "https://www.alphavantage.co/query?";
     private static final String CACHE_FILE = "market_data_cache.json"; // Notre "Base de données" locale
@@ -23,7 +46,21 @@ public class AlphaVantageClient {
     public static ArrayList<OhlcvData> getMarketData(String symbol, boolean isCrypto) {
         String jsonResponse = "";
 
-        // ÉTAPE 1 : On essaie de télécharger les données fraîches
+        /**
+         * Récupère les données historiques du marché.
+         * <p>
+         * Stratégie de résilience :
+         * 1. Tente l'API AlphaVantage (Online).
+         * 2. Si échec, tente le Cache local (Offline).
+         * 3. Si échec, génère des données Mock (Secours).
+         * </p>
+         *
+         * @param symbol   Le symbole boursier (ex: "BTC", "IBM").
+         * @param isCrypto True si c'est une crypto-monnaie.
+         * @return Une liste d'objets OhlcvData prête à l'emploi.
+         */
+
+        // ÉTAPE 1 : On essaie de télécharger les nouvelles données
         try {
             System.out.println("[Backend] Tentative de connexion API...");
             jsonResponse = downloadDataFromApi(symbol, isCrypto);
