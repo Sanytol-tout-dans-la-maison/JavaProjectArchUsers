@@ -9,6 +9,8 @@ module org.isep.javaprojectarchusers {
     requires com.fasterxml.jackson.core;
     requires java.logging;
     requires javafx.graphics;
+    requires org.jfree.jfreechart;
+    requires org.jfree.chart.fx;
 
     opens org.isep.javaprojectarchusers to javafx.fxml;
     exports org.isep.javaprojectarchusers;
