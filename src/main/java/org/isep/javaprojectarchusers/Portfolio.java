@@ -20,18 +20,32 @@ public class Portfolio {
     private ArrayList<Asset> assetList;
     @JsonIgnore
     private ArrayList<Account> accountList;
+    @JsonProperty("blockchain")
+    private LinkedList<Block> blockchain;
 
     @Override
     public String toString(){
         return this.address + " : " + this.description + ", manager: " + manager.toString();
     }
 
-    public Portfolio(@JsonProperty("address") String address, @JsonProperty("description") String description, @JsonProperty("manager") PortfolioManager manager){
+    public Portfolio(@JsonProperty("address") String address, @JsonProperty("description") String description, @JsonProperty("manager") PortfolioManager manager, @JsonProperty("blockchain")LinkedList<Block> blockchain){
         this.address = address;
         this.description = description;
         this.manager = manager;
         this.assetList = new ArrayList<>();
         this.accountList = new ArrayList<>();
+        this.blockchain = blockchain;
+        MainBackEnd.addPortfolio(this);
+    }
+
+    @JsonIgnore
+    public Portfolio(String address, String description, PortfolioManager manager){
+        this.address = address;
+        this.description = description;
+        this.manager = manager;
+        this.assetList = new ArrayList<>();
+        this.accountList = new ArrayList<>();
+        this.blockchain = Blockchain.getBlockchainList();
         MainBackEnd.addPortfolio(this);
     }
 
@@ -100,5 +114,13 @@ public class Portfolio {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public LinkedList<Block> getBlockchain() {
+        return blockchain;
+    }
+
+    public void setBlockchain(LinkedList<Block> blockchain) {
+        this.blockchain = blockchain;
     }
 }
