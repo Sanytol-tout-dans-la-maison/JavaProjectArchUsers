@@ -7,8 +7,8 @@ public class TestBackend {
         System.out.println("=== TEST DU BACKEND (Données Boursières) ===");
 
         // Test de ta méthode
-        String symbol = "BTC";
-        ArrayList<OhlcvData> data = AlphaVantageClient.getInstance().getMarketData("BTC", true);        // Vérification
+        String symbol = "^IXIC";
+        ArrayList<OhlcvData> data = AlphaVantageClient.getInstance().getMarketData(symbol, false);        // Vérification
         if (data.isEmpty()) {
             System.err.println("ERREUR : Aucune donnée récupérée !");
         } else {
