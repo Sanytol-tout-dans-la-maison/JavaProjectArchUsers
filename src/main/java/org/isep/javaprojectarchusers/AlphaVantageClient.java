@@ -51,11 +51,11 @@ public class AlphaVantageClient {
 
         if (jsonResponse == null || jsonResponse.isEmpty()) {
             try {
-                System.out.println("[Backend] 🌐 Connexion Yahoo Finance pour " + yahooSymbol + "...");
+                System.out.println("[Backend] Connexion Yahoo Finance pour " + yahooSymbol + "...");
                 jsonResponse = downloadFromYahoo(yahooSymbol);
                 saveCache(yahooSymbol, jsonResponse); // On sauvegarde
             } catch (Exception e) {
-                System.err.println("[Backend] ⚠️ Erreur Yahoo : " + e.getMessage());
+                System.err.println("[Backend] Erreur Yahoo : " + e.getMessage());
                 // Si échec, on tente de recharger un vieux cache ou Mock
                 return generateMock(symbol);
             }
@@ -129,7 +129,7 @@ public class AlphaVantageClient {
 
             // Yahoo donne du plus vieux au plus récent, on inverse pour avoir le dernier en premier
             Collections.reverse(list);
-            System.out.println("[Backend] ✅ " + list.size() + " jours récupérés via Yahoo.");
+            System.out.println("[Backend] v " + list.size() + " jours récupérés via Yahoo.");
 
         } catch (Exception e) {
             System.err.println("Erreur parsing Yahoo : " + e.getMessage());
