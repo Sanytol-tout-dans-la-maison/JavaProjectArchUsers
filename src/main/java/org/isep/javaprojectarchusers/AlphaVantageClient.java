@@ -8,101 +8,77 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
- * Client API pour AlphaVantage (Singleton).
- * Gère la récupération, la mise en cache et la simulation des données boursières.
+ * Client API Bourse (Adapté pour Yahoo Finance).
+ * Remplace Alpha Vantage pour éviter les quotas, tout en gardant la structure du projet.
  */
-
 public class AlphaVantageClient {
 
-    // --- PARTIE 1 : SINGLETON (Architecture) ---
     private static AlphaVantageClient instance;
 
-    // Constructeur privé pour empêcher "new AlphaVantageClient()"
-    private AlphaVantageClient() {
-    }
+    // Constructeur privé
+    private AlphaVantageClient() {}
 
-    /**
-     * Point d'accès unique à l'instance du client (Pattern Singleton).
-     *
-     * @return L'instance unique de AlphaVantageClient.
-     */
+    // Singleton
     public static synchronized AlphaVantageClient getInstance() {
-        if (instance == null) {
-            instance = new AlphaVantageClient();
-        }
+        if (instance == null) instance = new AlphaVantageClient();
         return instance;
     }
 
-    // --- CONSTANTES ---
-    private static final String API_KEY = "LWQOIBMC5YRMRFDT";
-    private static final String BASE_URL = "https://www.alphavantage.co/query?";
-    private static final String CACHE_FILE = "src/main/resources/org/isep/javaprojectarchusers/market_data_cache.json"; // Notre "Base de données" locale
-
-    /**
-     * Récupère les données historiques du marché.
-     * Stratégie de résilience :
-     * 1. Tente l'API AlphaVantage (Online).
-     * 2. Si échec, tente le Cache local (Offline).
-     * 3. Si échec, génère des données Mock (Secours).
-     *
-     * @param symbol   Le symbole boursier (ex: "BTC", "IBM").
-     * @param isCrypto True si c'est une crypto-monnaie.
-     * @return Une liste d'objets OhlcvData prête à l'emploi.
-     */
+    // --- CONFIGURATION YAHOO ---
+    // Yahoo n'a pas besoin de clé API pour les données basiques !
+    private static final String BASE_URL = "https://query1.finance.yahoo.com/v8/finance/chart/";
+    private static final String CACHE_FILE = "src/main/resources/org/isep/javaprojectarchusers/market_data_cache.json";
 
     public ArrayList<OhlcvData> getMarketData(String symbol, boolean isCrypto) {
         String jsonResponse = "";
 
+        // 1. Adapter le symbole pour Yahoo (Yahoo utilise BTC-USD pour le bitcoin)
+        String yahooSymbol = symbol;
+        if (isCrypto && !symbol.contains("-")) {
+            yahooSymbol = symbol + "-USD"; // Ex: BTC devient BTC-USD
+        }
 
-        // ÉTAPE 1 : On essaie de télécharger les nouvelles données
-        try {
-            System.out.println("[Backend] Tentative de connexion API...");
-            jsonResponse = downloadDataFromApi(symbol, isCrypto);
+        // 2. Gestion du Cache (Identique à avant)
+        // On essaie de charger le cache d'abord pour être rapide
+        jsonResponse = loadCache(yahooSymbol);
 
-            // Si l'API répond une erreur (quota), on lance une exception pour passer au cache
-            if (jsonResponse.contains("Error Message") || jsonResponse.contains("Information")) {
-                throw new RuntimeException("Quota API dépassé ou Erreur.");
+        if (jsonResponse == null || jsonResponse.isEmpty()) {
+            try {
+                System.out.println("[Backend] Connexion Yahoo Finance pour " + yahooSymbol + "...");
+                jsonResponse = downloadFromYahoo(yahooSymbol);
+                saveCache(yahooSymbol, jsonResponse); // On sauvegarde
+            } catch (Exception e) {
+                System.err.println("[Backend] Erreur Yahoo : " + e.getMessage());
+                // Si échec, on tente de recharger un vieux cache ou Mock
+                return generateMock(symbol);
             }
-
-            // Si succès, on sauvegarde dans le fichier (Mise à jour du cache)
-            saveCache(jsonResponse);
-            System.out.println("[Backend] Données fraîches sauvegardées dans le cache.");
-
-        } catch (Exception e) {
-            System.err.println("[Backend] ⚠️ Impossible de joindre l'API (" + e.getMessage() + ")");
-            // ÉTAPE 2 : Si échec, on essaie de lire le fichier local
-            jsonResponse = loadCache();
         }
 
-        // ÉTAPE 3 : On transforme le JSON (qu'il vienne du Web ou du Fichier) en Objets
+        // 3. Parsing (C'est ici que ça change pour s'adapter à Yahoo)
         if (jsonResponse != null && !jsonResponse.isEmpty()) {
-            return parseJsonData(jsonResponse, isCrypto);
-        } else {
-            // ÉTAPE 4 : Si même le fichier n'existe pas, on génère du faux (Dernier recours)
-            System.err.println("[Backend] Cache vide. Génération et SAUVEGARDE d'un Mock.");
-            return generateAndSaveMock(symbol, isCrypto);
+            return parseYahooJson(jsonResponse);
         }
+        return generateMock(symbol);
     }
 
-    // --- MÉTHODES UTILITAIRES ---
-
-    // Téléchargement Web
-    private String downloadDataFromApi(String symbol, boolean isCrypto) throws IOException {
-        String function = isCrypto ? "DIGITAL_CURRENCY_DAILY" : "TIME_SERIES_DAILY";
-        String symbolParam = isCrypto ? "&symbol=" + symbol + "&market=USD" : "&symbol=" + symbol;
-        String urlStr = BASE_URL + "function=" + function + symbolParam + "&outputsize=full&apikey=" + API_KEY;
-        // Note: j'ai mis "full" pour avoir tout l'historique, remets "compact" si c'est trop lourd
+    // --- NOUVELLE MÉTHODE DE TÉLÉCHARGEMENT (YAHOO) ---
+    private String downloadFromYahoo(String symbol) throws IOException {
+        // URL : interval=1d (jour), range=3mo (3 mois d'historique)
+        // Tu peux mettre range=1y, 5y, etc. C'est GRATUIT et ILLIMITÉ.
+        String urlStr = BASE_URL + symbol + "?interval=1d&range=6mo";
 
         URL url = new URL(urlStr);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
+        // Yahoo bloque parfois les scripts Java, on se fait passer pour un navigateur
+        conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)");
         conn.setConnectTimeout(5000);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -113,122 +89,83 @@ public class AlphaVantageClient {
         return response.toString();
     }
 
-    // Sauvegarde dans un fichier
-    private void saveCache(String data) {
-        try {
-            Files.write(Paths.get(CACHE_FILE), data.getBytes());
-        } catch (IOException e) {
-            System.err.println("Erreur sauvegarde cache : " + e.getMessage());
-        }
-    }
-
-    // Lecture du fichier
-    private String loadCache() {
-        try {
-            if (Files.exists(Paths.get(CACHE_FILE))) {
-                System.out.println("[Backend] 📂 Chargement depuis la base de données locale (Cache).");
-                return new String(Files.readAllBytes(Paths.get(CACHE_FILE)));
-            }
-        } catch (IOException e) {
-            System.err.println("Erreur lecture cache.");
-        }
-        return null;
-    }
-
-    // Parsing JSON (Transformation Texte -> Objets Java)
-    private ArrayList<OhlcvData> parseJsonData(String json, boolean isCrypto) {
+    // --- NOUVELLE MÉTHODE DE PARSING (YAHOO STRUCTURE) ---
+    private ArrayList<OhlcvData> parseYahooJson(String json) {
         ArrayList<OhlcvData> list = new ArrayList<>();
         try {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(json);
 
-            // Vérification si le JSON contient une erreur (même dans le cache)
-            if (root.has("Note") || root.has("Information")) return new ArrayList<>();
+            // Yahoo structure : chart -> result -> [0] -> timestamp & indicators
+            JsonNode chart = root.get("chart");
+            JsonNode result = chart.get("result").get(0);
 
-            String timeSeriesKey = isCrypto ? "Time Series (Digital Currency Daily)" : "Time Series (Daily)";
-            JsonNode timeSeries = root.get(timeSeriesKey);
+            // 1. Récupérer les Dates (Timestamp Unix)
+            JsonNode timestamps = result.get("timestamp");
 
-            if (timeSeries == null) return list;
+            // 2. Récupérer les Prix (Close)
+            JsonNode quote = result.get("indicators").get("quote").get(0);
+            JsonNode closes = quote.get("close");
 
-            Iterator<Map.Entry<String, JsonNode>> fields = timeSeries.fields();
-            while (fields.hasNext()) {
-                Map.Entry<String, JsonNode> entry = fields.next();
-                String dateStr = entry.getKey();
-                JsonNode stats = entry.getValue();
+            if (timestamps == null || closes == null) return list;
 
-                double close = 0;
-                // Logique souple pour trouver le prix de fermeture
-                if (isCrypto) {
-                    if (stats.has("4a. close (USD)")) close = stats.get("4a. close (USD)").asDouble();
-                    else if (stats.has("4. close")) close = stats.get("4. close").asDouble();
-                } else {
-                    if (stats.has("4. close")) close = stats.get("4. close").asDouble();
-                }
+            // 3. Boucle pour associer Date et Prix
+            for (int i = 0; i < timestamps.size(); i++) {
+                long unixSeconds = timestamps.get(i).asLong();
 
-                // On simplifie pour l'exemple (tu peux tout parser si tu veux)
-                if (close != 0) {
-                    list.add(new OhlcvData(LocalDate.parse(dateStr), close, close, close, close, 0));
-                }
+                // Vérifier si le prix n'est pas null (ça arrive les jours fériés)
+                if (closes.get(i).isNull()) continue;
+
+                double price = closes.get(i).asDouble();
+
+                // Conversion Timestamp -> LocalDate
+                LocalDate date = Instant.ofEpochSecond(unixSeconds)
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
+
+                // On remplit l'objet OhlcvData (Open=Close pour simplifier)
+                list.add(new OhlcvData(date, price, price, price, price, 0));
             }
+
+            // Yahoo donne du plus vieux au plus récent, on inverse pour avoir le dernier en premier
             Collections.reverse(list);
-            System.out.println("[Backend] " + list.size() + " valeurs chargées.");
+            System.out.println("[Backend] v " + list.size() + " jours récupérés via Yahoo.");
+
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Erreur parsing Yahoo : " + e.getMessage());
         }
         return list;
     }
 
-    // Données de secours (Mathématiques)
-    private static ArrayList<OhlcvData> getMockData(String symbol) {
-        ArrayList<OhlcvData> mocks = new ArrayList<>();
-        double price = 20000.0;
-        for (int i = 0; i < 100; i++) {
-            LocalDate date = LocalDate.now().minusDays(100 - i);
-            double close = price * (1 + (Math.random() - 0.5) * 0.05);
-            mocks.add(new OhlcvData(date, close, close, close, close, 5000));
-            price = close;
-        }
-        return mocks;
+    // --- GESTION CACHE SIMPLIFIÉE (Un fichier par symbole pour éviter les mélanges) ---
+    private void saveCache(String symbol, String data) {
+        try {
+            // On ajoute le symbole dans le nom du fichier : cache_BTC-USD.json
+            String filename = CACHE_FILE.replace(".json", "_" + symbol + ".json");
+            Files.createDirectories(Paths.get(filename).getParent());
+            Files.write(Paths.get(filename), data.getBytes());
+        } catch (IOException e) { e.printStackTrace(); }
     }
 
-    // --- Génère un JSON et le force dans le fichier ---
-    private ArrayList<OhlcvData> generateAndSaveMock(String symbol, boolean isCrypto){
-        ArrayList<OhlcvData> mocks = new ArrayList<>();
-        StringBuilder jsonBuilder = new StringBuilder();
-
-        // On fabrique manuellement le JSON pour tromper le système au prochain démarrage
-        String seriesKey = isCrypto ? "Time Series (Digital Currency Daily)" : "Time Series (Daily)";
-        jsonBuilder.append("{ \"Meta Data\": {\"Info\": \"Mock Generated\"}, \"").append(seriesKey).append("\": {");
-
-        double price = 20000.0;
-
-        // On génère 100 jours
-        for (int i = 0; i < 100; i++) {
-            LocalDate date = LocalDate.now().minusDays(i);
-            // Petit mouvement de prix aléatoire
-            price = price * (1 + (Math.random() - 0.5) * 0.05);
-
-            // 1. Ajout à la liste pour l'affichage immédiat
-            mocks.add(new OhlcvData(date, price, price, price, price, 5000));
-
-            // 2. Ajout au texte JSON pour la sauvegarde
-            jsonBuilder.append("\"").append(date).append("\": {");
-            if (isCrypto) {
-                jsonBuilder.append("\"4a. close (USD)\": \"").append(price).append("\"");
-            } else {
-                jsonBuilder.append("\"4. close\": \"").append(price).append("\"");
+    private String loadCache(String symbol) {
+        try {
+            String filename = CACHE_FILE.replace(".json", "_" + symbol + ".json");
+            if (Files.exists(Paths.get(filename))) {
+                // Optionnel : Tu peux vérifier la date du fichier ici si tu veux
+                return new String(Files.readAllBytes(Paths.get(filename)));
             }
-            jsonBuilder.append("}"); // Fin de la journée
+        } catch (IOException e) { return null; }
+        return null;
+    }
 
-            if (i < 99) jsonBuilder.append(","); // Virgule entre chaque jour
+    // --- MOCK DE SECOURS ---
+    private ArrayList<OhlcvData> generateMock(String symbol) {
+        ArrayList<OhlcvData> mocks = new ArrayList<>();
+        double price = 150.0;
+        for (int i = 0; i < 30; i++) {
+            mocks.add(new OhlcvData(LocalDate.now().minusDays(i), price, price, price, price, 0));
+            price *= 0.99;
         }
-        jsonBuilder.append("}}"); // Fin du JSON
-
-        // SAUVEGARDE PHYSIQUE
-        saveCache(jsonBuilder.toString());
-        System.out.println("[Backend] ✅ Fichier '" + CACHE_FILE + "' créé avec succès (Données simulées).");
-
-        Collections.reverse(mocks);
         return mocks;
     }
 }
