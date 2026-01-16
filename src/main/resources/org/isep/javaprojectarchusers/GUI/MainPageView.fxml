@@ -1,17 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.isep.javaprojectarchusers.GUI.MainPageController">
    <children>
    <TabPane fx:id="portfolioHolder" nodeOrientation="LEFT_TO_RIGHT" prefHeight="398.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
          <tabs>
-            <Tab closable="false" onSelectionChanged="#test" text="🏠">
+            <Tab closable="false" text="🏠">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="Welcome Laurent">
+                           <font>
+                              <Font size="34.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="33.0" layoutY="64.0" text="Open portfolio: " />
+                        <ListView fx:id="portfolioViewList" layoutX="33.0" layoutY="86.0" prefHeight="200.0" prefWidth="200.0" />
+                        <Label layoutX="277.0" layoutY="64.0" text="Create Portfolio:" />
+                        <GridPane layoutX="291.0" layoutY="97.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Name :" />
+                              <Label text="Description: " GridPane.rowIndex="1" />
+                              <TextField fx:id="portfolioNameView" GridPane.columnIndex="1" />
+                              <TextField fx:id="portfolioDescView" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           </children>
+                        </GridPane>
+                        <Button layoutX="300.0" layoutY="186.0" mnemonicParsing="false" onAction="#addPortfolio" text="Create Portfolio" />
+                     </children></AnchorPane>
               </content>
             </Tab>
          </tabs>

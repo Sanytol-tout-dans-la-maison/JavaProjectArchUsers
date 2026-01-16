@@ -2,6 +2,8 @@ package org.isep.javaprojectarchusers.GUI;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
+import org.isep.javaprojectarchusers.ASSET_TYPE;
+import org.isep.javaprojectarchusers.AlphaVantageClient;
 import org.isep.javaprojectarchusers.Asset;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
@@ -34,27 +36,13 @@ public class ActionController {
 
 
     /**
-     * Adds multiples entries in the OHLCSeries.
      *
-     * @param elements an array of array containing the key elements for OHLC:
-     *                 <ul>
-     *                 <li>{@link Day}: Day of the transaction</li>
-     *                 <li>{@link Double}: Open</li>
-     *                 <li>{@link Double}: High</li>
-     *                 <li>{@link Double}: Low</li>
-     *                 <li>{@link Double}: Close</li>
-     *                 </ul>
      */
-    public void addMultiplesOHLCData(Object[][] elements) {
-        for (Object[] OHLCdata : elements) {
-            series.add(
-                    (Day) OHLCdata[0],
-                    (Double) OHLCdata[1],
-                    (Double) OHLCdata[2],
-                    (Double) OHLCdata[3],
-                    (Double) OHLCdata[4]
-            );
-        }
+    public void updateChart() {
+        AlphaVantageClient api = AlphaVantageClient.getInstance();
+
+        api.getMarketData(asset.getAssetName(), (ASSET_TYPE.CryptocurrencyToken == asset.getAssetType()));
+
 
     }
 
@@ -76,7 +64,7 @@ public class ActionController {
 
         DateAxis axis = (DateAxis) plot.getDomainAxis();
 
-        axis.setTickUnit(new DateTickUnit(DateTickUnitType.DAY, 1));
+        axis.setTickUnit(new DateTickUnit(DateTickUnitType.DAY, 7));
 
         axis.setDateFormatOverride(new SimpleDateFormat("dd MMM yyyy"));
 
@@ -94,18 +82,13 @@ public class ActionController {
     public void initialize() {
 
         //logger.setLevel(Level.FINE);
-        logger.fine("creating OHLC");
-        Object[][] elements = {
-                {new Day(8, 1, 2005), 2.0, 5.0, 1.0, 4.0},
-                {new Day(7, 1, 2005), 7.0, 9.0, 5.0, 6.0}
-        };
 
-        logger.fine("Adding the data in the series");
-        addMultiplesOHLCData(elements);
 
-        logger.info("Displaying the candle");
+    }
+
+    public void updateDisplay() {
+        updateChart();
         displayCandle();
-
     }
 
     public void setAsset(Asset asset) {

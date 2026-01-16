@@ -45,20 +45,21 @@ public class AlphaVantageClient {
     private static final String BASE_URL = "https://www.alphavantage.co/query?";
     private static final String CACHE_FILE = "src/main/resources/org/isep/javaprojectarchusers/market_data_cache.json"; // Notre "Base de données" locale
 
+    /**
+     * Récupère les données historiques du marché.
+     * Stratégie de résilience :
+     * 1. Tente l'API AlphaVantage (Online).
+     * 2. Si échec, tente le Cache local (Offline).
+     * 3. Si échec, génère des données Mock (Secours).
+     *
+     * @param symbol   Le symbole boursier (ex: "BTC", "IBM").
+     * @param isCrypto True si c'est une crypto-monnaie.
+     * @return Une liste d'objets OhlcvData prête à l'emploi.
+     */
+
     public ArrayList<OhlcvData> getMarketData(String symbol, boolean isCrypto) {
         String jsonResponse = "";
 
-        /**
-         * Récupère les données historiques du marché.
-         * Stratégie de résilience :
-         * 1. Tente l'API AlphaVantage (Online).
-         * 2. Si échec, tente le Cache local (Offline).
-         * 3. Si échec, génère des données Mock (Secours).
-         *
-         * @param symbol   Le symbole boursier (ex: "BTC", "IBM").
-         * @param isCrypto True si c'est une crypto-monnaie.
-         * @return Une liste d'objets OhlcvData prête à l'emploi.
-         */
 
         // ÉTAPE 1 : On essaie de télécharger les nouvelles données
         try {

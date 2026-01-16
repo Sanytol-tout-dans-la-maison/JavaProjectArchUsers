@@ -3,10 +3,8 @@ package org.isep.javaprojectarchusers.GUI;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.isep.javaprojectarchusers.Asset;
@@ -25,7 +23,16 @@ public class MainPageController {
     @FXML
     private TabPane portfolioHolder;
 
-    private ArrayList<Portfolio> portfolioList;
+    @FXML
+    private ListView<Portfolio> portfolioViewList;
+
+    @FXML
+    private TextField portfolioNameView;
+
+    @FXML
+    private TextField portfolioDescView;
+
+    private PortfolioManager portfolioManager;
 
 
     /**
@@ -63,7 +70,6 @@ public class MainPageController {
 
         contextMenu.getItems().addAll(openInAnotherWindow);
 
-        // Attach context menu to tab
         portfolioContainer.setContextMenu(contextMenu);
 
         logger.info("Loading FXML: PortfolioView.fxml");
@@ -134,7 +140,7 @@ public class MainPageController {
         }
 
 
-        Scene scene = new Scene(portfolioAnchor);
+        Scene scene = new Scene(portfolioAnchor, 800, 500);
 
         portfolioStage.setTitle(portfolioName);
         portfolioStage.setScene(scene);
@@ -145,19 +151,89 @@ public class MainPageController {
 
     @FXML
     public void initialize() {
+
+        portfolioViewList.setCellFactory(lv -> new ListCell<Portfolio>() {
+
+            private final MenuItem openInWindow = new MenuItem("Open in another window");
+            private final ContextMenu contextMenu = new ContextMenu(openInWindow);
+
+            {
+                openInWindow.setOnAction(e -> {
+                    Portfolio portfolio = getItem();
+
+                    if (portfolio != null) {
+                        portfolioAsWindow(portfolio);
+
+                    }
+
+                });
+
+
+                setOnContextMenuRequested(e -> {
+                    if (getItem() != null) {
+                        getListView().getSelectionModel().select(getItem());
+
+                    }
+
+                });
+
+            }
+
+
+            @Override
+            protected void updateItem(Portfolio portfolio, boolean empty) {
+                super.updateItem(portfolio, empty);
+
+                if (empty || portfolio == null) {
+                    setText(null);
+                    setContextMenu(null);
+
+                } else {
+                    setText(portfolio.getAddress());
+                    setContextMenu(contextMenu);
+
+                }
+
+            }
+
+        });
+
+        portfolioViewList.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
+                Portfolio item = portfolioViewList.getSelectionModel().getSelectedItem();
+
+                if (item != null) {
+                    portfolioAsTab(item);
+
+                }
+
+            }
+
+        });
+
     }
 
-    public void setPortfolioList(ArrayList<Portfolio> portfolioList) {
-        this.portfolioList = portfolioList;
+    public void setManager(PortfolioManager portfolioManager) {
+        this.portfolioManager = portfolioManager;
     }
 
     public void updateVisuals() {
-        for (Portfolio portfolio : portfolioList) {
-            portfolioAsTab(portfolio);
-        }
+        setPortfolioViewList();
     }
 
-    public void test() {
-        System.out.println("switch");
+    public void setPortfolioViewList() {
+        portfolioViewList.getItems().clear();
+
+        for (Portfolio portfolio : portfolioManager.getPortfolioList()) {
+            portfolioViewList.getItems().add(portfolio);
+        }
+
+
     }
+
+    public void addPortfolio() {
+        portfolioManager.createPortfolio(portfolioNameView.getText(), portfolioDescView.getText());
+        updateVisuals();
+    }
+
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -29,7 +30,6 @@ public class ApplicationGui extends Application {
         pManager = new PortfolioManager();
 
 
-
         pManager.createPortfolio("testPortfolio", "Desc for the test");
 
         Portfolio portfolio1 = pManager.getPortfolio("testPortfolio");
@@ -39,20 +39,20 @@ public class ApplicationGui extends Application {
         Account account1 = portfolio1.getAccount("test");
         MainBackEnd.addAccount(account1);
 
-        pManager.buyAsset("testPortfolio", new Asset("test",5), account1);
-        pManager.buyAsset("testPortfolio", new Asset("test2",5), account1);
+        pManager.buyAsset("testPortfolio", new Asset("BTC", 5), account1);
+        pManager.buyAsset("testPortfolio", new Asset("test2", 5), account1);
 
         pManager.createPortfolio("testPortfolio2", "Desc for the test");
 
         Portfolio portfolio2 = pManager.getPortfolio("testPortfolio2");
 
 
-        portfolio1.createCheckingAccount("test2");
-        Account account2 = portfolio1.getAccount("test2");
+        portfolio2.createCheckingAccount("test2");
+        Account account2 = portfolio2.getAccount("test2");
         MainBackEnd.addAccount(account2);
 
-        pManager.buyAsset("testPortfolio", new Asset("test3",5), account2);
-        pManager.buyAsset("testPortfolio", new Asset("test4",5), account2);
+        pManager.buyAsset("testPortfolio2", new Asset("test3", 5), account2);
+        pManager.buyAsset("testPortfolio2", new Asset("test4", 5), account2);
 
 
         launch(args);
@@ -84,13 +84,12 @@ public class ApplicationGui extends Application {
             FXMLLoader loader = new FXMLLoader(resourcePath);
 
 
-            scene = new Scene(loader.load());
+            scene = new Scene(loader.load(), 800, 500);
 
             MainPageController controller = loader.getController();
 
-            controller.setPortfolioList(pManager.getPortfolioList());
+            controller.setManager(pManager);
             controller.updateVisuals();
-
 
 
         } catch (IOException e) {
