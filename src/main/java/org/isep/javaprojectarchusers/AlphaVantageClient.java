@@ -90,46 +90,56 @@ public class AlphaVantageClient {
     }
 
     // --- NOUVELLE MÉTHODE DE PARSING (YAHOO STRUCTURE) ---
+    // --- REMPLACEZ VOTRE ANCIENNE MÉTHODE PAR CELLE-CI ---
     private ArrayList<OhlcvData> parseYahooJson(String json) {
         ArrayList<OhlcvData> list = new ArrayList<>();
         try {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(json);
 
-            // Yahoo structure : chart -> result -> [0] -> timestamp & indicators
+            // 1. Accès à la structure des données Yahoo
             JsonNode chart = root.get("chart");
-            JsonNode result = chart.get("result").get(0);
+            if (chart == null || !chart.has("result") || chart.get("result").isNull()) return list;
 
-            // 1. Récupérer les Dates (Timestamp Unix)
+            JsonNode result = chart.get("result").get(0);
             JsonNode timestamps = result.get("timestamp");
 
-            // 2. Récupérer les Prix (Close)
-            JsonNode quote = result.get("indicators").get("quote").get(0);
+            // L'objet "indicators" contient les listes de prix séparées
+            JsonNode indicators = result.get("indicators");
+            JsonNode quote = indicators.get("quote").get(0);
+
+            // 2. Récupération des 5 listes distinctes
+            JsonNode opens = quote.get("open");
+            JsonNode highs = quote.get("high");
+            JsonNode lows = quote.get("low");
             JsonNode closes = quote.get("close");
+            JsonNode volumes = quote.get("volume");
 
             if (timestamps == null || closes == null) return list;
 
-            // 3. Boucle pour associer Date et Prix
+            // 3. Boucle de reconstruction
             for (int i = 0; i < timestamps.size(); i++) {
-                long unixSeconds = timestamps.get(i).asLong();
+                // Sécurité : si une donnée est null (jour férié/bug), on ignore
+                if (timestamps.get(i).isNull() || closes.get(i).isNull()) continue;
 
-                // Vérifier si le prix n'est pas null (ça arrive les jours fériés)
-                if (closes.get(i).isNull()) continue;
-
-                double price = closes.get(i).asDouble();
-
-                // Conversion Timestamp -> LocalDate
-                LocalDate date = Instant.ofEpochSecond(unixSeconds)
-                        .atZone(ZoneId.systemDefault())
+                // Récupération des vraies valeurs distinctes
+                LocalDate date = java.time.Instant.ofEpochSecond(timestamps.get(i).asLong())
+                        .atZone(java.time.ZoneId.systemDefault())
                         .toLocalDate();
 
-                // On remplit l'objet OhlcvData (Open=Close pour simplifier)
-                list.add(new OhlcvData(date, price, price, price, price, 0));
+                double open = opens.get(i).asDouble();
+                double high = highs.get(i).asDouble();
+                double low = lows.get(i).asDouble();
+                double close = closes.get(i).asDouble();
+                long volume = volumes.get(i).asLong();
+
+                // Création de l'objet avec les vraies dimensions
+                list.add(new OhlcvData(date, open, high, low, close, volume));
             }
 
-            // Yahoo donne du plus vieux au plus récent, on inverse pour avoir le dernier en premier
-            Collections.reverse(list);
-            System.out.println("[Backend] v " + list.size() + " jours récupérés via Yahoo.");
+            // Inversion pour avoir le plus récent en premier
+            java.util.Collections.reverse(list);
+            System.out.println("[Backend] " + list.size() + " bougies complètes récupérées.");
 
         } catch (Exception e) {
             System.err.println("Erreur parsing Yahoo : " + e.getMessage());
