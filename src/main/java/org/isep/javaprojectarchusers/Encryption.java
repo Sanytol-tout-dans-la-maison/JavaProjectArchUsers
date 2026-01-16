@@ -86,7 +86,7 @@ public class Encryption {
         decryptFile(key,"src/main/resources/org/isep/javaprojectarchusers/encryptedBlockchain.json","src/main/resources/org/isep/javaprojectarchusers/blockchain.json");
         decryptFile(key,"src/main/resources/org/isep/javaprojectarchusers/encryptedPortfolios.json","src/main/resources/org/isep/javaprojectarchusers/portfolios.json");
         decryptFile(key,"src/main/resources/org/isep/javaprojectarchusers/encryptedEvents.json","src/main/resources/org/isep/javaprojectarchusers/events.json");
-        decryptFile(key,"src/main/resources/org/isep/javaprojectarchusers/EncryptedSavingAccounts.json","src/main/resources/org/isep/javaprojectarchusers/savingAccounts.json");
+        decryptFile(key,"src/main/resources/org/isep/javaprojectarchusers/encryptedSavingAccounts.json","src/main/resources/org/isep/javaprojectarchusers/savingAccounts.json");
         decryptFile(key, "src/main/resources/org/isep/javaprojectarchusers/encryptedCheckingAccounts.json", "src/main/resources/org/isep/javaprojectarchusers/checkingAccounts.json");
         File blockchainFile = new File("src/main/resources/org/isep/javaprojectarchusers/encryptedBlockchain.json");
         blockchainFile.delete();
