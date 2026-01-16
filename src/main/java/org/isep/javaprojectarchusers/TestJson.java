@@ -2,6 +2,8 @@ package org.isep.javaprojectarchusers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.isep.javaprojectarchusers.Accounts.CheckingAccount;
+import org.isep.javaprojectarchusers.Accounts.SavingAccount;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,8 +42,23 @@ public class TestJson {
 //        System.out.println(Blockchain.getLast().getTransactions());
       //  Encryption.encryptFile("src/main/resources/org/isep/javaprojectarchusers/blockchaindecrypted.json","src/main/resources/org/isep/javaprojectarchusers/blockchaincrypted.json");
         //Encryption.decryptFile("src/main/resources/org/isep/javaprojectarchusers/blockchaincrypted.json","src/main/resources/org/isep/javaprojectarchusers/blockchain.json");
-        Encryption.encryptAllFiles();
-        Encryption.decryptAllFiles();
+        //System.out.println(Hashing.toHash("Password"));
+        Encryption.decryptAllFiles(Encryption.getKey());
+        PortfolioManager manager = new PortfolioManager();
+        System.out.println(manager.login("admin@isep.com","Password"));
+        //PortfolioManager.register("admin@isep.com", "Password", "Password");
+        manager.createPortfolio("TestPortfolioSaving", "Just for test");
+        SavingAccount savingAccount = new SavingAccount("testSaving",900, 2000, "TestPortfolioSaving", 100);
+        CheckingAccount checkingAccount = new CheckingAccount("testChecking", 900, 10000, "TestPortfolioSaving", 7, 10000);
+        SavingAccountExtract.extract(SavingAccount.getSavingAccountArrayList());
+        SavingAccountSave.save(SavingAccount.getSavingAccountArrayList());
+        CheckingAccountExtract.extract(CheckingAccount.getCheckingAccountArrayList());
+        CheckingAccountSave.save(CheckingAccount.getCheckingAccountArrayList());
+       // System.out.println(manager.);
+        //PortfolioManager.register("admin@isep.com", "Passwordd", "Passwordd");
+        LoginSave.save(PortfolioManager.getEmailList(), PortfolioManager.getPasswordList(), PortfolioManager.getKeyList());
+        Encryption.encryptAllFiles(Encryption.getKey());
+
         //MainBackEnd.savePortfolios();
         //Blockchain.saveBlockchain();
     }

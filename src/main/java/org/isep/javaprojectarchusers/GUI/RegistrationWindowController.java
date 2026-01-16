@@ -9,7 +9,12 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.isep.javaprojectarchusers.PortfolioManager;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 public class RegistrationWindowController {
@@ -24,7 +29,7 @@ public class RegistrationWindowController {
     @FXML
     TextField registrationConfirmPassword;
 
-    public void register() throws IOException, NoSuchAlgorithmException {
+    public void register() throws IOException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         switch(PortfolioManager.register(registrationEmailField.getText(), registrationPasswordField.getText(),registrationConfirmPassword.getText())) {
             case 1:
                 switchToAuthentification();
