@@ -2,22 +2,17 @@ package org.isep.javaprojectarchusers.GUI;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
-import org.isep.javaprojectarchusers.ASSET_TYPE;
 import org.isep.javaprojectarchusers.AlphaVantageClient;
 import org.isep.javaprojectarchusers.Asset;
+import org.isep.javaprojectarchusers.OhlcvData;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.DateAxis;
-import org.jfree.chart.axis.DateTickUnit;
-import org.jfree.chart.axis.DateTickUnitType;
 import org.jfree.chart.fx.ChartViewer;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.ohlc.OHLCSeries;
 import org.jfree.data.time.ohlc.OHLCSeriesCollection;
 import org.jfree.chart.ChartFactory;
 
-import java.text.SimpleDateFormat;
-import java.util.logging.Level;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 
@@ -40,8 +35,23 @@ public class ActionController {
      */
     public void updateChart() {
         AlphaVantageClient api = AlphaVantageClient.getInstance();
+        logger.info("getting api infos");
+        ArrayList<OhlcvData> datas = api.getMarketData(asset.getAssetName(), true);
 
-        api.getMarketData(asset.getAssetName(), (ASSET_TYPE.CryptocurrencyToken == asset.getAssetType()));
+
+        for (OhlcvData data:datas) {
+            series.add(
+                    new Day(
+                            data.getDate().getDayOfMonth(),
+                            data.getDate().getMonthValue(),
+                            data.getDate().getYear()
+                    ),
+                    data.getOpen(),
+                    data.getHigh(),
+                    data.getLow(),
+                    data.getClose()
+            );
+        }
 
 
     }
@@ -59,14 +69,6 @@ public class ActionController {
                 dataset,
                 false
         );
-
-        XYPlot plot = chart.getXYPlot();
-
-        DateAxis axis = (DateAxis) plot.getDomainAxis();
-
-        axis.setTickUnit(new DateTickUnit(DateTickUnitType.DAY, 7));
-
-        axis.setDateFormatOverride(new SimpleDateFormat("dd MMM yyyy"));
 
         ChartViewer viewer = new ChartViewer(chart);
 
