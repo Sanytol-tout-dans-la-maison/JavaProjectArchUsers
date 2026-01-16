@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 public class Encryption {
 
@@ -27,7 +28,9 @@ public class Encryption {
 
     private static int tagLength = 128;
 
+
     private static SecretKey key = new SecretKeySpec(keyBytes, "AES");
+
     private static GCMParameterSpec gcmParameterSpec = new GCMParameterSpec(tagLength, iv);
 
     private static String algorithm = "AES/GCM/NoPadding";
@@ -54,34 +57,77 @@ public class Encryption {
         AESUtil.decryptFile(algorithm,  key, gcmParameterSpec, encryptedFile.toString(), decryptedFile.toString());
     }
 
-    public static void encryptFile(String inputFile, String outputFile) throws Exception {
+    public static void encryptFile(SecretKey key, String inputFile, String outputFile) throws Exception {
         AESUtil.encryptFile(algorithm,key,gcmParameterSpec, inputFile, outputFile);
     }
-    public static void decryptFile(String inputFile, String outputFile) throws Exception{
+    public static void decryptFile(SecretKey key, String inputFile, String outputFile) throws Exception{
         AESUtil.decryptFile(algorithm,key,gcmParameterSpec, inputFile, outputFile);
     }
 
-    public static void encryptAllFiles() throws Exception {
-        encryptFile("src/main/resources/org/isep/javaprojectarchusers/blockchain.json", "src/main/resources/org/isep/javaprojectarchusers/encryptedBlockchain.json");
-        encryptFile("src/main/resources/org/isep/javaprojectarchusers/portfolios.json","src/main/resources/org/isep/javaprojectarchusers/encryptedPortfolios.json");
-        encryptFile("src/main/resources/org/isep/javaprojectarchusers/events.json","src/main/resources/org/isep/javaprojectarchusers/encryptedEvents.json");
+    public static void encryptAllFiles(SecretKey key) throws Exception {
+        encryptFile(key,"src/main/resources/org/isep/javaprojectarchusers/blockchain.json", "src/main/resources/org/isep/javaprojectarchusers/encryptedBlockchain.json");
+        encryptFile(key,"src/main/resources/org/isep/javaprojectarchusers/portfolios.json","src/main/resources/org/isep/javaprojectarchusers/encryptedPortfolios.json");
+        encryptFile(key,"src/main/resources/org/isep/javaprojectarchusers/events.json","src/main/resources/org/isep/javaprojectarchusers/encryptedEvents.json");
+        encryptFile(key,"src/main/resources/org/isep/javaprojectarchusers/savingAccounts.json","src/main/resources/org/isep/javaprojectarchusers/encryptedSavingAccounts.json");
+        encryptFile(key,"src/main/resources/org/isep/javaprojectarchusers/checkingAccounts.json", "src/main/resources/org/isep/javaprojectarchusers/encryptedCheckingAccounts.json");
         File blockchainFile = new File("src/main/resources/org/isep/javaprojectarchusers/blockchain.json");
         blockchainFile.delete();
         File portfolioFile = new File("src/main/resources/org/isep/javaprojectarchusers/portfolios.json");
         portfolioFile.delete();
         File eventsFile = new File("src/main/resources/org/isep/javaprojectarchusers/events.json");
         eventsFile.delete();
+        File savingAccountsFile = new File("src/main/resources/org/isep/javaprojectarchusers/savingAccounts.json");
+        savingAccountsFile.delete();
+        File checkingAccountsFile = new File("src/main/resources/org/isep/javaprojectarchusers/checkingAccounts.json");
+        checkingAccountsFile.delete();
     }
 
-    public static void decryptAllFiles() throws Exception {
-        decryptFile("src/main/resources/org/isep/javaprojectarchusers/encryptedBlockchain.json","src/main/resources/org/isep/javaprojectarchusers/blockchain.json");
-        decryptFile("src/main/resources/org/isep/javaprojectarchusers/encryptedPortfolios.json","src/main/resources/org/isep/javaprojectarchusers/portfolios.json");
-        decryptFile("src/main/resources/org/isep/javaprojectarchusers/encryptedEvents.json","src/main/resources/org/isep/javaprojectarchusers/events.json");
+    public static void decryptAllFiles(SecretKey key) throws Exception {
+        decryptFile(key,"src/main/resources/org/isep/javaprojectarchusers/encryptedBlockchain.json","src/main/resources/org/isep/javaprojectarchusers/blockchain.json");
+        decryptFile(key,"src/main/resources/org/isep/javaprojectarchusers/encryptedPortfolios.json","src/main/resources/org/isep/javaprojectarchusers/portfolios.json");
+        decryptFile(key,"src/main/resources/org/isep/javaprojectarchusers/encryptedEvents.json","src/main/resources/org/isep/javaprojectarchusers/events.json");
+        decryptFile(key,"src/main/resources/org/isep/javaprojectarchusers/EncryptedSavingAccounts.json","src/main/resources/org/isep/javaprojectarchusers/savingAccounts.json");
+        decryptFile(key, "src/main/resources/org/isep/javaprojectarchusers/encryptedCheckingAccounts.json", "src/main/resources/org/isep/javaprojectarchusers/checkingAccounts.json");
         File blockchainFile = new File("src/main/resources/org/isep/javaprojectarchusers/encryptedBlockchain.json");
         blockchainFile.delete();
         File portfolioFile = new File("src/main/resources/org/isep/javaprojectarchusers/encryptedPortfolios.json");
         portfolioFile.delete();
         File eventsFile = new File("src/main/resources/org/isep/javaprojectarchusers/encryptedEvents.json");
         eventsFile.delete();
+        File savingAccountsFile = new File("src/main/resources/org/isep/javaprojectarchusers/encryptedSavingAccounts.json");
+        savingAccountsFile.delete();
+        File checkingAccountsFile = new File("src/main/resources/org/isep/javaprojectarchusers/encryptedCheckingAccounts.json");
+        checkingAccountsFile.delete();
+    }
+
+    public static String keyToString(SecretKey keyToEncode){
+        return Base64.getEncoder().encodeToString(keyToEncode.getEncoded());
+    }
+
+    public static SecretKey stringToKey(String encodedKey) {
+        for(;encodedKey.length() < 22;) encodedKey = encodedKey.concat("0");
+        encodedKey = encodedKey.substring(0, 21).concat("0");
+        byte[] decodedKey = Base64.getDecoder().decode(encodedKey);
+        return new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");
+    }
+
+    public static String encryptString(String input, SecretKey key) throws NoSuchPaddingException, NoSuchAlgorithmException,
+            InvalidAlgorithmParameterException, InvalidKeyException,
+            BadPaddingException, IllegalBlockSizeException {
+
+        Cipher cipher = Cipher.getInstance(algorithm);
+        cipher.init(Cipher.ENCRYPT_MODE, key, gcmParameterSpec);
+        byte[] cipherText = cipher.doFinal(input.getBytes());
+        return Base64.getEncoder().encodeToString(cipherText);
+    }
+
+    public static String decryptString(String cipherText, SecretKey key) throws NoSuchPaddingException, NoSuchAlgorithmException,
+            InvalidAlgorithmParameterException, InvalidKeyException,
+            BadPaddingException, IllegalBlockSizeException {
+
+        Cipher cipher = Cipher.getInstance(algorithm);
+        cipher.init(Cipher.DECRYPT_MODE, key, gcmParameterSpec);
+        byte[] plainText = cipher.doFinal(Base64.getDecoder().decode(cipherText));
+        return new String(plainText);
     }
 }
