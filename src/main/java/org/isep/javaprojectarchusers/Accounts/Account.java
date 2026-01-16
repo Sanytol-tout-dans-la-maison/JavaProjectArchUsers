@@ -53,17 +53,26 @@ public class Account {
 
 
 
-    /** Function to withdraw money from this account.
-     *
-     * @param amount amount of money to withdraw; must not be {@code null}
-     * @return Tells if withdraw has been successful or not.
+    /**
+     * Tente de retirer de l'argent du compte.
+     * @param amount Le montant à retirer.
+     * @return true si succès, false si fonds insuffisants.
      */
-    public boolean withdraw(double amount){
-        if(amount < balance){
-            balance -= amount;
-            return true;
+    public boolean withdraw(double amount) {
+        // On ajoute une petite tolérance (epsilon) pour corriger les bugs de précision
+        // Si la différence est minuscule (0.001), on considère que c'est bon.
+        if (amount > balance + 0.001) {
+            return false; // Vraiment pas assez d'argent
         }
-        else return false;
+
+        balance -= amount;
+
+        // Sécurité : Si le solde devient négatif à cause de la tolérance (ex: -0.00001), on le remet à 0
+        if (balance < 0) {
+            balance = 0.0;
+        }
+
+        return true;
     }
 
 

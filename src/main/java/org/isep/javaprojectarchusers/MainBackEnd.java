@@ -11,6 +11,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import java.io.File;
+import java.util.ArrayList;
+
 public class MainBackEnd {
     private static ArrayList<Portfolio> portfolioArrayList=  new ArrayList<>();
     private static ArrayList<Account> accountArrayList = new ArrayList<>();
@@ -20,9 +25,24 @@ public class MainBackEnd {
         return portfolioArrayList;
     }
 
-    public static void savePortfolios() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.writeValue(new File("src/main/resources/org/isep/javaprojectarchusers/portfolios.json"), portfolioArrayList);
+
+    public static void savePortfolios(ArrayList<Portfolio> portfolios) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            // Pour que le JSON soit joli et lisible (optionnel)
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+            // Le chemin vers ton fichier portfolios.json
+            File file = new File("src/main/resources/org/isep/javaprojectarchusers/portfolios.json");
+
+            // Écriture dans le fichier
+            mapper.writeValue(file, portfolios);
+            System.out.println("[Backend] Sauvegarde des portfolios réussie !");
+
+        } catch (Exception e) {
+            System.err.println("[Backend] Erreur lors de la sauvegarde : " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public static void extractPortfolios() throws IOException{

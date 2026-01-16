@@ -1,1 +1,501 @@
-[{"address":"test1","description":"first test","manager":{"userName":null},"blockchain":[{"block":[{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false}]},{"block":[{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false}]}]},{"address":"test2","description":"second test","manager":{"userName":null},"blockchain":[{"block":[{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false}]},{"block":[{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false}]}]},{"address":"test1","description":"first test","manager":{"userName":null},"blockchain":[{"block":[{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false}]},{"block":[{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false}]}]},{"address":"test2","description":"second test","manager":{"userName":null},"blockchain":[{"block":[{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false}]},{"block":[{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":90.0,"isAccepted":false},{"emitter":"test1","receiver":"test2","emitterAccount":"testAccount1","receiverAccount":"testAccount2","transactionAsset":null,"amountOfMoney":9000.0,"isAccepted":false}]}]}]
+[ {
+  "address" : "testPortfolio",
+  "description" : "Desc for the test",
+  "blockchain" : [ {
+    "block" : [ {
+      "emitter" : "Market",
+      "receiver" : "test",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "test",
+      "transactionAsset" : {
+        "assetValue" : 0.060574811481973266,
+        "assetType" : null,
+        "assetName" : "ETH"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "test",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "test",
+      "transactionAsset" : {
+        "assetValue" : 0.060574811481973266,
+        "assetType" : null,
+        "assetName" : "ETH"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "economies",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "economies",
+      "transactionAsset" : {
+        "assetValue" : 2.779476356086818,
+        "assetType" : null,
+        "assetName" : "SI=F"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "economies",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "economies",
+      "transactionAsset" : {
+        "assetValue" : 2.779476356086818,
+        "assetType" : null,
+        "assetName" : "SI=F"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "banque",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "banque",
+      "transactionAsset" : {
+        "assetValue" : 0.0543348318214914,
+        "assetType" : null,
+        "assetName" : "GC=F"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "banque",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "banque",
+      "transactionAsset" : {
+        "assetValue" : 0.0543348318214914,
+        "assetType" : null,
+        "assetName" : "GC=F"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "economies",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "economies",
+      "transactionAsset" : {
+        "assetValue" : 8.443093375438863,
+        "assetType" : null,
+        "assetName" : "CL=F"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "economies",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "economies",
+      "transactionAsset" : {
+        "assetValue" : 8.443093375438863,
+        "assetType" : null,
+        "assetName" : "CL=F"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "economies",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "economies",
+      "transactionAsset" : {
+        "assetValue" : 0.10670536959342962,
+        "assetType" : null,
+        "assetName" : "PL=F"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "economies",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "economies",
+      "transactionAsset" : {
+        "assetValue" : 0.10670536959342962,
+        "assetType" : null,
+        "assetName" : "PL=F"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    } ]
+  }, {
+    "block" : [ {
+      "emitter" : "Market",
+      "receiver" : "banque",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "banque",
+      "transactionAsset" : {
+        "assetValue" : 1.069232808002996,
+        "assetType" : null,
+        "assetName" : "NVDA"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "banque",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "banque",
+      "transactionAsset" : {
+        "assetValue" : 1.069232808002996,
+        "assetType" : null,
+        "assetName" : "NVDA"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "banque",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "banque",
+      "transactionAsset" : {
+        "assetValue" : 0.22857142857142856,
+        "assetType" : null,
+        "assetName" : "TSLA"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "banque",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "banque",
+      "transactionAsset" : {
+        "assetValue" : 0.22857142857142856,
+        "assetType" : null,
+        "assetName" : "TSLA"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "banque",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "banque",
+      "transactionAsset" : {
+        "assetValue" : 0.060574811481973266,
+        "assetType" : null,
+        "assetName" : "ETH"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "banque",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "banque",
+      "transactionAsset" : {
+        "assetValue" : 0.060574811481973266,
+        "assetType" : null,
+        "assetName" : "ETH"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "banque",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "banque",
+      "transactionAsset" : {
+        "assetValue" : 0.002615671962040061,
+        "assetType" : null,
+        "assetName" : "BTC"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "banque",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "banque",
+      "transactionAsset" : {
+        "assetValue" : 0.002615671962040061,
+        "assetType" : null,
+        "assetName" : "BTC"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    } ]
+  } ],
+  "assets" : [ {
+    "assetValue" : 0.060574811481973266,
+    "assetType" : null,
+    "assetName" : "ETH"
+  } ],
+  "accounts" : [ {
+    "userName" : "test",
+    "portfolio" : "testPortfolio",
+    "balance" : 800.0
+  } ]
+}, {
+  "address" : "benjamin",
+  "description" : "",
+  "blockchain" : [ {
+    "block" : [ {
+      "emitter" : "Market",
+      "receiver" : "test",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "test",
+      "transactionAsset" : {
+        "assetValue" : 0.060574811481973266,
+        "assetType" : null,
+        "assetName" : "ETH"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "test",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "test",
+      "transactionAsset" : {
+        "assetValue" : 0.060574811481973266,
+        "assetType" : null,
+        "assetName" : "ETH"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "economies",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "economies",
+      "transactionAsset" : {
+        "assetValue" : 2.779476356086818,
+        "assetType" : null,
+        "assetName" : "SI=F"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "economies",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "economies",
+      "transactionAsset" : {
+        "assetValue" : 2.779476356086818,
+        "assetType" : null,
+        "assetName" : "SI=F"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "banque",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "banque",
+      "transactionAsset" : {
+        "assetValue" : 0.0543348318214914,
+        "assetType" : null,
+        "assetName" : "GC=F"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "banque",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "banque",
+      "transactionAsset" : {
+        "assetValue" : 0.0543348318214914,
+        "assetType" : null,
+        "assetName" : "GC=F"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "economies",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "economies",
+      "transactionAsset" : {
+        "assetValue" : 8.443093375438863,
+        "assetType" : null,
+        "assetName" : "CL=F"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "economies",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "economies",
+      "transactionAsset" : {
+        "assetValue" : 8.443093375438863,
+        "assetType" : null,
+        "assetName" : "CL=F"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "economies",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "economies",
+      "transactionAsset" : {
+        "assetValue" : 0.10670536959342962,
+        "assetType" : null,
+        "assetName" : "PL=F"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "economies",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "economies",
+      "transactionAsset" : {
+        "assetValue" : 0.10670536959342962,
+        "assetType" : null,
+        "assetName" : "PL=F"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    } ]
+  }, {
+    "block" : [ {
+      "emitter" : "Market",
+      "receiver" : "banque",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "banque",
+      "transactionAsset" : {
+        "assetValue" : 1.069232808002996,
+        "assetType" : null,
+        "assetName" : "NVDA"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "banque",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "banque",
+      "transactionAsset" : {
+        "assetValue" : 1.069232808002996,
+        "assetType" : null,
+        "assetName" : "NVDA"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "banque",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "banque",
+      "transactionAsset" : {
+        "assetValue" : 0.22857142857142856,
+        "assetType" : null,
+        "assetName" : "TSLA"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "banque",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "banque",
+      "transactionAsset" : {
+        "assetValue" : 0.22857142857142856,
+        "assetType" : null,
+        "assetName" : "TSLA"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "banque",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "banque",
+      "transactionAsset" : {
+        "assetValue" : 0.060574811481973266,
+        "assetType" : null,
+        "assetName" : "ETH"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "banque",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "banque",
+      "transactionAsset" : {
+        "assetValue" : 0.060574811481973266,
+        "assetType" : null,
+        "assetName" : "ETH"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "banque",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "banque",
+      "transactionAsset" : {
+        "assetValue" : 0.002615671962040061,
+        "assetType" : null,
+        "assetName" : "BTC"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    }, {
+      "emitter" : "Market",
+      "receiver" : "banque",
+      "emitterAccount" : "MarketAccount",
+      "receiverAccount" : "banque",
+      "transactionAsset" : {
+        "assetValue" : 0.002615671962040061,
+        "assetType" : null,
+        "assetName" : "BTC"
+      },
+      "amountOfMoney" : 0.0,
+      "isAccepted" : true
+    } ]
+  } ],
+  "assets" : [ {
+    "assetValue" : 2.779476356086818,
+    "assetType" : null,
+    "assetName" : "SI=F"
+  }, {
+    "assetValue" : 0.0543348318214914,
+    "assetType" : null,
+    "assetName" : "GC=F"
+  }, {
+    "assetValue" : 8.443093375438863,
+    "assetType" : null,
+    "assetName" : "CL=F"
+  }, {
+    "assetValue" : 0.10670536959342962,
+    "assetType" : null,
+    "assetName" : "PL=F"
+  }, {
+    "assetValue" : 1.069232808002996,
+    "assetType" : null,
+    "assetName" : "NVDA"
+  }, {
+    "assetValue" : 0.22857142857142856,
+    "assetType" : null,
+    "assetName" : "TSLA"
+  }, {
+    "assetValue" : 0.060574811481973266,
+    "assetType" : null,
+    "assetName" : "ETH"
+  }, {
+    "assetValue" : 0.002615671962040061,
+    "assetType" : null,
+    "assetName" : "BTC"
+  } ],
+  "accounts" : [ {
+    "userName" : "banque",
+    "portfolio" : "benjamin",
+    "balance" : 0.0
+  }, {
+    "userName" : "economies",
+    "portfolio" : "benjamin",
+    "balance" : 0.0
+  } ]
+} ]

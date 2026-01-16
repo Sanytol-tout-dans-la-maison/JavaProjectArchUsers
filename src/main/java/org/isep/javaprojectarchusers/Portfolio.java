@@ -25,7 +25,7 @@ public class Portfolio {
 
     @Override
     public String toString(){
-        return this.address + " : " + this.description + ", manager: " + manager.toString();
+        return this.address + " : " + this.description + ", manager: " + (manager != null ? manager.toString() : "null");
     }
 
     public Portfolio(@JsonProperty("address") String address, @JsonProperty("description") String description, @JsonProperty("manager") PortfolioManager manager, @JsonProperty("blockchain")LinkedList<Block> blockchain){
@@ -35,7 +35,6 @@ public class Portfolio {
         this.assetList = new ArrayList<>();
         this.accountList = new ArrayList<>();
         this.blockchain = blockchain;
-        MainBackEnd.addPortfolio(this);
     }
 
     @JsonIgnore
@@ -49,6 +48,11 @@ public class Portfolio {
         MainBackEnd.addPortfolio(this);
     }
 
+    // Constructeur vide nécessaire
+    public Portfolio() {
+        this.assetList = new ArrayList<>();
+        this.accountList = new ArrayList<>();
+    }
 
     @JsonIgnore
     public boolean buyAsset(Asset asset, String emitterAccount){
@@ -72,7 +76,9 @@ public class Portfolio {
 
     @JsonIgnore
     public boolean transferMoney(String emitterAccount, String receiverAccount, double amountOfMoney){
-        Transaction transaction = new Transaction(this.getAddress(), MainBackEnd.searchAccount(receiverAccount).getPortfolio(), emitterAccount, receiverAccount, amountOfMoney);
+        Account receiver = MainBackEnd.searchAccount(receiverAccount);
+        if(receiver == null) return false;
+        Transaction transaction = new Transaction(this.getAddress(), receiver.getPortfolio(), emitterAccount, receiverAccount, amountOfMoney);
         return transaction.validateTransaction();
     }
 
@@ -82,10 +88,6 @@ public class Portfolio {
         accountList.add(account);
     }
 
-    /**
-     * @param userName username to search
-     * @return account of the user, if not found returns null
-     */
     @JsonIgnore
     public Account getAccount(String userName){
         for(Account a : accountList) if(a.getUserName().equals(userName)) return a;

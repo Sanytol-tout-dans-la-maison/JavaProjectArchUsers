@@ -8,7 +8,7 @@ public class TestBackend {
 
         // Test de ta méthode
         String symbol = "^IXIC";
-        ArrayList<OhlcvData> data = AlphaVantageClient.getInstance().getMarketData(symbol, false);        // Vérification
+        ArrayList<OhlcvData> data = AlphaVantageClient.getInstance().getMarketData(symbol, false, false);        // Vérification
         if (data.isEmpty()) {
             System.err.println("ERREUR : Aucune donnée récupérée !");
         } else {
