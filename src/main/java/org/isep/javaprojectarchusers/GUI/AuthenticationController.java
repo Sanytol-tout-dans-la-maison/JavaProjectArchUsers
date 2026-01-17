@@ -8,6 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.isep.javaprojectarchusers.MainBackEnd;
 import org.isep.javaprojectarchusers.PortfolioManager; // Ton backend
 
 import java.io.IOException;
@@ -28,9 +29,10 @@ public class AuthenticationController {
     // Dans AuthenticationController.java
 
 
-    public void login() {
+    public void login() throws IOException {
         String email = idField.getText();
         String password = passwordField.getText();
+        MainBackEnd.extractPortfolios();
 
         try {
             boolean success = PortfolioManager.login(email, password);
