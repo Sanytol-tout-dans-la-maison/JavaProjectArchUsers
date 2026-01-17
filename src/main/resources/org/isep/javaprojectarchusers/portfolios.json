@@ -1,6 +1,7 @@
 [ {
   "address" : "testPortfolio",
   "description" : "Desc for the test",
+  "manager": "sany@delest.com",
   "blockchain" : [ {
     "block" : [ {
       "emitter" : "Market",

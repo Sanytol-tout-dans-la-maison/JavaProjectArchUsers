@@ -97,11 +97,11 @@ public class Portfolio {
         return null;
     }
 
-    public String getManager() {
+    public @JsonProperty("manager") String getManager() {
         return manager;
     }
 
-    public void setManager(String manager) {
+    public void setManager(@JsonProperty("manager") String manager) {
         this.manager = manager;
     }
 

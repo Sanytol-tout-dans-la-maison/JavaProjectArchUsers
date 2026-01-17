@@ -16,9 +16,9 @@ public class AuthenticationController {
 
     // J'ai gardé les noms de variables de ton camarade
     @FXML
-    private static TextField idField;
+    private TextField idField;
     @FXML
-    private static PasswordField passwordField; // J'utilise PasswordField pour la sécurité, mais ça map sur leur FXML si l'ID est bon
+    private PasswordField passwordField; // J'utilise PasswordField pour la sécurité, mais ça map sur leur FXML si l'ID est bon
 
     /**
      * Méthode de connexion.
@@ -48,7 +48,7 @@ public class AuthenticationController {
     }
 
     // Ajoute cette nouvelle méthode pour charger la page de bienvenue
-    private static void switchToWelcomePage(String email) throws IOException {
+    private void switchToWelcomePage(String email) throws IOException {
         FXMLLoader loader = new FXMLLoader(AuthenticationController.class.getResource("MainPageView.fxml"));
         Parent root = loader.load(); // Charge la vue du camarade (TabPane, Liste...)
 

@@ -18,7 +18,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class MainBackEnd {
-    private static ArrayList<Portfolio> portfolioArrayList=  new ArrayList<>();
+    private static ArrayList<Portfolio> portfolioArrayList =  new ArrayList<>();
     private static ArrayList<Account> accountArrayList = new ArrayList<>();
     private static LinkedList blockchain;
 
