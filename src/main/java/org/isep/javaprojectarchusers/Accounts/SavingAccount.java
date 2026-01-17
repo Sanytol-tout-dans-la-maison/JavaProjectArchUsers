@@ -3,39 +3,53 @@ package org.isep.javaprojectarchusers.Accounts;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.isep.javaprojectarchusers.Portfolio;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 /**
  * {@code SavingAccount} is a subclass of {@link Account} that add functionalities specifically for saving.
  * <p>It's main new thing is having {@code calculateRetirement}.</p>
  */
 public class SavingAccount extends Account {
-    /**This is the rent the account user has to pay per month?*/
-    @JsonProperty("RENT")
-    private float RENT ; // I don't think this is final. but I'll set this like that for now.
-    private static ArrayList<SavingAccount> savingAccountArrayList = new ArrayList<>();
+    /**
+     * This is the rent the account user has to pay per month?
+     */
+    float RENT;
+    double INTEREST_RATES;
+    Date retirementDate;
 
-    public SavingAccount(@JsonProperty("userName") String userName, @JsonProperty("OVERDRAW_LIMIT") float OVERDRAW_LIMIT, @JsonProperty("balance") double balance, @JsonProperty("portfolio") String portfolio, @JsonProperty("RENT") float RENT) {
-        super(userName, AccountType.SAVING ,OVERDRAW_LIMIT, balance, portfolio);
+    public SavingAccount(String userName, String accountType, float OVERDRAW_LIMIT, double balance, Portfolio portfolio, float RENT, double interestRates, Date retirementDate) {
+        super(userName, AccountType.SAVING, OVERDRAW_LIMIT, balance, portfolio);
         this.RENT = RENT;
-        savingAccountArrayList.add(this);
+        INTEREST_RATES = interestRates;
+        this.retirementDate = retirementDate;
     }
 
     public @JsonProperty("RENT") float getRENT() {
         return RENT;
     }
 
-    public void setRENT(@JsonProperty("RENT") float RENT) {
-        this.RENT = RENT;
-    }
-
-    /** What is this class supposed to do? does it have to calculate how much is left for retirement?
-     * Do we get users age?
-     * @return Retirement money, if I understand this correctly?
+    /**
+     *Calculate retirement money based on interest rate and rent.
+     * @return Retirement money.
      */
     public double calculateRetirement() {
+        LocalDate givenDate = retirementDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate now = LocalDate.now();
+        long monthsUntilRetirement = ChronoUnit.MONTHS.between(givenDate, now);
 
-        return 0.0;
+        double balance = this.getBalance();
+
+        for (long i = 1; i <= monthsUntilRetirement; i++) {
+            balance -= RENT;
+            if (monthsUntilRetirement % 12 == 0) {
+                balance += (1 + (INTEREST_RATES / 100)) * balance;
+            }
+        }
+
+        return balance;
     }
 
     public static ArrayList<SavingAccount> getSavingAccountArrayList() {
