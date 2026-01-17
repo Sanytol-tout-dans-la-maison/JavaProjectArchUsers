@@ -153,11 +153,11 @@ public class ActionController {
 
                 // Si on est ici, c'est que l'argent a été retiré de l'objet Account.
                 // On peut lancer l'achat dans le Manager.
-                success = ApplicationGui.pManager.buyAsset(portfolio.getAddress(), transAsset, account);
+                success = PortfolioManager.buyAsset(portfolio.getAddress(), transAsset, account);
 
             } else {
                 // Vente (Sell)
-                success = ApplicationGui.pManager.sellAsset(portfolio.getAddress(), transAsset, account);
+                success = PortfolioManager.sellAsset(portfolio.getAddress(), transAsset, account);
                 if(success) {
                     account.deposit(amountMoney); // On crédite le compte
                 } else {

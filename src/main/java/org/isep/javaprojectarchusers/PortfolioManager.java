@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * Manager central gérant l'authentification, les portefeuilles et les ordres de marché.
  */
 public class PortfolioManager {
-    private static ArrayList<Portfolio> portfolioList;
+    private static ArrayList<Portfolio> portfolioList = new ArrayList<>();
     private static @JsonProperty("userName") String userName;
     private static ArrayList<String> emailList = new ArrayList<>();
     private static ArrayList<String> passwordList = new ArrayList<>();
