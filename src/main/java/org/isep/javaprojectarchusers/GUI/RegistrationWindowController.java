@@ -1,4 +1,4 @@
-package org.isep.javaprojectarchusers;
+package org.isep.javaprojectarchusers.GUI;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,10 +7,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.isep.javaprojectarchusers.PortfolioManager;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 
 public class RegistrationWindowController {
     @FXML
@@ -24,7 +29,7 @@ public class RegistrationWindowController {
     @FXML
     TextField registrationConfirmPassword;
 
-    public void register() throws IOException, NoSuchAlgorithmException {
+    public void register() throws IOException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         switch(PortfolioManager.register(registrationEmailField.getText(), registrationPasswordField.getText(),registrationConfirmPassword.getText())) {
             case 1:
                 switchToAuthentification();

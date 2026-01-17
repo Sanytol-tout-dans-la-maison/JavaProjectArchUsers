@@ -1,6 +1,9 @@
 package org.isep.javaprojectarchusers.Accounts;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.isep.javaprojectarchusers.Portfolio;
+
+import java.util.ArrayList;
 
 /**
  * The {@code Account} superclass represent bank accounts.
@@ -15,17 +18,19 @@ public class Account {
     private String userName;
 
     /** The {@link Portfolio} object the account is in. */
-    private final Portfolio portfolio;
+    private String portfolio;
 
 
     /** Amount of money this account has. */
     private double balance;
 
     /** Type of the account */
-    private final AccountType accountType;
+    private AccountType accountType;
 
     /**I don't know what this is*/
-    final float OVERDRAW_LIMIT; //moved here cause present in both subclass
+    float OVERDRAW_LIMIT; //moved here cause present in both subclass
+
+    private static ArrayList<Account> accountArrayList = new ArrayList<>();
 
 
     /** Temporary constructor
@@ -33,16 +38,20 @@ public class Account {
      * @param accountType The type of the account.
      * @param OVERDRAW_LIMIT I don't know what is this supposed to be.
      * @param balance initial account balance.
-     * @param portfolio The {@link Portfolio} object to this account.
+     * @param portfolioAddress The address of the {@link Portfolio} object linked to this account.
      */
-    public Account(String userName,AccountType accountType, float OVERDRAW_LIMIT, double balance, Portfolio portfolio) {
+    public Account(@JsonProperty("userName") String userName, @JsonProperty("accountType") AccountType accountType, @JsonProperty("OVERDRAW_LIMIT") float OVERDRAW_LIMIT, @JsonProperty("balance") double balance, @JsonProperty("portfolio") String portfolioAddress) {
         this.userName = userName;
         this.OVERDRAW_LIMIT = OVERDRAW_LIMIT;
         this.balance = balance;
-        this.portfolio = portfolio;
+        this.portfolio = portfolioAddress;
         this.accountType = accountType;
+        accountArrayList.add(this);
     }
 
+    public void setOVERDRAW_LIMIT(float OVERDRAW_LIMIT) {
+        this.OVERDRAW_LIMIT = OVERDRAW_LIMIT;
+    }
 
     /** Get the balance of the account.
      * @return balance
@@ -81,10 +90,40 @@ public class Account {
     /**
      * @return The {@link Portfolio} object this account is present in.
      */
-    public Portfolio getPortfolio() {
+    public String getPortfolio() {
         return portfolio;
     }
 
+    /**
+     * @return userName of the account
+     */
+
+    public void setPortfolio(String portfolio){
+        this.portfolio = portfolio;
+    }
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
+
+    public float getOVERDRAW_LIMIT() {
+        return OVERDRAW_LIMIT;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
 
 
     /**Custom toString

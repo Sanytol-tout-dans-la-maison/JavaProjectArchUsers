@@ -1,5 +1,6 @@
 package org.isep.javaprojectarchusers.Accounts;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.isep.javaprojectarchusers.Portfolio;
 
 import java.time.LocalDate;
@@ -26,6 +27,9 @@ public class SavingAccount extends Account {
         this.retirementDate = retirementDate;
     }
 
+    public @JsonProperty("RENT") float getRENT() {
+        return RENT;
+    }
 
     /**
      *Calculate retirement money based on interest rate and rent.
@@ -46,5 +50,9 @@ public class SavingAccount extends Account {
         }
 
         return balance;
+    }
+
+    public static ArrayList<SavingAccount> getSavingAccountArrayList() {
+        return savingAccountArrayList;
     }
 }

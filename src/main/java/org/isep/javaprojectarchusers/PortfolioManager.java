@@ -1,19 +1,34 @@
 package org.isep.javaprojectarchusers;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.isep.javaprojectarchusers.Accounts.Account;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class PortfolioManager {
-    private static ArrayList<Portfolio> portfolioList;
-    private static String userName;
+    private ArrayList<Portfolio> portfolioList;
+    private @JsonProperty("userName") String userName;
     private static ArrayList<String> emailList = new ArrayList<>();
     private static ArrayList<String> passwordList = new ArrayList<>();
+    private static ArrayList<String> keyList = new ArrayList<>();
 
     public PortfolioManager(){
         this.portfolioList = new ArrayList<>();
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @Override
@@ -21,29 +36,31 @@ public class PortfolioManager {
         return userName;
     }
 
-    public static boolean login(String inputEmail, String inputPassword) throws IOException, NoSuchAlgorithmException {
-        ArrayList<String> email = new ArrayList<>();
-        ArrayList<String> password = new ArrayList<>();
+    public boolean login(String inputEmail, String inputPassword) throws IOException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         String name = "";
         boolean cond = false;
-        LoginExtraction.extract(email,password);
-        for(int i = 0; i < email.size(); i++) {
-            if(inputEmail.equals(email.get(i)) && Hashing.toHash(password.get(i)).equals(password.get(i))) {
+        LoginExtraction.extract(emailList, passwordList, keyList);
+        for(int i = 0; i < emailList.size(); i++) {
+            if((Hashing.toHash(inputPassword).equals(passwordList.get(i))) && Encryption.decryptString(emailList.get(i), Encryption.stringToKey(inputPassword)).equals(inputEmail)) {
                 userName = inputEmail;
+                System.out.println(Encryption.decryptString(keyList.get(i),Encryption.stringToKey(inputPassword)));
+                System.out.println(Encryption.keyToString(Encryption.getKey()));
+                System.out.println(Encryption.decryptString(emailList.get(i), Encryption.stringToKey(inputPassword)));
                 cond = true;
             }
         }
+        addPortfolios();
         return cond;
     }
 
-    public static byte register(String inputEmail, String inputPassword, String confirmPassword) throws IOException, NoSuchAlgorithmException {
+    public static byte register(String inputEmail, String inputPassword, String confirmPassword) throws IOException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         if(!inputPassword.equals(confirmPassword)) return -1;
         else if(inputEmail.isEmpty() || inputPassword.isEmpty()) return 0;
         else{
-            LoginExtraction.extract(emailList, passwordList);
-            emailList.addLast(inputEmail);
-            passwordList.addLast(inputPassword);
-            LoginSave.save(emailList, passwordList);
+            LoginExtraction.extract(emailList, passwordList, keyList);
+            emailList.addLast(Encryption.encryptString(inputEmail,Encryption.stringToKey(inputPassword)));
+            passwordList.addLast(Hashing.toHash(inputPassword));
+            keyList.add(Encryption.encryptString(Encryption.keyToString(Encryption.getKey()), Encryption.stringToKey(inputPassword)));
             return 1;
         }
     }
@@ -53,7 +70,7 @@ public class PortfolioManager {
     }
 
     public boolean buyAsset(String address, Asset asset, Account account) {
-        for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.buyAsset(asset, account);
+        for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.buyAsset(asset, account.getUserName());
         return false;
     }
 
@@ -61,9 +78,9 @@ public class PortfolioManager {
         for (Portfolio portfolio : portfolioList) {
             if(portfolio.getAddress().equals(address)) {
                 if (asset_type == ASSET_TYPE.CryptocurrencyToken)
-                    return portfolio.buyAsset(new CryptocurrencyToken(), account);
+                    return portfolio.buyAsset(new CryptocurrencyToken("Bitcoin"), account.getUserName());
                 else {
-                    return portfolio.buyAsset(new Stock("Action Générique", 0.0), account);
+                    return portfolio.buyAsset(new Stock("Action Générique", 0.0), account.getUserName());
                 }
             }
 
@@ -72,14 +89,41 @@ public class PortfolioManager {
     }
 
     public boolean sellAsset(String address, Asset asset, Account account) {
-        for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.sellAsset(asset, account);
+        for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.sellAsset(asset, account.getUserName());
         return false;
     }
 
     public boolean transferMoney(String address, Account emitterAccount, Account receiverAccount, double amountOfMoeny) {
-        for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.transferMoney(emitterAccount, receiverAccount, amountOfMoeny);
+        for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.transferMoney(emitterAccount.getUserName(), receiverAccount.getUserName(), amountOfMoeny);
         return false;
     }
-    
 
+    /**
+     * @param address address to search
+     * @return portfolio bearing the address, else returns null
+     */
+    public Portfolio getPortfolio(String address){
+        for (Portfolio p : portfolioList) if(p.getAddress().equals(address)) return p;
+        return null;
+    }
+
+    public void addPortfolios(){
+        for(Portfolio p : MainBackEnd.getPortfolioArrayList()) if(p.getManager().getUserName().equals(userName)) portfolioList.add(p);
+    }
+
+    public ArrayList<Portfolio> getPortfolioList() {
+        return portfolioList;
+    }
+
+    public static ArrayList<String> getEmailList() {
+        return emailList;
+    }
+
+    public static ArrayList<String> getKeyList() {
+        return keyList;
+    }
+
+    public static ArrayList<String> getPasswordList() {
+        return passwordList;
+    }
 }
