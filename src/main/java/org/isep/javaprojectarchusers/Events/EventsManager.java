@@ -1,6 +1,7 @@
 package org.isep.javaprojectarchusers.Events;
 
 import org.isep.javaprojectarchusers.Assets.Asset;
+import org.w3c.dom.events.Event;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -45,5 +46,13 @@ public class EventsManager {
 
     public static HashMap<LocalDate, ArrayList<Events>> getHashMapEvents() {
         return hashMapEvents;
+    }
+
+    /**
+     * @param date has to be a specific day
+     * @return ArrayList of Events of the day
+     */
+    public static ArrayList<Events> getEvensByDate(LocalDate date){
+        return hashMapEvents.get(date);
     }
 }
