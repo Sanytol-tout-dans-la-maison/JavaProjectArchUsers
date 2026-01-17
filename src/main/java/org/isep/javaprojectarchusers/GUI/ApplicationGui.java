@@ -43,48 +43,45 @@ public class ApplicationGui extends Application {
     public void start(Stage primaryStage) {
         logger.setLevel(Level.FINE);
 
-
         logger.fine("Finding resource.");
         URL resourcePath;
 
         try {
-            resourcePath = Objects.requireNonNull(getClass().getResource("MainPageView.fxml"));
+            // ON CHANGE ICI : On vise l'authentification, pas la MainPage
+            resourcePath = Objects.requireNonNull(getClass().getResource("authentication-interface.fxml"));
             logger.fine("Resource path: " + resourcePath);
 
         } catch (NullPointerException e) {
-            logger.severe("The fxml file hasn't been found. " + e);
+            logger.severe("The fxml file hasn't been found (authentication-interface.fxml). " + e);
             throw new RuntimeException(e);
-
         }
 
-
         Scene scene;
+        logger.info("Loading FXML: authentication-interface.fxml");
 
-        logger.info("Loading FXML: MainPageView.fxml");
         try {
             FXMLLoader loader = new FXMLLoader(resourcePath);
 
+            // On charge la scène
+            // On peut définir une taille fixe pour le login (ex: 600x400) ou laisser faire
+            scene = new Scene(loader.load());
 
-            scene = new Scene(loader.load(), 800, 700);
-
-            MainPageController controller = loader.getController();
-
-            controller.setManager(pManager);
-            controller.updateVisuals();
-
+            // NOTE : On n'a plus besoin de récupérer le controller ici pour setManager
+            // car AuthenticationController utilise ApplicationGui.pManager directement (static).
 
         } catch (IOException e) {
             logger.severe("IOException error during FXMLLoader.load(resourcePath): " + e);
             throw new RuntimeException(e);
-
         }
 
-
         logger.fine("Setting window title.");
-        primaryStage.setTitle("Login");
+        primaryStage.setTitle("Login - Portfolio Manager");
 
         logger.fine("Putting loaded scene in the stage.");
         primaryStage.setScene(scene);
+
+        // Optionnel : Bloquer le redimensionnement pour l'écran de login (c'est plus propre)
+        primaryStage.setResizable(false);
 
         logger.info("Showing stage");
         primaryStage.show();

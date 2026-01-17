@@ -17,10 +17,10 @@ public class PortfolioManager {
     @JsonProperty("userName")
     private String userName;
 
-    // --- Listes statiques (Mise à jour avec keyList pour la sécurité) ---
+    // --- Listes statiques pour la gestion des comptes ---
     private static ArrayList<String> emailList = new ArrayList<>();
     private static ArrayList<String> passwordList = new ArrayList<>();
-    private static ArrayList<String> keyList = new ArrayList<>(); // Ajouté pour compatibilité 3 arguments
+    private static ArrayList<String> keyList = new ArrayList<>();
 
     public PortfolioManager(){
         this.portfolioList = new ArrayList<>();
@@ -32,22 +32,29 @@ public class PortfolioManager {
 
     /**
      * Tente d'inscrire un nouvel utilisateur.
+     * @return 1 (Succès), 0 (Champs vides), -1 (Mdp différents), -2 (Email existe déjà)
      */
     public static byte register(String inputEmail, String inputPassword, String confirmPassword) throws IOException, NoSuchAlgorithmException {
         if(!inputPassword.equals(confirmPassword)) return -1;
         else if(inputEmail.isEmpty() || inputPassword.isEmpty()) return 0;
         else{
-            // Correction : On passe 3 listes pour respecter la signature de la méthode extract
-            emailList.clear(); passwordList.clear(); keyList.clear(); // Nettoyage préventif
+            // 1. On charge l'état actuel pour vérifier si l'email existe
+            emailList.clear(); passwordList.clear(); keyList.clear();
             LoginExtraction.extract(emailList, passwordList, keyList);
 
             if(emailList.contains(inputEmail)) return -2;
 
+            // 2. Ajout des nouvelles données
             emailList.add(inputEmail);
-            passwordList.add(inputPassword);
-            keyList.add(""); // On ajoute une entrée vide pour garder l'alignement des listes
 
-            // Correction : On passe 3 listes à save
+            // IMPORTANT : On ajoute UNIQUEMENT le mot de passe haché
+            passwordList.add(Hashing.toHash(inputPassword));
+
+            // CRUCIAL : On met une valeur bidon ("salt") au lieu de vide ""
+            // Cela empêche le crash "Index out of bounds" à la lecture du CSV
+            keyList.add("salt");
+
+            // 3. Sauvegarde
             LoginSave.save(emailList, passwordList, keyList);
             return 1;
         }
@@ -57,20 +64,20 @@ public class PortfolioManager {
      * Connecte l'utilisateur.
      */
     public boolean login(String inputEmail, String inputPassword) throws IOException, NoSuchAlgorithmException {
-        // On s'assure que les listes sont vides avant extraction
+        // Variables locales pour éviter les conflits
         ArrayList<String> email = new ArrayList<>();
         ArrayList<String> password = new ArrayList<>();
-        ArrayList<String> keys = new ArrayList<>(); // 3ème liste
+        ArrayList<String> keys = new ArrayList<>();
 
         boolean cond = false;
 
-        // Correction : 3 arguments
+        // Extraction des 3 colonnes (Email, Hash, Key)
         LoginExtraction.extract(email, password, keys);
 
         for(int i = 0; i < email.size(); i++) {
             if(inputEmail.equals(email.get(i))) {
-                // Vérification du hash
-                if(Hashing.toHash(inputPassword).equals(password.get(i))) {
+                // Vérification sécurisée avec trim() pour éviter les erreurs d'espaces
+                if(Hashing.toHash(inputPassword).equals(password.get(i).trim())) {
                     userName = inputEmail;
                     cond = true;
                     break;
@@ -91,17 +98,11 @@ public class PortfolioManager {
     public void createPortfolio(String address, String description) {
         Portfolio portfolio = new Portfolio(address, description, this);
         portfolioList.add(portfolio);
-        MainBackEnd.addPortfolio(portfolio); // Ajout au backend pour la cohérence
+        MainBackEnd.addPortfolio(portfolio);
     }
 
-    /**
-     * @param address address to search
-     * @return portfolio bearing the address, else returns null
-     */
     public Portfolio getPortfolio(String address){
-        // Recherche locale
         for (Portfolio p : portfolioList) if(p.getAddress().equals(address)) return p;
-        // Recherche globale (backup)
         return MainBackEnd.searchPortfolio(address);
     }
 
@@ -126,17 +127,10 @@ public class PortfolioManager {
     // 3. ACHAT / VENTE / TRANSFERT
     // =========================================================================
 
-    /**
-     * Version principale de l'achat (Cumulative).
-     */
     public boolean buyAsset(String address, Asset asset, Account account) {
         Portfolio portfolio = getPortfolio(address);
         if(portfolio == null) return false;
 
-        // On utilise la logique interne du Portfolio si elle existe,
-        // ou on implémente la logique cumulative ici pour l'affichage graphique.
-
-        // Logique cumulative (Fusionnée)
         boolean assetExists = false;
         for(Asset existingAsset : portfolio.getAssetList()) {
             if(existingAsset.getAssetName().equals(asset.getAssetName())) {
@@ -154,11 +148,8 @@ public class PortfolioManager {
         return true;
     }
 
-    /**
-     * Version surchargée avec ASSET_TYPE (Restaurée de ton ancien code).
-     */
+    // Surcharge pour compatibilité avec l'ancien code (ASSET_TYPE)
     public boolean buyAsset(String address, ASSET_TYPE asset_type, Account account){
-        // On délègue à la méthode principale buyAsset ci-dessus
         if (asset_type == ASSET_TYPE.CryptocurrencyToken)
             return buyAsset(address, new CryptocurrencyToken("Bitcoin"), account);
         else {
@@ -170,7 +161,6 @@ public class PortfolioManager {
         Portfolio portfolio = getPortfolio(address);
         if(portfolio == null) return false;
 
-        // Logique de vente sécurisée
         Asset possessedAsset = null;
         for(Asset a : portfolio.getAssetList()) {
             if(a.getAssetName().equals(asset.getAssetName())) {
@@ -194,9 +184,6 @@ public class PortfolioManager {
         return true;
     }
 
-    /**
-     * Transfert d'argent (Restauré de ton ancien code).
-     */
     public boolean transferMoney(String address, Account emitterAccount, Account receiverAccount, double amountOfMoney) {
         Portfolio portfolio = getPortfolio(address);
         if(portfolio != null) {
@@ -226,17 +213,8 @@ public class PortfolioManager {
         return userName;
     }
 
-    // --- GETTERS STATIQUES (Requis pour TestJson) ---
-
-    public static ArrayList<String> getEmailList() {
-        return emailList;
-    }
-
-    public static ArrayList<String> getPasswordList() {
-        return passwordList;
-    }
-
-    public static ArrayList<String> getKeyList() {
-        return keyList;
-    }
+    // Getters statiques pour les tests
+    public static ArrayList<String> getEmailList() { return emailList; }
+    public static ArrayList<String> getPasswordList() { return passwordList; }
+    public static ArrayList<String> getKeyList() { return keyList; }
 }
