@@ -27,7 +27,6 @@ public class MainPageController {
     // --- TES ELEMENTS (AJOUTÉS) ---
     @FXML private Label welcomeLabel; // N'oublie pas d'ajouter ce Label dans le FXML !
 
-    private PortfolioManager portfolioManager;
 
     // =========================================================================
     // 1. LOGIQUE DE BIENVENUE (TA PARTIE)
@@ -50,11 +49,6 @@ public class MainPageController {
         }
     }
 
-    public void setManager(PortfolioManager portfolioManager) {
-        this.portfolioManager = portfolioManager;
-        // Une fois le manager reçu, on met à jour la liste visuelle
-        updateVisuals();
-    }
 
     // =========================================================================
     // 2. LOGIQUE DES ONGLETS / FENETRES (PARTIE DU CAMARADE)
@@ -193,8 +187,8 @@ public class MainPageController {
 
     public void setPortfolioViewList() {
         portfolioViewList.getItems().clear();
-        if (portfolioManager != null && portfolioManager.getPortfolioList() != null) {
-            for (Portfolio portfolio : portfolioManager.getPortfolioList()) {
+        if (PortfolioManager.getPortfolioList() != null) {
+            for (Portfolio portfolio : PortfolioManager.getPortfolioList()) {
                 portfolioViewList.getItems().add(portfolio);
             }
         }
@@ -203,7 +197,7 @@ public class MainPageController {
     public void addPortfolio() {
         if (portfolioNameView.getText().isEmpty()) return;
 
-        portfolioManager.createPortfolio(portfolioNameView.getText(), portfolioDescView.getText());
+        PortfolioManager.createPortfolio(portfolioNameView.getText(), portfolioDescView.getText());
         updateVisuals();
 
         // Optionnel : vider les champs après ajout

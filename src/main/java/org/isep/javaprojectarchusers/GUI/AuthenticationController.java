@@ -16,9 +16,9 @@ public class AuthenticationController {
 
     // J'ai gardé les noms de variables de ton camarade
     @FXML
-    private TextField idField;
+    private static TextField idField;
     @FXML
-    private PasswordField passwordField; // J'utilise PasswordField pour la sécurité, mais ça map sur leur FXML si l'ID est bon
+    private static PasswordField passwordField; // J'utilise PasswordField pour la sécurité, mais ça map sur leur FXML si l'ID est bon
 
     /**
      * Méthode de connexion.
@@ -28,12 +28,12 @@ public class AuthenticationController {
     // Dans AuthenticationController.java
 
 
-    public void login() {
+    public static void login() {
         String email = idField.getText();
         String password = passwordField.getText();
 
         try {
-            boolean success = ApplicationGui.pManager.login(email, password);
+            boolean success = PortfolioManager.login(email, password);
 
             if (success) {
                 // MODIFICATION : On va vers la page de bienvenue
@@ -48,15 +48,13 @@ public class AuthenticationController {
     }
 
     // Ajoute cette nouvelle méthode pour charger la page de bienvenue
-    private void switchToWelcomePage(String email) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainPageView.fxml"));
+    private static void switchToWelcomePage(String email) throws IOException {
+        FXMLLoader loader = new FXMLLoader(AuthenticationController.class.getResource("MainPageView.fxml"));
         Parent root = loader.load(); // Charge la vue du camarade (TabPane, Liste...)
 
         // On récupère le contrôleur fusionné
         MainPageController controller = loader.getController();
 
-        // 1. On injecte le Manager (CRUCIAL pour que la liste s'affiche)
-        controller.setManager(ApplicationGui.pManager);
 
         // 2. On met à jour le titre "Bienvenue Benjamin"
         controller.setUserName(email);
@@ -95,8 +93,8 @@ public class AuthenticationController {
 
         // On passe les infos à ton contrôleur
         PortfolioController controller = loader.getController();
-        if (!ApplicationGui.pManager.getPortfolioList().isEmpty()) {
-            controller.setPortfolio(ApplicationGui.pManager.getPortfolioList().get(0));
+        if (!PortfolioManager.getPortfolioList().isEmpty()) {
+            controller.setPortfolio(PortfolioManager.getPortfolioList().get(0));
             controller.updateVisuals();
         }
 
@@ -112,7 +110,7 @@ public class AuthenticationController {
      * Méthode d'alerte de ton camarade.
      * JE N'AI RIEN TOUCHÉ ICI.
      */
-    private void showAlert(){
+    private static void showAlert(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("User information");
         alert.setHeaderText(null);

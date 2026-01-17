@@ -20,15 +20,14 @@ import java.io.IOException;
 public class ApplicationGui extends Application {
 
     private static final Logger logger = Logger.getLogger(ApplicationGui.class.getName());
-    public static PortfolioManager pManager;
 
 
     public static void main(String[] args) {
 
-        pManager = new PortfolioManager();
 
-        pManager.createPortfolio("testPortfolio", "Desc for the test");
-        Portfolio portfolio1 = pManager.getPortfolio("testPortfolio");
+
+        PortfolioManager.createPortfolio("testPortfolio", "Desc for the test");
+        Portfolio portfolio1 = PortfolioManager.getPortfolio("testPortfolio");
 
         portfolio1.createCheckingAccount("test");
         Account account1 = portfolio1.getAccount("test");
