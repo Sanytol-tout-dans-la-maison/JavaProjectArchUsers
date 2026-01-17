@@ -1,7 +1,6 @@
 package org.isep.javaprojectarchusers.Events;
 
 import org.isep.javaprojectarchusers.Assets.Asset;
-import org.w3c.dom.events.Event;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -35,13 +34,14 @@ public class EventsManager {
     /**
      * @return a hashmap that associates DateTime with its events. Use this in the code to quickly search for any event at a given date
      */
-    public void sortEventsbyDate(){
+    public HashMap<LocalDate, ArrayList<Events>> sortEventsbyDate(){
         eventList = Events.getEventList();
         for(Events e : eventList){
             LocalDate tempDate = LocalDate.parse(e.getDate());
             if(!hashMapEvents.containsKey(tempDate)) hashMapEvents.put((tempDate), new ArrayList<Events>());
             hashMapEvents.get(tempDate).add(e);
         };
+        return hashMapEvents;
     }
 
     public static HashMap<LocalDate, ArrayList<Events>> getHashMapEvents() {

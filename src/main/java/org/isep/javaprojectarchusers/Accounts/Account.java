@@ -103,13 +103,11 @@ public class Account {
         return portfolio;
     }
 
-    /**
-     * @return userName of the account
-     */
 
     public void setPortfolio(String portfolio){
         this.portfolio = portfolio;
     }
+
     public String getUserName() {
         return userName;
     }

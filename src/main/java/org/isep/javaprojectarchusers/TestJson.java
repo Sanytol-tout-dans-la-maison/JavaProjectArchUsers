@@ -4,6 +4,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.isep.javaprojectarchusers.Accounts.CheckingAccount;
 import org.isep.javaprojectarchusers.Accounts.SavingAccount;
+import org.isep.javaprojectarchusers.Accounts.SavingAccountExtract;
+import org.isep.javaprojectarchusers.Accounts.SavingAccountSave;
+import org.isep.javaprojectarchusers.Encryption.Encryption;
 
 import java.io.File;
 import java.io.IOException;

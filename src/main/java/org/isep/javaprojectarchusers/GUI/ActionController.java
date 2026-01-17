@@ -9,6 +9,8 @@ import javafx.scene.layout.AnchorPane;
 import org.isep.javaprojectarchusers.Assets.Asset;
 import org.isep.javaprojectarchusers.*;
 import org.isep.javaprojectarchusers.Accounts.Account;
+import org.isep.javaprojectarchusers.Assets.CryptocurrencyToken;
+import org.isep.javaprojectarchusers.Assets.Stock;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.fx.ChartViewer;

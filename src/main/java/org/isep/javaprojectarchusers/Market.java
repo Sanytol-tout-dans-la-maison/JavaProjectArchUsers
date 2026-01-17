@@ -1,5 +1,11 @@
 package org.isep.javaprojectarchusers;
 
+import org.isep.javaprojectarchusers.Assets.Asset;
+import org.isep.javaprojectarchusers.Assets.CryptocurrencyToken;
+import org.isep.javaprojectarchusers.Assets.Stock;
+import org.isep.javaprojectarchusers.Events.Events;
+import org.isep.javaprojectarchusers.Events.EventsManager;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
