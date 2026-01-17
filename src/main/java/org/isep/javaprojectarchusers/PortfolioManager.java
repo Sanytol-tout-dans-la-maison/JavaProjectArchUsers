@@ -58,11 +58,28 @@ public class PortfolioManager {
         return cond;
     }
 
+    /**
+     * @param inputEmail
+     * @param inputPassword
+     * @param confirmPassword to confirm inputPassword
+     * @return -2 if email is already registered
+     * @return -1 if passwords don't match
+     * @@return 0 if one field is empty
+     * @return 1 if account is registered properly
+     * @throws IOException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidAlgorithmParameterException
+     * @throws NoSuchPaddingException
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     * @throws InvalidKeyException
+     */
     public static byte register(String inputEmail, String inputPassword, String confirmPassword) throws IOException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         if(!inputPassword.equals(confirmPassword)) return -1;
         else if(inputEmail.isEmpty() || inputPassword.isEmpty()) return 0;
         else{
             LoginExtraction.extract(emailList, passwordList, keyList);
+            for(String email : emailList) if(email.equals(inputEmail)) return -2;
             emailList.addLast(Encryption.encryptString(inputEmail,Encryption.stringToKey(inputPassword)));
             passwordList.addLast(Hashing.toHash(inputPassword));
             keyList.add(Encryption.encryptString(Encryption.keyToString(Encryption.getKey()), Encryption.stringToKey(inputPassword)));
