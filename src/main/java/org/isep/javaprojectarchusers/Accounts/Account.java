@@ -133,22 +133,4 @@ public class Account {
     public String toString(){
         return this.userName + " : " + accountType;
     }
-
-    public boolean give(Account account, double amount) {
-        if (this.withdraw(amount)) {
-            account.deposit(amount);
-            return true;
-        }
-        return false;
-
-    }
-
-    public boolean take(Account account, double amount) {
-        if (account.withdraw(amount)) {
-            this.deposit(amount);
-            return true;
-        }
-        return false;
-
-    }
 }
