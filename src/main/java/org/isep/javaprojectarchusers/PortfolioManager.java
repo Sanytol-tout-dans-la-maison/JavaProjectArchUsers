@@ -108,4 +108,9 @@ public class PortfolioManager {
         return portfolioList;
     }
 
+    public void removePortfolio(Portfolio portfolio) {
+        portfolioList.remove(portfolio);
+
+    }
+
 }

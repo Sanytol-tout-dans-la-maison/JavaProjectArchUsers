@@ -7,14 +7,12 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import org.isep.javaprojectarchusers.Asset;
 import org.isep.javaprojectarchusers.Portfolio;
 import org.isep.javaprojectarchusers.PortfolioManager;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class MainPageController {
@@ -33,6 +31,10 @@ public class MainPageController {
     private TextField portfolioDescView;
 
     private PortfolioManager portfolioManager;
+
+    private final HashMap<Portfolio,ArrayList<Tab>> tabsMap =new HashMap<>();
+
+    private final HashMap<Portfolio,ArrayList<Stage>> windowMap =new HashMap<>();
 
 
     /**
@@ -57,6 +59,8 @@ public class MainPageController {
         }
 
         Tab portfolioContainer = new Tab(portfolioName);
+
+        tabsMap.computeIfAbsent(portfolio,k -> new ArrayList<Tab>()).add(portfolioContainer);
 
 
         ContextMenu contextMenu = new ContextMenu();
@@ -119,6 +123,8 @@ public class MainPageController {
         Stage portfolioStage = new Stage();
         AnchorPane portfolioAnchor;
 
+        windowMap.computeIfAbsent(portfolio,k -> new ArrayList<Stage>()).add(portfolioStage);
+
 
         logger.info("Loading FXML: PortfolioView.fxml");
         try {
@@ -155,7 +161,8 @@ public class MainPageController {
         portfolioViewList.setCellFactory(lv -> new ListCell<Portfolio>() {
 
             private final MenuItem openInWindow = new MenuItem("Open in another window");
-            private final ContextMenu contextMenu = new ContextMenu(openInWindow);
+            private final MenuItem deletePortfolio = new MenuItem("Delete");
+            private final ContextMenu contextMenu = new ContextMenu(openInWindow,deletePortfolio);
 
             {
                 openInWindow.setOnAction(e -> {
@@ -164,6 +171,15 @@ public class MainPageController {
                     if (portfolio != null) {
                         portfolioAsWindow(portfolio);
 
+                    }
+
+                });
+
+                deletePortfolio.setOnAction(e -> {
+                    Portfolio portfolio = getItem();
+
+                    if (portfolio != null) {
+                        delPortfolio(portfolio);
                     }
 
                 });
@@ -234,6 +250,36 @@ public class MainPageController {
     public void addPortfolio() {
         portfolioManager.createPortfolio(portfolioNameView.getText(), portfolioDescView.getText());
         updateVisuals();
+    }
+
+    private void delPortfolio(Portfolio portfolio) {
+        Alert delAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        delAlert.setTitle("Confirm deletion");
+        delAlert.setHeaderText("Are you sure?");
+        delAlert.setContentText("This action is definitive. It cannot be undone");
+
+        Optional<ButtonType> result = delAlert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            portfolioManager.removePortfolio(portfolio);
+            portfolioViewList.getItems().remove(portfolio);
+
+
+            List<Tab> tabs = tabsMap.remove(portfolio);
+            if (tabs!= null) {
+                portfolioHolder.getTabs().removeAll(tabs);
+
+            }
+
+            List<Stage> windows = windowMap.remove(portfolio);
+            if (windows != null) {
+                windows.forEach(Stage::close);
+            }
+
+
+
+
+        }
     }
 
 }
