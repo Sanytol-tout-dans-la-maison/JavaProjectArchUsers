@@ -1,7 +1,8 @@
-package org.isep.javaprojectarchusers;
+package org.isep.javaprojectarchusers.Blockchain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.isep.javaprojectarchusers.Transaction;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

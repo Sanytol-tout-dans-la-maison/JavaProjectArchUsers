@@ -1,4 +1,4 @@
-package org.isep.javaprojectarchusers;
+package org.isep.javaprojectarchusers.Assets;
 
 public enum ASSET_TYPE {
     CryptocurrencyToken,

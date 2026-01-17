@@ -1,8 +1,8 @@
-package org.isep.javaprojectarchusers;
+package org.isep.javaprojectarchusers.Assets;
 
 import java.util.ArrayList;
 
-public class CryptocurrencyToken extends Asset{
+public class CryptocurrencyToken extends Asset {
     private String cryptoName;
     private static ArrayList<CryptocurrencyToken> cryptocurrencyTokenList = new ArrayList<>();
     private final ASSET_TYPE assetType = ASSET_TYPE.CryptocurrencyToken;

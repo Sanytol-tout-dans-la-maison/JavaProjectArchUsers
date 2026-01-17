@@ -1,4 +1,4 @@
-package org.isep.javaprojectarchusers;
+package org.isep.javaprojectarchusers.Encryption;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherOutputStream;

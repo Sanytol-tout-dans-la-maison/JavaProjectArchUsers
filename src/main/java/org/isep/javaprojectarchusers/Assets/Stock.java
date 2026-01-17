@@ -1,8 +1,8 @@
-package org.isep.javaprojectarchusers;
+package org.isep.javaprojectarchusers.Assets;
 
 import java.util.ArrayList;
 
-public class Stock extends Asset{
+public class Stock extends Asset {
     private String companyName;
     private static ArrayList<Stock> stockList = new ArrayList<>();
     private final ASSET_TYPE assetType = ASSET_TYPE.Stock;

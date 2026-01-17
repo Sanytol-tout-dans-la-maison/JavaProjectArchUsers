@@ -9,9 +9,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import org.isep.javaprojectarchusers.Asset;
 import org.isep.javaprojectarchusers.Portfolio;
-import org.isep.javaprojectarchusers.PortfolioManager;
 
 import java.io.IOException;
 import java.net.URL;

@@ -1,4 +1,4 @@
-package org.isep.javaprojectarchusers;
+package org.isep.javaprojectarchusers.ReadWriteFile;
 
 import java.io.BufferedWriter;
 import java.io.File;

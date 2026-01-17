@@ -1,4 +1,6 @@
-package org.isep.javaprojectarchusers;
+package org.isep.javaprojectarchusers.Events;
+
+import org.isep.javaprojectarchusers.Assets.Asset;
 
 import java.io.IOException;
 import java.time.LocalDate;

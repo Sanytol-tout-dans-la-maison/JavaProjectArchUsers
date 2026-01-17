@@ -19,4 +19,14 @@ module org.isep.javaprojectarchusers {
     opens org.isep.javaprojectarchusers.Accounts to javafx.fxml;
     exports org.isep.javaprojectarchusers.GUI;
     opens org.isep.javaprojectarchusers.GUI to javafx.fxml;
+    exports org.isep.javaprojectarchusers.Encryption;
+    opens org.isep.javaprojectarchusers.Encryption to javafx.fxml;
+    exports org.isep.javaprojectarchusers.Blockchain;
+    opens org.isep.javaprojectarchusers.Blockchain to javafx.fxml;
+    exports org.isep.javaprojectarchusers.Assets;
+    opens org.isep.javaprojectarchusers.Assets to javafx.fxml;
+    exports org.isep.javaprojectarchusers.Events;
+    opens org.isep.javaprojectarchusers.Events to javafx.fxml;
+    exports org.isep.javaprojectarchusers.ReadWriteFile;
+    opens org.isep.javaprojectarchusers.ReadWriteFile to javafx.fxml;
 }
