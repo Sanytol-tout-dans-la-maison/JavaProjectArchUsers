@@ -1,5 +1,7 @@
 package org.isep.javaprojectarchusers;
 
+import org.isep.javaprojectarchusers.ReadWriteFile.FileReaderWithBuffer;
+
 import java.io.IOException;
 import java.util.ArrayList;
 

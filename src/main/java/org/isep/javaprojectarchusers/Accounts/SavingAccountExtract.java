@@ -1,9 +1,7 @@
-package org.isep.javaprojectarchusers;
+package org.isep.javaprojectarchusers.Accounts;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.isep.javaprojectarchusers.Accounts.CheckingAccount;
-import org.isep.javaprojectarchusers.Accounts.SavingAccount;
 
 import java.io.File;
 import java.io.IOException;

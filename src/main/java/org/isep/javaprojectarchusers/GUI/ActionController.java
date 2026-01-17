@@ -6,6 +6,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import org.isep.javaprojectarchusers.Assets.Asset;
 import org.isep.javaprojectarchusers.*;
 import org.isep.javaprojectarchusers.Accounts.Account;
 import org.jfree.chart.ChartFactory;
@@ -15,6 +16,7 @@ import org.jfree.data.time.Day;
 import org.jfree.data.time.ohlc.OHLCSeries;
 import org.jfree.data.time.ohlc.OHLCSeriesCollection;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 

@@ -1,9 +1,9 @@
-package org.isep.javaprojectarchusers;
+package org.isep.javaprojectarchusers.Events;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.isep.javaprojectarchusers.Assets.Asset;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -65,6 +65,10 @@ public class Events {
 
     public static ArrayList<Events> getEventList() {
         return eventList;
+    }
+
+    public static void setEventList(ArrayList<Events> eventList) {
+        Events.eventList = eventList;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.isep.javaprojectarchusers;
+package org.isep.javaprojectarchusers.Events;
 
 public enum EVENT_TYPE {
     Crash,

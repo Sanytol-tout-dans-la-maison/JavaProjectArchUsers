@@ -1,5 +1,7 @@
 package org.isep.javaprojectarchusers;
 
+import org.isep.javaprojectarchusers.ReadWriteFile.WriteToFile;
+
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;

@@ -1,6 +1,7 @@
-package org.isep.javaprojectarchusers;
+package org.isep.javaprojectarchusers.Events;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.IOException;
 import java.util.ArrayList;
 

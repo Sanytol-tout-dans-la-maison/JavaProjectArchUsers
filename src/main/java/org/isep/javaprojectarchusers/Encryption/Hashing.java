@@ -1,4 +1,4 @@
-package org.isep.javaprojectarchusers;
+package org.isep.javaprojectarchusers.Encryption;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
