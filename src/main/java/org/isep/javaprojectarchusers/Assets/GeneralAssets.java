@@ -11,29 +11,50 @@ import java.util.Map;
 /**
  * Représente un actif financier (Action, Crypto, etc.) avec son historique de prix.
  */
-public class Asset extends GeneralAssets {
+public class GeneralAssets {
     private double value;
-    private static ArrayList<Asset> assetList = new ArrayList<>();
+    private static ArrayList<GeneralAssets> assetList = new ArrayList<>();
     private ASSET_TYPE assetType;
     private String assetName;
-    private String portfolio;
 
     // --- AJOUT : Historique pour les graphiques ---
     // On utilise LinkedHashMap pour garantir que les dates restent dans l'ordre
     private Map<LocalDate, Double> priceHistory = new LinkedHashMap<>();
 
-    public Asset(){
+    public GeneralAssets(){
         this.value = 0.0;
         assetList.add(this);
     }
 
-    public Asset(@JsonProperty("assetName") String assetName, @JsonProperty("assetValue") double value, @JsonProperty("assetType") ASSET_TYPE assetType,@JsonProperty("portfolio") String portfolio){
-        super(assetName, value, assetType);
-        this.portfolio = portfolio;
+    public GeneralAssets(@JsonProperty("assetName") String assetName, @JsonProperty("assetValue") double value, @JsonProperty("assetType") ASSET_TYPE assetType){
+        this.assetName = assetName;
+        this.value = value;
         assetList.add(this);
     }
 
+    // =========================================================================
+    // GESTION DE L'HISTORIQUE (Requis pour Market et les graphiques)
+    // =========================================================================
 
+    /**
+     * Ajoute une valeur à l'historique pour une date donnée.
+     * Utilisée par Market.simulateMarketHistory().
+     */
+    public void addHistory(LocalDate date, double price) {
+        priceHistory.put(date, price);
+    }
+
+    /**
+     * @return La map complète de l'historique (Date -> Prix).
+     */
+    @JsonIgnore // On ne sauvegarde pas tout l'historique en JSON pour le moment
+    public Map<LocalDate, Double> getPriceHistory() {
+        return priceHistory;
+    }
+
+    // =========================================================================
+    // GETTERS / SETTERS CLASSIQUES
+    // =========================================================================
 
     @JsonIgnore
     public String getInfo(){
@@ -48,7 +69,7 @@ public class Asset extends GeneralAssets {
         this.value = value;
     }
 
-    public static ArrayList<Asset> getAssetList() {
+    public static ArrayList<GeneralAssets> getGeneralAssetList() {
         return assetList;
     }
 
@@ -60,7 +81,7 @@ public class Asset extends GeneralAssets {
         this.assetType = assetType;
     }
 
-    public @JsonProperty("assetName") String getAssetName() {
+    public @JsonProperty("assetName") String getGeneralAssetName() {
         return assetName;
     }
 
@@ -68,16 +89,9 @@ public class Asset extends GeneralAssets {
         this.assetName = assetName;
     }
 
-    public String getPortfolio() {
-        return portfolio;
-    }
-
-    public void setPortfolio(String portfolio){
-        this.portfolio = portfolio;
-    }
 
     @Override
     public String toString(){
-        return this.getAssetName() + " (" + this.getValue() + ")";
+        return this.getGeneralAssetName() + " (" + this.getValue() + ")";
     }
 }

@@ -7,8 +7,8 @@ public class Stock extends Asset {
     private static ArrayList<Stock> stockList = new ArrayList<>();
     private final ASSET_TYPE assetType = ASSET_TYPE.Stock;
 
-    public Stock(String companyName, double value){
-        super(companyName, value);
+    public Stock(String companyName, double value, String portfolio){
+        super(companyName, value, portfolio);
         stockList.add(this);
         }
 
@@ -16,8 +16,8 @@ public class Stock extends Asset {
         return stockList;
     }
 
-    public Stock(String companyName){
-        super(companyName,0.0);
+    public Stock(String companyName, String portfolio){
+        super(companyName,0.0, portfolio);
         stockList.add(this);
         stockList.add(this);
     }

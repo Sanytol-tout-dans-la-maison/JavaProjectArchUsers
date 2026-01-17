@@ -1,8 +1,6 @@
 package org.isep.javaprojectarchusers;
 
-import org.isep.javaprojectarchusers.Assets.Asset;
-import org.isep.javaprojectarchusers.Assets.CryptocurrencyToken;
-import org.isep.javaprojectarchusers.Assets.Stock;
+import org.isep.javaprojectarchusers.Assets.*;
 import org.isep.javaprojectarchusers.Events.Events;
 import org.isep.javaprojectarchusers.Events.EventsManager;
 
@@ -13,21 +11,21 @@ import java.util.HashMap;
 public class Market {
 
     private static Market instance;
-    private ArrayList<Asset> marketAssets;
+    private ArrayList<GeneralAssets> marketAssets;
 
     private Market() {
         marketAssets = new ArrayList<>();
 
         // Initialisation des actifs avec les noms corrects
-        CryptocurrencyToken btc = new CryptocurrencyToken("Bitcoin");
+        GeneralAssets btc = new GeneralAssets("Bitcoin", 35000.0, ASSET_TYPE.CryptocurrencyToken);
         btc.setValue(35000.0);
         marketAssets.add(btc);
 
-        CryptocurrencyToken eth = new CryptocurrencyToken("Ethereum");
+        GeneralAssets eth = new GeneralAssets("Ethereum", 2000.0, ASSET_TYPE.CryptocurrencyToken);
         eth.setValue(2000.0);
         marketAssets.add(eth);
 
-        Stock aapl = new Stock("Apple");
+        GeneralAssets aapl = new GeneralAssets("Apple", 150.0, ASSET_TYPE.Stock);
         aapl.setValue(150.0);
         marketAssets.add(aapl);
     }
@@ -59,27 +57,27 @@ public class Market {
             }
 
             // Enregistrement dans l'historique pour les graphiques
-            for (Asset asset : marketAssets) {
-                asset.addHistory(date, asset.getValue());
+            for (GeneralAssets generalAsset : marketAssets) {
+                generalAsset.addHistory(date, generalAsset.getValue());
             }
         }
     }
 
     private void applyEvent(Events event) {
-        for (Asset asset : marketAssets) {
+        for (GeneralAssets generalAsset : marketAssets) {
             // Vérification si l'événement concerne l'actif actuel
-            if (event.getAsset() != null && event.getAsset().getAssetName().equalsIgnoreCase(asset.getAssetName())) {
+            if (event.getAsset() != null && event.getAsset().getAssetName().equalsIgnoreCase(generalAsset.getGeneralAssetName())) {
 
                 // CORRECTION FINALE : On utilise getValueImpact() comme défini dans Events.java
                 double variation = event.getValueImpact();
 
                 // Mise à jour de la valeur de l'actif
-                asset.setValue(asset.getValue() * (1 + variation));
+                generalAsset.setValue(generalAsset.getValue() * (1 + variation));
             }
         }
     }
 
-    public ArrayList<Asset> getMarketAssets() {
+    public ArrayList<GeneralAssets> getMarketAssets() {
         return marketAssets;
     }
 }
