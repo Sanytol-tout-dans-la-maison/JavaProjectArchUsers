@@ -28,7 +28,7 @@ public class AuthenticationController {
     // Dans AuthenticationController.java
 
 
-    public static void login() {
+    public void login() {
         String email = idField.getText();
         String password = passwordField.getText();
 
