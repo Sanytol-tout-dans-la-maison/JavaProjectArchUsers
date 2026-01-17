@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.isep.javaprojectarchusers.Accounts.Account;
 import org.isep.javaprojectarchusers.Accounts.CheckingAccount;
+import org.isep.javaprojectarchusers.Assets.Asset;
+import org.isep.javaprojectarchusers.Blockchain.Block;
+import org.isep.javaprojectarchusers.Blockchain.Blockchain;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -15,7 +18,7 @@ public class Portfolio {
     @JsonProperty("description")
     private String description;
     @JsonProperty("manager")
-    private PortfolioManager manager;
+    private String manager;
     @JsonIgnore
     private ArrayList<Asset> assetList;
     @JsonIgnore
@@ -28,7 +31,7 @@ public class Portfolio {
         return this.address + " : " + this.description + ", manager: " + manager.toString();
     }
 
-    public Portfolio(@JsonProperty("address") String address, @JsonProperty("description") String description, @JsonProperty("manager") PortfolioManager manager, @JsonProperty("blockchain")LinkedList<Block> blockchain){
+    public Portfolio(@JsonProperty("address") String address, @JsonProperty("description") String description, @JsonProperty("manager") String manager, @JsonProperty("blockchain")LinkedList<Block> blockchain){
         this.address = address;
         this.description = description;
         this.manager = manager;
@@ -39,7 +42,7 @@ public class Portfolio {
     }
 
     @JsonIgnore
-    public Portfolio(String address, String description, PortfolioManager manager){
+    public Portfolio(String address, String description, String manager){
         this.address = address;
         this.description = description;
         this.manager = manager;
@@ -92,11 +95,11 @@ public class Portfolio {
         return null;
     }
 
-    public PortfolioManager getManager() {
+    public String getManager() {
         return manager;
     }
 
-    public void setManager(PortfolioManager manager) {
+    public void setManager(String manager) {
         this.manager = manager;
     }
 

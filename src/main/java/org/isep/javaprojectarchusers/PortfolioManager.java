@@ -2,6 +2,12 @@ package org.isep.javaprojectarchusers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.isep.javaprojectarchusers.Accounts.Account;
+import org.isep.javaprojectarchusers.Assets.ASSET_TYPE;
+import org.isep.javaprojectarchusers.Assets.Asset;
+import org.isep.javaprojectarchusers.Assets.CryptocurrencyToken;
+import org.isep.javaprojectarchusers.Assets.Stock;
+import org.isep.javaprojectarchusers.Encryption.Encryption;
+import org.isep.javaprojectarchusers.Encryption.Hashing;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -13,8 +19,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class PortfolioManager {
-    private ArrayList<Portfolio> portfolioList;
-    private @JsonProperty("userName") String userName;
+    private static ArrayList<Portfolio> portfolioList;
+    private static @JsonProperty("userName") String userName;
     private static ArrayList<String> emailList = new ArrayList<>();
     private static ArrayList<String> passwordList = new ArrayList<>();
     private static ArrayList<String> keyList = new ArrayList<>();
@@ -36,8 +42,7 @@ public class PortfolioManager {
         return userName;
     }
 
-    public boolean login(String inputEmail, String inputPassword) throws IOException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
-        String name = "";
+    public static boolean login(String inputEmail, String inputPassword) throws IOException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         boolean cond = false;
         LoginExtraction.extract(emailList, passwordList, keyList);
         for(int i = 0; i < emailList.size(); i++) {
@@ -65,16 +70,16 @@ public class PortfolioManager {
         }
     }
 
-    public void createPortfolio(String address, String description) {
-        portfolioList.add(new Portfolio(address, description, this));
+    public static void createPortfolio(String address, String description) {
+        portfolioList.add(new Portfolio(address, description, userName));
     }
 
-    public boolean buyAsset(String address, Asset asset, Account account) {
+    public static boolean buyAsset(String address, Asset asset, Account account) {
         for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.buyAsset(asset, account.getUserName());
         return false;
     }
 
-    public boolean buyAsset(String address, ASSET_TYPE asset_type, Account account){
+    public static boolean buyAsset(String address, ASSET_TYPE asset_type, Account account){
         for (Portfolio portfolio : portfolioList) {
             if(portfolio.getAddress().equals(address)) {
                 if (asset_type == ASSET_TYPE.CryptocurrencyToken)
@@ -88,12 +93,12 @@ public class PortfolioManager {
         return false;
     }
 
-    public boolean sellAsset(String address, Asset asset, Account account) {
+    public static boolean sellAsset(String address, Asset asset, Account account) {
         for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.sellAsset(asset, account.getUserName());
         return false;
     }
 
-    public boolean transferMoney(String address, Account emitterAccount, Account receiverAccount, double amountOfMoeny) {
+    public static boolean transferMoney(String address, Account emitterAccount, Account receiverAccount, double amountOfMoeny) {
         for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.transferMoney(emitterAccount.getUserName(), receiverAccount.getUserName(), amountOfMoeny);
         return false;
     }
@@ -102,16 +107,16 @@ public class PortfolioManager {
      * @param address address to search
      * @return portfolio bearing the address, else returns null
      */
-    public Portfolio getPortfolio(String address){
+    public static Portfolio getPortfolio(String address){
         for (Portfolio p : portfolioList) if(p.getAddress().equals(address)) return p;
         return null;
     }
 
-    public void addPortfolios(){
-        for(Portfolio p : MainBackEnd.getPortfolioArrayList()) if(p.getManager().getUserName().equals(userName)) portfolioList.add(p);
+    public static void addPortfolios(){
+        for(Portfolio p : MainBackEnd.getPortfolioArrayList()) if(p.getManager().equals(userName)) portfolioList.add(p);
     }
 
-    public ArrayList<Portfolio> getPortfolioList() {
+    public static ArrayList<Portfolio> getPortfolioList() {
         return portfolioList;
     }
 

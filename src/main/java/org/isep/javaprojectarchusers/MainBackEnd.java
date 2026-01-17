@@ -4,8 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.isep.javaprojectarchusers.Accounts.Account;
+import org.isep.javaprojectarchusers.Blockchain.Block;
+import org.isep.javaprojectarchusers.Blockchain.Blockchain;
 
-import javax.sound.sampled.Port;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

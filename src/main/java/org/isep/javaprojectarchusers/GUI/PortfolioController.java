@@ -7,9 +7,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import org.isep.javaprojectarchusers.Accounts.Account;
-import org.isep.javaprojectarchusers.Asset;
+import org.isep.javaprojectarchusers.Assets.Asset;
 import org.isep.javaprojectarchusers.Portfolio;
-import org.isep.javaprojectarchusers.PortfolioManager;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;

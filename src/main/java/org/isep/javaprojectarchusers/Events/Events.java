@@ -67,6 +67,10 @@ public class Events {
         return eventList;
     }
 
+    public static void setEventList(ArrayList<Events> eventList) {
+        Events.eventList = eventList;
+    }
+
     @Override
     public String toString() {
         return eventType.toString() + " , " + valueImpact + " , " + date.toString();

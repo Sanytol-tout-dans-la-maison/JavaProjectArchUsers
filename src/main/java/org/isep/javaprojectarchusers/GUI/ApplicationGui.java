@@ -1,7 +1,6 @@
 package org.isep.javaprojectarchusers.GUI;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -10,8 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.isep.javaprojectarchusers.Accounts.Account;
-import org.isep.javaprojectarchusers.Accounts.AccountType;
-import org.isep.javaprojectarchusers.Asset;
+import org.isep.javaprojectarchusers.Assets.Asset;
 import org.isep.javaprojectarchusers.MainBackEnd;
 import org.isep.javaprojectarchusers.Portfolio;
 import org.isep.javaprojectarchusers.PortfolioManager;

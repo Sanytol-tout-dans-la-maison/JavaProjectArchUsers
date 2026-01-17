@@ -2,7 +2,8 @@ package org.isep.javaprojectarchusers;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.isep.javaprojectarchusers.Accounts.Account;
+import org.isep.javaprojectarchusers.Assets.Asset;
+import org.isep.javaprojectarchusers.Blockchain.Blockchain;
 
 import java.util.ArrayList;
 

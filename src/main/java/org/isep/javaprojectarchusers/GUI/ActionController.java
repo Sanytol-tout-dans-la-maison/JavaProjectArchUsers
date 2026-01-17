@@ -2,7 +2,7 @@ package org.isep.javaprojectarchusers.GUI;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
-import org.isep.javaprojectarchusers.Asset;
+import org.isep.javaprojectarchusers.Assets.Asset;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.DateTickUnit;
@@ -15,7 +15,6 @@ import org.jfree.data.time.ohlc.OHLCSeriesCollection;
 import org.jfree.chart.ChartFactory;
 
 import java.text.SimpleDateFormat;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
