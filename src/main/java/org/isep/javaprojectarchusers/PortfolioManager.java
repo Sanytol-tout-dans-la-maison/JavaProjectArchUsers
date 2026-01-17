@@ -2,10 +2,7 @@ package org.isep.javaprojectarchusers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.isep.javaprojectarchusers.Accounts.Account;
-import org.isep.javaprojectarchusers.Assets.ASSET_TYPE;
-import org.isep.javaprojectarchusers.Assets.Asset;
-import org.isep.javaprojectarchusers.Assets.CryptocurrencyToken;
-import org.isep.javaprojectarchusers.Assets.Stock;
+import org.isep.javaprojectarchusers.Assets.*;
 import org.isep.javaprojectarchusers.Encryption.Encryption;
 import org.isep.javaprojectarchusers.Encryption.Hashing;
 
@@ -99,17 +96,13 @@ public class PortfolioManager {
         return false;
     }
 
-    public static boolean buyAsset(String address, ASSET_TYPE asset_type, Account account){
+    public static boolean buyAsset(String address, String assetName ,ASSET_TYPE asset_type, Account account){
         for (Portfolio portfolio : portfolioList) {
             if(portfolio.getAddress().equals(address)) {
-                if (asset_type == ASSET_TYPE.CryptocurrencyToken)
-                    return portfolio.buyAsset(new CryptocurrencyToken("Bitcoin"), account.getUserName());
-                else {
-                    return portfolio.buyAsset(new Stock("Action Générique", 0.0), account.getUserName());
+                    GeneralAssets generalAssets = new GeneralAssets(assetName, asset_type);
+                    return portfolio.buyAsset(new Asset(assetName, asset_type, portfolio.getAddress()), account.getUserName());
                 }
             }
-
-        }
         return false;
     }
 

@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class GeneralAssets {
     private double value;
-    private static ArrayList<GeneralAssets> assetList = new ArrayList<>();
+    private static ArrayList<GeneralAssets> generalAssetList = new ArrayList<>();
     private ASSET_TYPE assetType;
     private String assetName;
 
@@ -23,13 +23,12 @@ public class GeneralAssets {
 
     public GeneralAssets(){
         this.value = 0.0;
-        assetList.add(this);
+        generalAssetList.add(this);
     }
 
-    public GeneralAssets(@JsonProperty("assetName") String assetName, @JsonProperty("assetValue") double value, @JsonProperty("assetType") ASSET_TYPE assetType){
+    public GeneralAssets(@JsonProperty("assetName") String assetName, @JsonProperty("assetType") ASSET_TYPE assetType){
         this.assetName = assetName;
-        this.value = value;
-        assetList.add(this);
+        generalAssetList.add(this);
     }
 
     // =========================================================================
@@ -70,7 +69,7 @@ public class GeneralAssets {
     }
 
     public static ArrayList<GeneralAssets> getGeneralAssetList() {
-        return assetList;
+        return generalAssetList;
     }
 
     public @JsonProperty("assetType") ASSET_TYPE getGeneralAssetType() {

@@ -27,8 +27,8 @@ public class Asset extends GeneralAssets {
         assetList.add(this);
     }
 
-    public Asset(@JsonProperty("assetName") String assetName, @JsonProperty("assetValue") double value, @JsonProperty("assetType") ASSET_TYPE assetType,@JsonProperty("portfolio") String portfolio){
-        super(assetName, value, assetType);
+    public Asset(@JsonProperty("assetName") String assetName, @JsonProperty("assetType") ASSET_TYPE assetType,@JsonProperty("portfolio") String portfolio){
+        super(assetName, assetType);
         this.portfolio = portfolio;
         assetList.add(this);
     }

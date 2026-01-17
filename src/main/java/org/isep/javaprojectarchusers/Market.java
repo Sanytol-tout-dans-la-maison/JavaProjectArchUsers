@@ -17,15 +17,15 @@ public class Market {
         marketAssets = new ArrayList<>();
 
         // Initialisation des actifs avec les noms corrects
-        GeneralAssets btc = new GeneralAssets("Bitcoin", 35000.0, ASSET_TYPE.CryptocurrencyToken);
+        GeneralAssets btc = new GeneralAssets("Bitcoin",  ASSET_TYPE.CryptocurrencyToken);
         btc.setValue(35000.0);
         marketAssets.add(btc);
 
-        GeneralAssets eth = new GeneralAssets("Ethereum", 2000.0, ASSET_TYPE.CryptocurrencyToken);
+        GeneralAssets eth = new GeneralAssets("Ethereum", ASSET_TYPE.CryptocurrencyToken);
         eth.setValue(2000.0);
         marketAssets.add(eth);
 
-        GeneralAssets aapl = new GeneralAssets("Apple", 150.0, ASSET_TYPE.Stock);
+        GeneralAssets aapl = new GeneralAssets("Apple", ASSET_TYPE.Stock);
         aapl.setValue(150.0);
         marketAssets.add(aapl);
     }

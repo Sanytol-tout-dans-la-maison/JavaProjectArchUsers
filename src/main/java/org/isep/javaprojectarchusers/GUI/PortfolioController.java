@@ -15,9 +15,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import org.isep.javaprojectarchusers.*;
 import org.isep.javaprojectarchusers.Accounts.Account;
-import org.isep.javaprojectarchusers.Assets.Asset;
-import org.isep.javaprojectarchusers.Assets.CryptocurrencyToken;
-import org.isep.javaprojectarchusers.Assets.Stock;
+import org.isep.javaprojectarchusers.Assets.*;
 import org.isep.javaprojectarchusers.Portfolio;
 
 
@@ -218,14 +216,14 @@ public class PortfolioController {
         genAccountList();
     }
 
-    private void showAsset(Asset asset) {
+    private void showAsset(GeneralAssets generalAssets) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("actionView.fxml"));
             actionPane.getChildren().clear();
             actionPane.getChildren().add(loader.load());
 
             ActionController controller = loader.getController();
-            controller.setAsset(asset);
+            controller.setAsset(generalAssets);
             if(this.portfolio != null) controller.setPortfolio(this.portfolio);
             controller.setParentController(this);
 
@@ -340,8 +338,8 @@ public class PortfolioController {
         };
 
         if(!symbol.isEmpty()) {
-            Asset tempAsset = isCrypto ? new CryptocurrencyToken(symbol) : new Stock(symbol, 0.0);
-            showAsset(tempAsset);
+            GeneralAssets tempGeneralAsset = isCrypto ? new GeneralAssets(symbol, ASSET_TYPE.CryptocurrencyToken) : new GeneralAssets(symbol, ASSET_TYPE.Stock);
+            showAsset(tempGeneralAsset);
         }
     }
 
