@@ -7,26 +7,25 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import org.isep.javaprojectarchusers.*;
 import org.isep.javaprojectarchusers.Accounts.Account;
-import org.isep.javaprojectarchusers.Assets.*;
+import org.isep.javaprojectarchusers.AlphaVantageClient;
+import org.isep.javaprojectarchusers.Assets.ASSET_TYPE;
+import org.isep.javaprojectarchusers.Assets.Asset;
+import org.isep.javaprojectarchusers.Assets.CryptocurrencyToken;
+import org.isep.javaprojectarchusers.Assets.GeneralAssets;
+import org.isep.javaprojectarchusers.OhlcvData;
 import org.isep.javaprojectarchusers.Portfolio;
-
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 public class PortfolioController {
+    private static final Logger logger = Logger.getLogger(PortfolioController.class.getName());
     private Portfolio portfolio;
-
     @FXML
     private HBox portfolioSep;
     @FXML
@@ -39,9 +38,7 @@ public class PortfolioController {
     private ComboBox<String> stockMenu;
     @FXML
     private ComboBox<String> materialMenu;
-
     private AnchorPane actionPane = new AnchorPane();
-    private static final Logger logger = Logger.getLogger(PortfolioController.class.getName());
 
     @FXML
     public void initialize() {
@@ -88,44 +85,77 @@ public class PortfolioController {
     private String getPrettyName(String symbol) {
         switch (symbol) {
             // --- CRYPTOS ---
-            case "BTC": return "Bitcoin";
-            case "ETH": return "Ethereum";
-            case "SOL": return "Solana";
-            case "XRP": return "Ripple (XRP)";
-            case "ADA": return "Cardano";
-            case "DOGE": return "Dogecoin";
-            case "DOT": return "Polkadot";
-            case "LTC": return "Litecoin";
-            case "LINK": return "Chainlink";
-            case "MATIC": return "Polygon";
+            case "BTC":
+                return "Bitcoin";
+            case "ETH":
+                return "Ethereum";
+            case "SOL":
+                return "Solana";
+            case "XRP":
+                return "Ripple (XRP)";
+            case "ADA":
+                return "Cardano";
+            case "DOGE":
+                return "Dogecoin";
+            case "DOT":
+                return "Polkadot";
+            case "LTC":
+                return "Litecoin";
+            case "LINK":
+                return "Chainlink";
+            case "MATIC":
+                return "Polygon";
 
             // --- STOCKS ---
-            case "AAPL": return "Apple";
-            case "NVDA": return "Nvidia";
-            case "TSLA": return "Tesla";
-            case "MSFT": return "Microsoft";
-            case "^FCHI": return "CAC 40";
-            case "AMZN": return "Amazon";
-            case "GOOGL": return "Google";
-            case "META": return "Meta (Facebook)";
-            case "NFLX": return "Netflix";
-            case "KO": return "Coca-Cola";
-            case "MCD": return "McDonald's";
-            case "DIS": return "Disney";
-            case "V": return "Visa";
+            case "AAPL":
+                return "Apple";
+            case "NVDA":
+                return "Nvidia";
+            case "TSLA":
+                return "Tesla";
+            case "MSFT":
+                return "Microsoft";
+            case "^FCHI":
+                return "CAC 40";
+            case "AMZN":
+                return "Amazon";
+            case "GOOGL":
+                return "Google";
+            case "META":
+                return "Meta (Facebook)";
+            case "NFLX":
+                return "Netflix";
+            case "KO":
+                return "Coca-Cola";
+            case "MCD":
+                return "McDonald's";
+            case "DIS":
+                return "Disney";
+            case "V":
+                return "Visa";
 
             // --- COMMODITIES ---
-            case "GC=F": return "Gold";
-            case "SI=F": return "Silver";
-            case "CL=F": return "Crude Oil";
-            case "PL=F": return "Platinum";
-            case "PA=F": return "Palladium";
-            case "HG=F": return "Copper";
-            case "NG=F": return "Natural Gas";
-            case "ZC=F": return "Corn";
-            case "KC=F": return "Coffee";
+            case "GC=F":
+                return "Gold";
+            case "SI=F":
+                return "Silver";
+            case "CL=F":
+                return "Crude Oil";
+            case "PL=F":
+                return "Platinum";
+            case "PA=F":
+                return "Palladium";
+            case "HG=F":
+                return "Copper";
+            case "NG=F":
+                return "Natural Gas";
+            case "ZC=F":
+                return "Corn";
+            case "KC=F":
+                return "Coffee";
 
-            default: return symbol;
+            default:
+                return symbol;
         }
     }
 
@@ -214,6 +244,7 @@ public class PortfolioController {
         accountList.refresh();
         genAssetList();
         genAccountList();
+        handleStats();
     }
 
     private void showAsset(GeneralAssets generalAssets) {
@@ -224,7 +255,7 @@ public class PortfolioController {
 
             ActionController controller = loader.getController();
             controller.setAsset(generalAssets);
-            if(this.portfolio != null) controller.setPortfolio(this.portfolio);
+            if (this.portfolio != null) controller.setPortfolio(this.portfolio);
             controller.setParentController(this);
 
             controller.updateDisplay();
@@ -240,7 +271,7 @@ public class PortfolioController {
 
     private void genAssetList() {
         assetList.getItems().clear();
-        if(portfolio != null) {
+        if (portfolio != null) {
             for (Asset asset : portfolio.getAssetList()) {
                 assetList.getItems().add(asset);
             }
@@ -249,7 +280,7 @@ public class PortfolioController {
 
     private void genAccountList() {
         accountList.getItems().clear();
-        if(portfolio != null) {
+        if (portfolio != null) {
             for (Account account : portfolio.getAccountList()) {
                 accountList.getItems().add(account);
             }
@@ -337,7 +368,7 @@ public class PortfolioController {
             default -> "";
         };
 
-        if(!symbol.isEmpty()) {
+        if (!symbol.isEmpty()) {
             GeneralAssets tempGeneralAsset = isCrypto ? new GeneralAssets(symbol, ASSET_TYPE.CryptocurrencyToken) : new GeneralAssets(symbol, ASSET_TYPE.Stock);
             showAsset(tempGeneralAsset);
         }
@@ -345,17 +376,53 @@ public class PortfolioController {
 
     @FXML
     public void handleNewAccount() {
-        TextInputDialog dialog = new TextInputDialog("MyAccount");
-        dialog.setTitle("New Account");
-        dialog.setHeaderText("Create a new Checking Account");
-        dialog.setContentText("Please enter account name:");
+        Dialog<ButtonType> dialog = new Dialog<>();
 
-        Optional<String> result = dialog.showAndWait();
-        result.ifPresent(name -> {
-            if (portfolio != null) {
-                portfolio.createCheckingAccount(name);
+        dialog.setTitle("New Account");
+        dialog.setHeaderText("Create a new Account");
+
+        ButtonType createButtonType = new ButtonType("Create", ButtonBar.ButtonData.OK_DONE);
+
+        dialog.getDialogPane().getButtonTypes().addAll(createButtonType, ButtonType.CANCEL);
+
+        TextField nameField = new TextField("MyAccount");
+
+        ComboBox<String> typeCombo = new ComboBox<>();
+
+        typeCombo.getItems().addAll("Checking Account", "Savings Account");
+        typeCombo.getSelectionModel().selectFirst();
+
+        GridPane grid = new GridPane();
+
+        grid.setHgap(10);
+        grid.setVgap(10);
+
+        grid.add(new Label("Account type:"), 0, 0);
+        grid.add(typeCombo, 1, 0);
+
+        grid.add(new Label("Account name:"), 0, 1);
+        grid.add(nameField, 1, 1);
+
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.showAndWait().ifPresent(button -> {
+            if (button == createButtonType && portfolio != null) {
+                String name = nameField.getText();
+                String type = typeCombo.getValue();
+
+                if ("Checking Account".equals(type)) {
+                    portfolio.createCheckingAccount(name);
+
+                } else {
+                    //portfolio.createSavingsAccount(name);
+
+                }
+
                 genAccountList();
             }
+
         });
+
     }
+
 }

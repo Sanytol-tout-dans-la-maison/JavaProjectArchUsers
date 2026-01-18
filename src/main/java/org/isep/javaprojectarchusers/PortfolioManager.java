@@ -160,4 +160,9 @@ public class PortfolioManager {
     public static ArrayList<String> getPasswordList() {
         return passwordList;
     }
+
+    public static void removePortfolio(Portfolio portfolio) {
+        portfolioList.remove(portfolio);
+
+    }
 }
