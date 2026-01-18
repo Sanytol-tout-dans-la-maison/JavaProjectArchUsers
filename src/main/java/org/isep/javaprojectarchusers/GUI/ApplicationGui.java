@@ -37,7 +37,8 @@ public class ApplicationGui extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
+
         logger.setLevel(Level.FINE);
 
         logger.fine("Finding resource.");

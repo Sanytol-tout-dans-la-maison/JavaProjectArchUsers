@@ -236,6 +236,7 @@
 }, {
   "address" : "benjamin",
   "description" : "",
+  "manager": "benjamin@dinon.com",
   "blockchain" : [ {
     "block" : [ {
       "emitter" : "Market",

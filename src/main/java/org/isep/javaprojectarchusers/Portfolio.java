@@ -19,18 +19,21 @@ public class Portfolio {
     private String description;
     @JsonProperty("manager")
     private String manager;
-    @JsonIgnore
+    @JsonProperty("assets")
     private ArrayList<Asset> assetList;
-    @JsonIgnore
+    @JsonProperty("accounts")
     private ArrayList<Account> accountList;
     @JsonProperty("blockchain")
     private LinkedList<Block> blockchain;
+    @JsonIgnore
+    private static ArrayList<Portfolio> portfolioArrayList = new ArrayList<>();
 
     @Override
     public String toString(){
         return this.address + " : " + this.description + ", manager: " + (manager != null ? manager.toString() : "null");
     }
 
+    @JsonIgnore
     public Portfolio(@JsonProperty("address") String address, @JsonProperty("description") String description, @JsonProperty("manager") String manager, @JsonProperty("blockchain")LinkedList<Block> blockchain){
         this.address = address;
         this.description = description;
@@ -38,6 +41,20 @@ public class Portfolio {
         this.assetList = new ArrayList<>();
         this.accountList = new ArrayList<>();
         this.blockchain = blockchain;
+        portfolioArrayList.add(this);
+    }
+
+
+    public Portfolio(@JsonProperty("address") String address, @JsonProperty("description") String description, @JsonProperty("manager") String manager, @JsonProperty("blockchain")LinkedList<Block> blockchain,  @JsonProperty("assets") ArrayList<Asset> assetList, @JsonProperty("accounts") ArrayList<Account> accountList){
+        this.address = address;
+        this.description = description;
+        this.manager = manager;
+        this.assetList = new ArrayList<>();
+        this.accountList = new ArrayList<>();
+        this.blockchain = blockchain;
+        this.assetList = assetList;
+        this.accountList = accountList;
+        portfolioArrayList.add(this);
     }
 
     @JsonIgnore
@@ -129,11 +146,27 @@ public class Portfolio {
         this.blockchain = blockchain;
     }
 
-    public ArrayList<Asset> getAssetList() {
+    public @JsonProperty("assets") ArrayList<Asset> getAssetList() {
         return assetList;
     }
 
-    public ArrayList<Account> getAccountList() {
+    public void setAssetList(@JsonProperty("assets") ArrayList<Asset> assetList) {
+        this.assetList = assetList;
+    }
+
+    public void setAccountList(@JsonProperty("accounts") ArrayList<Account> accountList) {
+        this.accountList = accountList;
+    }
+
+    public @JsonProperty("accounts") ArrayList<Account> getAccountList() {
         return accountList;
+    }
+
+    public static ArrayList<Portfolio> getPortfolioArrayList() {
+        return portfolioArrayList;
+    }
+
+    public static void setPortfolioArrayList(ArrayList<Portfolio> portfolioArrayList) {
+        Portfolio.portfolioArrayList = portfolioArrayList;
     }
 }

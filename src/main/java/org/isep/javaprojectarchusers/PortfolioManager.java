@@ -125,8 +125,8 @@ public class PortfolioManager {
         return null;
     }
 
-    public static void addPortfolios(){
-        for(Portfolio p : MainBackEnd.getPortfolioArrayList()) if(p.getManager().equals(userName)) portfolioList.add(p);
+    public static void addPortfolios() throws IOException {
+        for(Portfolio p : Portfolio.getPortfolioArrayList()) if(p.getManager().equals(userName)) portfolioList.add(p);
     }
 
     public static ArrayList<Portfolio> getPortfolioList() {

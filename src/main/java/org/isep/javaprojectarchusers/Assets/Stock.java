@@ -8,7 +8,7 @@ public class Stock extends Asset {
     private final ASSET_TYPE assetType = ASSET_TYPE.Stock;
 
     public Stock(String companyName,  String portfolio){
-        super(companyName, value, ASSET_TYPE.Stock ,portfolio);
+        super(companyName, ASSET_TYPE.Stock ,portfolio);
         stockList.add(this);
         }
 
@@ -16,11 +16,11 @@ public class Stock extends Asset {
         return stockList;
     }
 
-    public Stock(String companyName, String portfolio){
-        super(companyName, ASSET_TYPE.Stock, portfolio);
-        stockList.add(this);
-        stockList.add(this);
-    }
+//    public Stock(String companyName, String portfolio){
+//        super(companyName, ASSET_TYPE.Stock, portfolio);
+//        stockList.add(this);
+//        stockList.add(this);
+//    }
 
     @Override
     public String toString(){

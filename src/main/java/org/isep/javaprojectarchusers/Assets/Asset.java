@@ -48,8 +48,12 @@ public class Asset extends GeneralAssets {
         this.value = value;
     }
 
-    public static ArrayList<Asset> getAssetList() {
+    public static @JsonProperty("assets") ArrayList<Asset> getAssetList() {
         return assetList;
+    }
+
+    public static void setAssetList(ArrayList<Asset> assetList) {
+        Asset.assetList = assetList;
     }
 
     public @JsonProperty("assetType") ASSET_TYPE getGeneralAssetType() {

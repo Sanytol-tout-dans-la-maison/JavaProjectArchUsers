@@ -22,7 +22,8 @@ public class MainBackEnd {
     private static ArrayList<Account> accountArrayList = new ArrayList<>();
     private static LinkedList blockchain;
 
-    public static ArrayList<Portfolio> getPortfolioArrayList() {
+    public static ArrayList<Portfolio> getPortfolioArrayList() throws IOException {
+        extractPortfolios();
         return portfolioArrayList;
     }
 
