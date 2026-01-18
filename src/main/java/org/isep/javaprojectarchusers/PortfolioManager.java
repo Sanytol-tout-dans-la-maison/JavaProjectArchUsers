@@ -91,15 +91,30 @@ public class PortfolioManager {
         portfolioList.add(new Portfolio(address, description, userName));
     }
 
+    /**
+     * @param address name of the portfolio
+     * @param asset asset to buy
+     * @param account account to debit from
+     * @return
+     */
     public static boolean buyAsset(String address, Asset asset, Account account) {
         for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.buyAsset(asset, account.getUserName());
         return false;
     }
 
+    /**
+     * @param address address of the portfolio
+     * @param assetName name of the asset
+     * @param asset_type type of the asset
+     * @param account account to debit from
+     *                allows to buy an asset that doesn't previously exist
+     * @return
+     */
     public static boolean buyAsset(String address, String assetName ,ASSET_TYPE asset_type, Account account){
         for (Portfolio portfolio : portfolioList) {
             if(portfolio.getAddress().equals(address)) {
-                    GeneralAssets generalAssets = new GeneralAssets(assetName, asset_type);
+                    for(GeneralAssets g : GeneralAssets.getGeneralAssetList()) if(g.getGeneralAssetName().equals(assetName) && g.getGeneralAssetType().equals(asset_type)) return portfolio.buyAsset(new Asset(assetName, asset_type, portfolio.getAddress()), account.getUserName());
+                    new GeneralAssets(assetName, asset_type);
                     return portfolio.buyAsset(new Asset(assetName, asset_type, portfolio.getAddress()), account.getUserName());
                 }
             }

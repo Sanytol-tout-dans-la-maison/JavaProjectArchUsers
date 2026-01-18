@@ -40,9 +40,7 @@ public class Asset extends GeneralAssets {
         return assetName + ": " + value;
     }
 
-    public @JsonProperty("assetValue") double getValue() {
-        return value;
-    }
+    public @JsonProperty("assetValue") double getValue() {return value;}
 
     public void setValue(@JsonProperty("assetValue") double value) {
         this.value = value;
@@ -83,5 +81,10 @@ public class Asset extends GeneralAssets {
     @Override
     public String toString(){
         return this.getAssetName() + " (" + this.getValue() + ")";
+    }
+
+    public double getRefreshedValue(LocalDate date){
+        value = super.getPriceHistory().get(date);
+        return value;
     }
 }
