@@ -83,6 +83,7 @@ public class PortfolioManager {
             emailList.addLast(Encryption.encryptString(inputEmail,Encryption.stringToKey(inputPassword)));
             passwordList.addLast(Hashing.toHash(inputPassword));
             keyList.add(Encryption.encryptString(Encryption.keyToString(Encryption.getKey()), Encryption.stringToKey(inputPassword)));
+            LoginSave.save(emailList,passwordList,keyList);
             return 1;
         }
     }

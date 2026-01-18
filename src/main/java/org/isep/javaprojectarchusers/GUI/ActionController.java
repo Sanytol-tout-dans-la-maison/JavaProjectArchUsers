@@ -6,12 +6,9 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import org.isep.javaprojectarchusers.Assets.Asset;
+import org.isep.javaprojectarchusers.Assets.*;
 import org.isep.javaprojectarchusers.*;
 import org.isep.javaprojectarchusers.Accounts.Account;
-import org.isep.javaprojectarchusers.Assets.CryptocurrencyToken;
-import org.isep.javaprojectarchusers.Assets.GeneralAssets;
-import org.isep.javaprojectarchusers.Assets.Stock;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.fx.ChartViewer;
@@ -185,6 +182,14 @@ public class ActionController {
 //        processTransaction(false);
 //    }
 //
+
+    public void buyExistingAsset(String address, Asset asset, Account account){
+        PortfolioManager.buyAsset(address, asset, account);
+    }
+
+    public void buyNewAsset(String address, String assetName, ASSET_TYPE assetType, Account account){
+        PortfolioManager.buyAsset(address, assetName, assetType, account);
+    }
 
 
     private void showAlert(String title, String content) {
