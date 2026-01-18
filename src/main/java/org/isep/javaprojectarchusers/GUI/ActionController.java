@@ -191,6 +191,9 @@ public class ActionController {
         PortfolioManager.buyAsset(address, assetName, assetType, account);
     }
 
+    public void sellAsset(String adress, Asset asset, Account account){
+        PortfolioManager.sellAsset(adress, asset, account);
+    }
 
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
