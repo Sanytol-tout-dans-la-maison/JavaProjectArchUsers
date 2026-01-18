@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.isep.javaprojectarchusers.Accounts.Account;
 import org.isep.javaprojectarchusers.Accounts.CheckingAccount;
+import org.isep.javaprojectarchusers.Accounts.SavingAccount;
 import org.isep.javaprojectarchusers.Assets.Asset;
 import org.isep.javaprojectarchusers.Blockchain.Block;
 import org.isep.javaprojectarchusers.Blockchain.Blockchain;
@@ -105,6 +106,12 @@ public class Portfolio {
     @JsonIgnore
     public void createCheckingAccount(String userName){
         CheckingAccount account = new CheckingAccount(userName, 2000, 1000, this.address, 0, 200);
+        accountList.add(account);
+    }
+
+    @JsonIgnore
+    public void createSavingAccount(String userName){
+        SavingAccount account = new SavingAccount(userName, 2000,1000,this.address,500);
         accountList.add(account);
     }
 
