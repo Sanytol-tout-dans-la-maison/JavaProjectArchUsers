@@ -31,8 +31,8 @@ public class ApplicationGui extends Application {
 
     public static void main(String[] args) throws IOException {
 
-        MainBackEnd.extractPortfolios();
-        Blockchain.extractBlockchain();
+//        MainBackEnd.extractPortfolios();
+//        Blockchain.extractBlockchain();
 
 //        EventExtract.extract();
 //        EventsManager.createEventsRandom(LocalDate.now().minusDays(10), LocalDate.now().plusDays(10));

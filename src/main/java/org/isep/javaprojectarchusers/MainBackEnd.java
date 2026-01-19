@@ -63,7 +63,7 @@ public class MainBackEnd {
     }
 
     public static Account searchAccount(String address){
-        for(Account account: accountArrayList) if(account.getUserName().equals(address)) return account;
+        for(Account account: Account.getAccountArrayList()) if(account.getUserName().equals(address)) return account;
         return null;
     }
 

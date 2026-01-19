@@ -32,7 +32,6 @@ public class AuthenticationController {
     public void login() throws IOException {
         String email = idField.getText();
         String password = passwordField.getText();
-        MainBackEnd.extractPortfolios();
 
         try {
             boolean success = PortfolioManager.login(email, password);

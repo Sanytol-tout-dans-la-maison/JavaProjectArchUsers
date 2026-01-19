@@ -132,6 +132,9 @@ public class Account {
         this.balance = balance;
     }
 
+    public static ArrayList<Account> getAccountArrayList() {
+        return accountArrayList;
+    }
 
     /**Custom toString
      * @return "{@code userName} : {@code accountType}"
