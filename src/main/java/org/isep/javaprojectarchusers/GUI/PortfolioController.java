@@ -64,6 +64,8 @@ public class PortfolioController {
                     if (selectedAccount != null) {
                         if (selectedAccount.getAccountType() == AccountType.CHECKING) {
                             showCheckingAccount(selectedAccount);
+                        } else {
+                            showSavingAccount(selectedAccount);
                         }
                     };
                 }
@@ -427,7 +429,7 @@ public class PortfolioController {
                     portfolio.createCheckingAccount(name);
 
                 } else {
-                    //portfolio.createSavingsAccount(name);
+                    portfolio.createSavingAccount(name);
 
                 }
 
@@ -459,6 +461,31 @@ public class PortfolioController {
             e.printStackTrace();
         }
     }
+
+
+    public void showSavingAccount(Account account) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("savingAccountView.fxml"));
+            actionPane.getChildren().clear();
+            AnchorPane assetPane = loader.load();
+            HBox.setHgrow(assetPane,Priority.ALWAYS);
+
+            actionPane.getChildren().add(assetPane);
+
+            SavingAcountController controller = loader.getController();
+
+            controller.setAccount(account);
+            controller.setPortfolioController(this);
+            controller.init();
+
+            controller.updateDisplay();
+
+        } catch (IOException e) {
+            logger.severe("Erreur chargement ActionView: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 
     public Portfolio getPortfolio() {
         return portfolio;

@@ -34,7 +34,7 @@ public class ApplicationGui extends Application {
 
     public static void main(String[] args) throws Exception {
 
-        Encryption.decryptAllFiles(Encryption.getKey());
+        //Encryption.decryptAllFiles(Encryption.getKey());
 //        MainBackEnd.extractPortfolios();
 //        Blockchain.extractBlockchain();
 //        EventExtract.extract();
