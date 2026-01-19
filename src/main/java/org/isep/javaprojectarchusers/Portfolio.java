@@ -9,6 +9,7 @@ import org.isep.javaprojectarchusers.Assets.Asset;
 import org.isep.javaprojectarchusers.Blockchain.Block;
 import org.isep.javaprojectarchusers.Blockchain.Blockchain;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -77,7 +78,7 @@ public class Portfolio {
 
     @JsonIgnore
     public boolean buyAsset(Asset asset, String emitterAccount){
-        Transaction transaction = new Transaction(address, emitterAccount, asset, asset.getValue() );
+        Transaction transaction = new Transaction(address, emitterAccount, asset, asset.getValue(), LocalDate.now());
         if (transaction.validateTransaction()){
             assetList.add(asset);
             return true;
@@ -87,7 +88,7 @@ public class Portfolio {
 
     @JsonIgnore
     public boolean sellAsset(Asset asset, String account){
-        Transaction transaction = new Transaction(MainBackEnd.searchAccount(account).getPortfolio(), account, asset, asset.getValue());
+        Transaction transaction = new Transaction(MainBackEnd.searchAccount(account).getPortfolio(), account, asset, asset.getValue(), LocalDate.now());
         if(transaction.validateTransaction()){
             for(int i = 0; i < assetList.size(); i++) if(assetList.get(i).equals(asset)) assetList.remove(i);
             return true;
@@ -99,7 +100,7 @@ public class Portfolio {
     public boolean transferMoney(String emitterAccount, String receiverAccount, double amountOfMoney){
         Account receiver = MainBackEnd.searchAccount(receiverAccount);
         if(receiver == null) return false;
-        Transaction transaction = new Transaction(this.getAddress(), receiver.getPortfolio(), emitterAccount, receiverAccount, amountOfMoney);
+        Transaction transaction = new Transaction(this.getAddress(), receiver.getPortfolio(), emitterAccount, receiverAccount, amountOfMoney, LocalDate.now());
         return transaction.validateTransaction();
     }
 

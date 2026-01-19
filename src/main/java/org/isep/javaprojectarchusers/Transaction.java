@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.isep.javaprojectarchusers.Assets.Asset;
 import org.isep.javaprojectarchusers.Blockchain.Blockchain;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Transaction {
@@ -24,9 +25,11 @@ public class Transaction {
     private boolean isAccepted = false;
     @JsonIgnore
     private static ArrayList<Transaction> transactionList = new ArrayList<>();
+    @JsonProperty("date")
+    LocalDate date;
 
 
-    public Transaction(@JsonProperty("emitter") String emitter, @JsonProperty("receiver") String receiver, @JsonProperty("emitterAccount") String emitterAccount,@JsonProperty("receiverAccount") String receiverAccount, @JsonProperty("transactionAsset") Asset transactionAsset, @JsonProperty("amountOfMoney")double amountOfMoney, @JsonProperty("isAccepted")boolean isAccepted){
+    public Transaction(@JsonProperty("emitter") String emitter, @JsonProperty("receiver") String receiver, @JsonProperty("emitterAccount") String emitterAccount,@JsonProperty("receiverAccount") String receiverAccount, @JsonProperty("transactionAsset") Asset transactionAsset, @JsonProperty("amountOfMoney")double amountOfMoney,@JsonProperty("date") LocalDate date, @JsonProperty("isAccepted")boolean isAccepted){
         this.emitter = emitter;
         this.receiver = receiver;
         this.emitterAccount = emitterAccount;
@@ -34,6 +37,7 @@ public class Transaction {
         this.transactionAsset = null;
         this.amountOfMoney = amountOfMoney;
         this.transactionAsset = transactionAsset;
+        this.date = date;
         this.isAccepted = isAccepted;
         addToBlockchain();
     }
@@ -98,29 +102,32 @@ public class Transaction {
 
 
     @JsonIgnore
-    public Transaction(String emitter, String receiver, String emitterAccount,String receiverAccount, double amountOfMoney){
+    public Transaction(String emitter, String receiver, String emitterAccount,String receiverAccount, double amountOfMoney, LocalDate date){
         this.emitter = emitter;
         this.receiver = receiver;
         this.emitterAccount = emitterAccount;
         this.receiverAccount = receiverAccount;
         this.transactionAsset = null;
         this.amountOfMoney = amountOfMoney;
+        this.date = date;
         addToBlockchain();
     }
 
     @JsonIgnore
-    public Transaction(String emitter, String emitterAccount, Asset transactionAsset, double amountOfMoney){
+    public Transaction(String emitter, String emitterAccount, Asset transactionAsset, double amountOfMoney,  LocalDate date){
         this.emitterAccount = emitterAccount;
         this.receiverAccount = null;
         this.transactionAsset = transactionAsset;
+        this.date = date;
         addToBlockchain();
     }
 
     @JsonIgnore
-    public Transaction(String receiver, Asset transactionAsset, String receiverAccount, double amountOfMoney){
+    public Transaction(String receiver, Asset transactionAsset, String receiverAccount, double amountOfMoney,  LocalDate date){
         this.emitterAccount = null;
         this.receiverAccount = receiverAccount;
         this.transactionAsset = transactionAsset;
+        this.date = date;
         addToBlockchain();
     }
 

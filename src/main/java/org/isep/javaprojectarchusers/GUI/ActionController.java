@@ -181,7 +181,6 @@ public class ActionController {
 //    public void sellAsset() { // Assure-toi que ton FXML a onAction="#sellAsset" sur le bouton Sell
 //        processTransaction(false);
 //    }
-//
 
     public void buyExistingAsset(Asset asset, Account account){
         PortfolioManager.buyAsset(this.portfolio.getAddress(), asset, account);
