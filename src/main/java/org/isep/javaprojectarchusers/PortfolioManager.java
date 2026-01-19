@@ -116,6 +116,7 @@ public class PortfolioManager {
     public static boolean buyAsset(String address, String assetName ,ASSET_TYPE asset_type, Account account){
         for (Portfolio portfolio : portfolioList) {
             if(portfolio.getAddress().equals(address)) {
+                GeneralAssets temp = new GeneralAssets(assetName,asset_type);
                     for(GeneralAssets g : GeneralAssets.getGeneralAssetList()) if(g.getGeneralAssetName().equals(assetName) && g.getGeneralAssetType().equals(asset_type)) return portfolio.buyAsset(new Asset(assetName, asset_type, portfolio.getAddress()), account.getUserName());
                     new GeneralAssets(assetName, asset_type);
                     return portfolio.buyAsset(new Asset(assetName, asset_type, portfolio.getAddress()), account.getUserName());

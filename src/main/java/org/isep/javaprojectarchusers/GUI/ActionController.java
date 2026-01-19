@@ -36,7 +36,6 @@ public class ActionController {
     private JFreeChart chart;
     private GeneralAssets generalAsset;
     private Portfolio portfolio;
-    private Account selectedAccount;
     private PortfolioController parentController;
     private double lastClosingPrice = 0.0;
 
@@ -185,7 +184,7 @@ public class ActionController {
 //    }
 
     public void buyExistingAsset(Asset asset, Account account){
-        PortfolioManager.buyAsset(this.portfolio.getAddress(), asset, account);
+        PortfolioManager.buyAsset(this.portfolio.getAddress(), asset, portfolio.getAccount(accountPicker.getValue()));
     }
 
     public void buyNewAsset(Account account){
@@ -193,7 +192,7 @@ public class ActionController {
     }
 
     public boolean sellAsset(){
-        return PortfolioManager.sellAsset(this.portfolio.getAddress(), generalAsset.getGeneralAssetName(), selectedAccount);
+        return PortfolioManager.sellAsset(this.portfolio.getAddress(), generalAsset.getGeneralAssetName(), portfolio.getAccount(accountPicker.getValue()));
     }
 
     private void showAlert(String title, String content) {
@@ -206,6 +205,6 @@ public class ActionController {
 
 
     public void buyAsset(ActionEvent actionEvent) {
-        //buyNewAsset(account);
+        buyNewAsset(portfolio.getAccount(accountPicker.getValue()));
     }
 }
