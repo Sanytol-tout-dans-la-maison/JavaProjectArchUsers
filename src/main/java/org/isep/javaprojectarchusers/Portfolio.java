@@ -6,6 +6,7 @@ import org.isep.javaprojectarchusers.Accounts.Account;
 import org.isep.javaprojectarchusers.Accounts.CheckingAccount;
 import org.isep.javaprojectarchusers.Accounts.SavingAccount;
 import org.isep.javaprojectarchusers.Assets.Asset;
+import org.isep.javaprojectarchusers.Assets.GeneralAssets;
 import org.isep.javaprojectarchusers.Blockchain.Block;
 import org.isep.javaprojectarchusers.Blockchain.Blockchain;
 
@@ -199,6 +200,12 @@ public class Portfolio {
     public int getNumberOfAssets(String assetName){
         int i = 0;
         for(Asset asset : assetList) if(assetName.equals(asset.getAssetName())) i++;
+        return i;
+    }
+
+    public int countAssetsByGeneralAsset(GeneralAssets generalAssets){
+        int i = 0;
+        for(Asset asset : assetList) if(asset.getAssetName().equals(generalAssets.getGeneralAssetName())) i++;
         return i;
     }
 }
