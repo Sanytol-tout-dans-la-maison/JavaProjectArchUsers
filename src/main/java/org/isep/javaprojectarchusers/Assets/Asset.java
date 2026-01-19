@@ -20,14 +20,8 @@ public class Asset extends GeneralAssets {
     @NotNull
     private String portfolio;
 
-    // --- AJOUT : Historique pour les graphiques ---
-    // On utilise LinkedHashMap pour garantir que les dates restent dans l'ordre
     private Map<LocalDate, Double> priceHistory = new LinkedHashMap<>();
 
-//    public Asset(){
-//        this.value = 0.0;
-//        assetList.add(this);
-//    }
 
     public Asset(@JsonProperty("assetName") @NotNull String assetName, @JsonProperty("assetType") @NotNull ASSET_TYPE assetType, @JsonProperty("portfolio") @NotNull String portfolio){
         super(assetName, assetType);

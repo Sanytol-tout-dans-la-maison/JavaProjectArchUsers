@@ -7,11 +7,14 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.isep.javaprojectarchusers.Events.Events;
+import org.isep.javaprojectarchusers.Events.EventsManager;
 import org.isep.javaprojectarchusers.Portfolio;
 import org.isep.javaprojectarchusers.PortfolioManager;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -28,6 +31,8 @@ public class MainPageController {
     private TextField portfolioDescView;
     @FXML
     private Label welcomeLabel;
+    @FXML
+    private Label eventLabel;
 
 
     Map<Portfolio, ArrayList<Tab>> tabsMap = new HashMap<>();
@@ -126,10 +131,12 @@ public class MainPageController {
 
     @FXML
     public void initialize() {
+        displayEvent();
         portfolioViewList.setCellFactory(lv -> new ListCell<Portfolio>() {
             private final MenuItem openInWindow = new MenuItem("Open in another window");
             private final MenuItem deletePortfolio = new MenuItem("Delete");
             private final ContextMenu contextMenu = new ContextMenu(openInWindow, deletePortfolio);
+
 
             {
                 openInWindow.setOnAction(e -> {
@@ -229,5 +236,14 @@ public class MainPageController {
         updateVisuals();
         portfolioNameView.clear();
         portfolioDescView.clear();
+    }
+
+    public void displayEvent(){
+        if(EventsManager.checkEventsByDate(LocalDate.now())) {
+            StringBuilder builder = new StringBuilder();
+            for (Events e : EventsManager.getEventsByDate(LocalDate.now())) builder.append(e.toString()).append(", ");
+            eventLabel.setText("Active Event: " + builder);
+        }
+        else eventLabel.setText("No active event today");
     }
 }

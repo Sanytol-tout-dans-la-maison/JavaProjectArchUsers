@@ -15,9 +15,12 @@ import org.isep.javaprojectarchusers.Accounts.Account;
 import org.isep.javaprojectarchusers.Assets.Asset;
 import org.isep.javaprojectarchusers.Assets.GeneralAssets;
 import org.isep.javaprojectarchusers.Blockchain.Blockchain;
+import org.isep.javaprojectarchusers.Encryption.Encryption;
 import org.isep.javaprojectarchusers.Events.EventExtract;
+import org.isep.javaprojectarchusers.Events.EventSave;
 import org.isep.javaprojectarchusers.Events.Events;
 import org.isep.javaprojectarchusers.Events.EventsManager;
+import org.isep.javaprojectarchusers.GenerateGeneralAssets;
 import org.isep.javaprojectarchusers.MainBackEnd;
 import org.isep.javaprojectarchusers.Portfolio;
 import org.isep.javaprojectarchusers.PortfolioManager;
@@ -29,15 +32,22 @@ public class ApplicationGui extends Application {
     private static final Logger logger = Logger.getLogger(ApplicationGui.class.getName());
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
 
+        Encryption.decryptAllFiles(Encryption.getKey());
 //        MainBackEnd.extractPortfolios();
 //        Blockchain.extractBlockchain();
-
 //        EventExtract.extract();
-//        EventsManager.createEventsRandom(LocalDate.now().minusDays(10), LocalDate.now().plusDays(10));
+        GenerateGeneralAssets.generate();
+        EventsManager.createEventsRandom(LocalDate.now().minusDays(10), LocalDate.now().plusDays(10));
+        EventsManager.sortEventsbyDate();
 //
 
+//        //à mettre à la fin
+//        MainBackEnd.savePortfolios(Portfolio.getPortfolioArrayList());
+//        Blockchain.saveBlockchain();
+//        EventSave.save(Events.getEventList());
+//        Encryption.encryptAllFiles(Encryption.getKey());
 
         launch(args);
     }

@@ -16,12 +16,6 @@ public class Stock extends Asset {
         return stockList;
     }
 
-//    public Stock(String companyName, String portfolio){
-//        super(companyName, ASSET_TYPE.Stock, portfolio);
-//        stockList.add(this);
-//        stockList.add(this);
-//    }
-
     @Override
     public String toString(){
         return this.companyName;

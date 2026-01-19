@@ -65,13 +65,11 @@ public class Market {
 
     private void applyEvent(Events event) {
         for (GeneralAssets generalAsset : marketAssets) {
-            // Vérification si l'événement concerne l'actif actuel
-            if (event.getAsset() != null && event.getAsset().getAssetName().equalsIgnoreCase(generalAsset.getGeneralAssetName())) {
 
-                // CORRECTION FINALE : On utilise getValueImpact() comme défini dans Events.java
+            if (event.getGeneralAsset() != null && event.getGeneralAsset().getGeneralAssetName().equalsIgnoreCase(generalAsset.getGeneralAssetName())) {
+
                 double variation = event.getValueImpact();
 
-                // Mise à jour de la valeur de l'actif
                 generalAsset.setValue(generalAsset.getValue() * (1 + variation));
             }
         }
