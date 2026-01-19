@@ -6,6 +6,7 @@ public class CryptocurrencyToken extends Asset {
     private String cryptoName;
     private static ArrayList<CryptocurrencyToken> cryptocurrencyTokenList = new ArrayList<>();
     private final ASSET_TYPE assetType = ASSET_TYPE.CryptocurrencyToken;
+    private String portfolio;
 
     @Override
     public String toString(){
@@ -16,8 +17,8 @@ public class CryptocurrencyToken extends Asset {
         return cryptocurrencyTokenList;
     }
 
-    public CryptocurrencyToken(String cryptoName){
-        super(cryptoName, 0.0);
+    public CryptocurrencyToken(String cryptoName, double value, String portfolio){
+        super(cryptoName, ASSET_TYPE.CryptocurrencyToken, portfolio);
         cryptocurrencyTokenList.add(this);
     }
 }

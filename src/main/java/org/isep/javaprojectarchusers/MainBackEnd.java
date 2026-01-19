@@ -12,18 +12,40 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import java.io.File;
+import java.util.ArrayList;
+
 public class MainBackEnd {
-    private static ArrayList<Portfolio> portfolioArrayList=  new ArrayList<>();
+    private static ArrayList<Portfolio> portfolioArrayList =  new ArrayList<>();
     private static ArrayList<Account> accountArrayList = new ArrayList<>();
     private static LinkedList blockchain;
 
-    public static ArrayList<Portfolio> getPortfolioArrayList() {
-        return portfolioArrayList;
-    }
+//    public static ArrayList<Portfolio> getPortfolioArrayList() throws IOException {
+//        extractPortfolios();
+//        return portfolioArrayList;
+//    }
 
-    public static void savePortfolios() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.writeValue(new File("src/main/resources/org/isep/javaprojectarchusers/portfolios.json"), portfolioArrayList);
+
+    public static void savePortfolios(ArrayList<Portfolio> portfolios) {
+        try {
+            portfolioArrayList = Portfolio.getPortfolioArrayList();
+            ObjectMapper mapper = new ObjectMapper();
+            // Pour que le JSON soit joli et lisible (optionnel)
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+            // Le chemin vers ton fichier portfolios.json
+            File file = new File("src/main/resources/org/isep/javaprojectarchusers/portfolios.json");
+
+            // Écriture dans le fichier
+            mapper.writeValue(file, portfolios);
+            System.out.println("[Backend] Sauvegarde des portfolios réussie !");
+
+        } catch (Exception e) {
+            System.err.println("[Backend] Erreur lors de la sauvegarde : " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public static void extractPortfolios() throws IOException{
@@ -41,7 +63,7 @@ public class MainBackEnd {
     }
 
     public static Account searchAccount(String address){
-        for(Account account: accountArrayList) if(account.getUserName().equals(address)) return account;
+        for(Account account: Account.getAccountArrayList()) if(account.getUserName().equals(address)) return account;
         return null;
     }
 

@@ -2,10 +2,7 @@ package org.isep.javaprojectarchusers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.isep.javaprojectarchusers.Accounts.Account;
-import org.isep.javaprojectarchusers.Assets.ASSET_TYPE;
-import org.isep.javaprojectarchusers.Assets.Asset;
-import org.isep.javaprojectarchusers.Assets.CryptocurrencyToken;
-import org.isep.javaprojectarchusers.Assets.Stock;
+import org.isep.javaprojectarchusers.Assets.*;
 import org.isep.javaprojectarchusers.Encryption.Encryption;
 import org.isep.javaprojectarchusers.Encryption.Hashing;
 
@@ -18,8 +15,11 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
+/**
+ * Manager central gérant l'authentification, les portefeuilles et les ordres de marché.
+ */
 public class PortfolioManager {
-    private static ArrayList<Portfolio> portfolioList;
+    private static ArrayList<Portfolio> portfolioList = new ArrayList<>();
     private static @JsonProperty("userName") String userName;
     private static ArrayList<String> emailList = new ArrayList<>();
     private static ArrayList<String> passwordList = new ArrayList<>();
@@ -83,35 +83,50 @@ public class PortfolioManager {
             emailList.addLast(Encryption.encryptString(inputEmail,Encryption.stringToKey(inputPassword)));
             passwordList.addLast(Hashing.toHash(inputPassword));
             keyList.add(Encryption.encryptString(Encryption.keyToString(Encryption.getKey()), Encryption.stringToKey(inputPassword)));
+            LoginSave.save(emailList,passwordList,keyList);
             return 1;
         }
     }
 
-    public static void createPortfolio(String address, String description) {
+    public static boolean createPortfolio(String address, String description) {
+        for(Portfolio portfolio : Portfolio.getPortfolioArrayList()) if(portfolio.getAddress().equals(address)) return false;
         portfolioList.add(new Portfolio(address, description, userName));
+        return true;
     }
 
+    /**
+     * @param address name of the portfolio
+     * @param asset asset to buy
+     * @param account account to debit from
+     * @return
+     */
     public static boolean buyAsset(String address, Asset asset, Account account) {
         for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.buyAsset(asset, account.getUserName());
         return false;
     }
 
-    public static boolean buyAsset(String address, ASSET_TYPE asset_type, Account account){
+    /**
+     * @param address address of the portfolio
+     * @param assetName name of the asset
+     * @param asset_type type of the asset
+     * @param account account to debit from
+     *                allows to buy an asset that doesn't previously exist
+     * @return
+     */
+    public static boolean buyAsset(String address, String assetName ,ASSET_TYPE asset_type, Account account){
         for (Portfolio portfolio : portfolioList) {
             if(portfolio.getAddress().equals(address)) {
-                if (asset_type == ASSET_TYPE.CryptocurrencyToken)
-                    return portfolio.buyAsset(new CryptocurrencyToken("Bitcoin"), account.getUserName());
-                else {
-                    return portfolio.buyAsset(new Stock("Action Générique", 0.0), account.getUserName());
+                GeneralAssets temp = new GeneralAssets(assetName,asset_type);
+                    for(GeneralAssets g : GeneralAssets.getGeneralAssetList()) if(g.getGeneralAssetName().equals(assetName) && g.getGeneralAssetType().equals(asset_type)) return portfolio.buyAsset(new Asset(assetName, asset_type, portfolio.getAddress()), account.getUserName());
+                    new GeneralAssets(assetName, asset_type);
+                    return portfolio.buyAsset(new Asset(assetName, asset_type, portfolio.getAddress()), account.getUserName());
                 }
             }
-
-        }
         return false;
     }
 
-    public static boolean sellAsset(String address, Asset asset, Account account) {
-        for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.sellAsset(asset, account.getUserName());
+    public static boolean sellAsset(String address, String assetName, Account account) {
+        for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.sellAsset(assetName, account.getUserName());
         return false;
     }
 
@@ -129,8 +144,8 @@ public class PortfolioManager {
         return null;
     }
 
-    public static void addPortfolios(){
-        for(Portfolio p : MainBackEnd.getPortfolioArrayList()) if(p.getManager().equals(userName)) portfolioList.add(p);
+    public static void addPortfolios() throws IOException {
+        for(Portfolio p : Portfolio.getPortfolioArrayList()) if(p.getManager().equals(userName)) portfolioList.add(p);
     }
 
     public static ArrayList<Portfolio> getPortfolioList() {
@@ -147,5 +162,9 @@ public class PortfolioManager {
 
     public static ArrayList<String> getPasswordList() {
         return passwordList;
+    }
+
+    public static void removePortfolio(Portfolio portfolio) {
+        portfolioList.remove(portfolio);
     }
 }

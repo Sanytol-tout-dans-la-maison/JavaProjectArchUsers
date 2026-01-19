@@ -1,113 +1,136 @@
 package org.isep.javaprojectarchusers.GUI;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import org.isep.javaprojectarchusers.Assets.Asset;
+import org.isep.javaprojectarchusers.Assets.*;
+import org.isep.javaprojectarchusers.*;
+import org.isep.javaprojectarchusers.Accounts.Account;
+import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.DateAxis;
-import org.jfree.chart.axis.DateTickUnit;
-import org.jfree.chart.axis.DateTickUnitType;
 import org.jfree.chart.fx.ChartViewer;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.ohlc.OHLCSeries;
 import org.jfree.data.time.ohlc.OHLCSeriesCollection;
-import org.jfree.chart.ChartFactory;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.logging.Logger;
-
 
 public class ActionController {
 
     @FXML
     private AnchorPane chartPane;
+    @FXML
+    private ChoiceBox<String> accountPicker;
+    @FXML
+    private TextField amount;
+    @FXML
+    private Label assetInfoLabel;
 
     private OHLCSeries series = new OHLCSeries("Price");
-
     private JFreeChart chart;
+    private GeneralAssets generalAsset;
+    private Portfolio portfolio;
+    private PortfolioController parentController;
+    private double lastClosingPrice = 0.0;
 
-    private static final Logger logger = Logger.getLogger(ActionController.class.getName());
+    @FXML
+    public void updateChart() {
+        AlphaVantageClient api = AlphaVantageClient.getInstance();
+        boolean isCrypto = (generalAsset instanceof CryptocurrencyToken);
+        ArrayList<OhlcvData> datas = api.getMarketData(generalAsset.getGeneralAssetName(), isCrypto, false);
 
-    private Asset asset;
-
-
-    /**
-     * Adds multiples entries in the OHLCSeries.
-     *
-     * @param elements an array of array containing the key elements for OHLC:
-     *                 <ul>
-     *                 <li>{@link Day}: Day of the transaction</li>
-     *                 <li>{@link Double}: Open</li>
-     *                 <li>{@link Double}: High</li>
-     *                 <li>{@link Double}: Low</li>
-     *                 <li>{@link Double}: Close</li>
-     *                 </ul>
-     */
-    public void addMultiplesOHLCData(Object[][] elements) {
-        for (Object[] OHLCdata : elements) {
-            series.add(
-                    (Day) OHLCdata[0],
-                    (Double) OHLCdata[1],
-                    (Double) OHLCdata[2],
-                    (Double) OHLCdata[3],
-                    (Double) OHLCdata[4]
-            );
+        series.clear();
+        if (!datas.isEmpty()) {
+            for (OhlcvData data : datas) {
+                series.add(new Day(data.getDate().getDayOfMonth(), data.getDate().getMonthValue(), data.getDate().getYear()),
+                        data.getOpen(), data.getHigh(), data.getLow(), data.getClose());
+            }
+            lastClosingPrice = datas.getLast().getClose();
         }
-
     }
 
     public void displayCandle() {
-
         OHLCSeriesCollection dataset = new OHLCSeriesCollection();
-
         dataset.addSeries(series);
-
-        chart = ChartFactory.createCandlestickChart(
-                "Trading Chart",
-                "Time",
-                "Price",
-                dataset,
-                false
-        );
-
-        XYPlot plot = chart.getXYPlot();
-
-        DateAxis axis = (DateAxis) plot.getDomainAxis();
-
-        axis.setTickUnit(new DateTickUnit(DateTickUnitType.DAY, 1));
-
-        axis.setDateFormatOverride(new SimpleDateFormat("dd MMM yyyy"));
-
+        chart = ChartFactory.createCandlestickChart(generalAsset.getGeneralAssetName() + " Chart", "Time", "Price", dataset, false);
         ChartViewer viewer = new ChartViewer(chart);
-
+        chartPane.getChildren().clear();
         chartPane.getChildren().add(viewer);
-
         AnchorPane.setTopAnchor(viewer, 0.0);
         AnchorPane.setBottomAnchor(viewer, 0.0);
         AnchorPane.setLeftAnchor(viewer, 0.0);
         AnchorPane.setRightAnchor(viewer, 0.0);
     }
 
-    @FXML
-    public void initialize() {
-
-        //logger.setLevel(Level.FINE);
-        logger.fine("creating OHLC");
-        Object[][] elements = {
-                {new Day(8, 1, 2005), 2.0, 5.0, 1.0, 4.0},
-                {new Day(7, 1, 2005), 7.0, 9.0, 5.0, 6.0}
-        };
-
-        logger.fine("Adding the data in the series");
-        addMultiplesOHLCData(elements);
-
-        logger.info("Displaying the candle");
+    public void updateDisplay() {
+        updateChart();
         displayCandle();
-
+        updateOwnedInfo();
     }
 
-    public void setAsset(Asset asset) {
-        this.asset = asset;
+    private void updateOwnedInfo() {
+        if (portfolio == null || generalAsset == null) return;
+        double quantityOwned = 0.0;
+        for (Asset a : portfolio.getAssetList()) {
+            if (a.getAssetName().equals(generalAsset.getGeneralAssetName())) {
+                quantityOwned = a.getValue();
+                break;
+            }
+        }
+        double valueOwned = quantityOwned * lastClosingPrice;
+        assetInfoLabel.setText(String.format("You own: %.4f | Value: %.2f $", quantityOwned, valueOwned));
+    }
+
+    public void setAsset(GeneralAssets asset) {
+        this.generalAsset = asset;
+    }
+
+    public void setPortfolio(Portfolio portfolio) {
+        this.portfolio = portfolio;
+        if (accountPicker != null && portfolio != null) {
+            accountPicker.getItems().clear();
+            for (Account acc : portfolio.getAccountList()) {
+                accountPicker.getItems().add(acc.getUserName());
+            }
+            if (!accountPicker.getItems().isEmpty()) accountPicker.getSelectionModel().selectFirst();
+        }
+    }
+
+    public void setParentController(PortfolioController parentController) {
+        this.parentController = parentController;
+    }
+
+    public void buyExistingAsset(Asset asset, Account account) {
+        PortfolioManager.buyAsset(this.portfolio.getAddress(), asset, portfolio.getAccount(accountPicker.getValue()));
+    }
+
+    public void buyNewAsset(Account account) {
+        PortfolioManager.buyAsset(this.portfolio.getAddress(), this.generalAsset.getGeneralAssetName(), this.generalAsset.getGeneralAssetType(), account);
+        assetInfoLabel.setText("You own: " + portfolio.getNumberOfAssets(generalAsset.getGeneralAssetName()) + " | Value: " + generalAsset.getValue());
+    }
+
+    public boolean sellAsset() {
+        boolean b = PortfolioManager.sellAsset(this.portfolio.getAddress(), generalAsset.getGeneralAssetName(), portfolio.getAccount(accountPicker.getValue()));
+        assetInfoLabel.setText("You own: " + portfolio.getNumberOfAssets(generalAsset.getGeneralAssetName()) + " | Value: " + generalAsset.getValue());
+        return b;
+    }
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+
+    public void buyAsset(ActionEvent actionEvent) {
+        buyNewAsset(portfolio.getAccount(accountPicker.getValue()));
     }
 }

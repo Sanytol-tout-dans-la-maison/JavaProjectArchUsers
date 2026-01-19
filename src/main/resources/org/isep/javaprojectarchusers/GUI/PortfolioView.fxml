@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -9,16 +11,36 @@
 <AnchorPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.isep.javaprojectarchusers.GUI.PortfolioController">
     <children>
         <HBox fx:id="portfolioSep" spacing="0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <VBox prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <Label text="Accounts:" />
-                  <ListView fx:id="accountList" prefWidth="150.0" />
-                  <Label text="Assets: " />
-                  <ListView fx:id="assetList" prefWidth="150.0" />
-               </children>
-            </VBox>
-         </children>
+            <children>
+                <VBox prefHeight="200.0" prefWidth="180.0" spacing="5" style="-fx-padding: 10;">
+                    <children>
+                        <Label style="-fx-font-weight: bold;" text="Market / Discovery:" />
+
+                        <Label text="Cryptos:" />
+                        <ComboBox fx:id="cryptoMenu" onAction="#handleCryptoSelection" prefWidth="160.0" promptText="Select Crypto" />
+
+                        <Label text="Stocks:" />
+                        <ComboBox fx:id="stockMenu" onAction="#handleStockSelection" prefWidth="160.0" promptText="Select Stock" />
+
+                        <Label text="Commodities:" />
+                        <ComboBox fx:id="materialMenu" onAction="#handleMaterialSelection" prefWidth="160.0" promptText="Select Material" />
+
+                        <Label text="-----------------" />
+
+                        <Label style="-fx-font-weight: bold;" text="My Accounts:" />
+                        <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#handleNewAccount" text="New account" />
+
+                        <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#handleStats" text="📊 Allocation Stats" style="-fx-background-color: #8e44ad; -fx-text-fill: white;"/>
+
+                        <ListView fx:id="accountList" prefHeight="100.0" prefWidth="160.0" />
+
+                        <Label text="-----------------" />
+
+                        <Label style="-fx-font-weight: bold;" text="My Assets:" />
+                        <ListView fx:id="assetList" prefHeight="150.0" prefWidth="160.0" />
+                    </children>
+                </VBox>
+            </children>
         </HBox>
     </children>
 </AnchorPane>

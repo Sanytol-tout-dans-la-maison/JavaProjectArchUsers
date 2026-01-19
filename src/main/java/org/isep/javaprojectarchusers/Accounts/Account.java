@@ -62,17 +62,24 @@ public class Account {
 
 
 
-    /** Function to withdraw money from this account.
-     *
-     * @param amount amount of money to withdraw; must not be {@code null}
-     * @return Tells if withdraw has been successful or not.
+    /**
+     * Tente de retirer de l'argent du compte.
+     * @param amount Le montant à retirer.
+     * @return true si succès, false si fonds insuffisants.
      */
-    public boolean withdraw(double amount){
-        if(amount < balance){
-            balance -= amount;
-            return true;
+    public boolean withdraw(double amount) {
+        if (amount > balance + 0.001) {
+            return false;
         }
-        else return false;
+
+        balance -= amount;
+
+
+        if (balance < 0) {
+            balance = 0.0;
+        }
+
+        return true;
     }
 
 
@@ -94,13 +101,11 @@ public class Account {
         return portfolio;
     }
 
-    /**
-     * @return userName of the account
-     */
 
     public void setPortfolio(String portfolio){
         this.portfolio = portfolio;
     }
+
     public String getUserName() {
         return userName;
     }
@@ -125,6 +130,9 @@ public class Account {
         this.balance = balance;
     }
 
+    public static ArrayList<Account> getAccountArrayList() {
+        return accountArrayList;
+    }
 
     /**Custom toString
      * @return "{@code userName} : {@code accountType}"

@@ -1,7 +1,7 @@
 package org.isep.javaprojectarchusers.Events;
 
 import org.isep.javaprojectarchusers.Assets.Asset;
-import org.w3c.dom.events.Event;
+import org.isep.javaprojectarchusers.Assets.GeneralAssets;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -19,13 +19,13 @@ public class EventsManager {
 
     public static void createEventsRandom(LocalDate beginDate, LocalDate endDate) throws IOException {
         eventList = Events.getEventList();
-        ArrayList<Asset> assetList = Asset.getAssetList();
+        ArrayList<GeneralAssets> generalAssets = GeneralAssets.getGeneralAssetList();
         Random randomGenerator = new Random();
         EVENT_TYPE[] eventTypes = EVENT_TYPE.values();
-        for(LocalDate date = beginDate; date.isBefore(endDate); date.plusDays(1)){
+        for(LocalDate date = beginDate; date.isBefore(endDate); date = date.plusDays(1)){
             while(randomGenerator.nextBoolean()){
                 EVENT_TYPE eventType = eventTypes[randomGenerator.nextInt(0, eventTypes.length-1)];
-                eventList.add(new Events(eventType, randomGenerator.nextDouble(0.1, 0.95), date.toString(), assetList.get(randomGenerator.nextInt(0, assetList.size()-1))));
+                eventList.add(new Events(eventType, randomGenerator.nextDouble(0.1, 0.95), date.toString(), generalAssets.get(randomGenerator.nextInt(0, generalAssets.size()-1))));
             }
         }
         Events.setEventList(eventList);
@@ -35,13 +35,14 @@ public class EventsManager {
     /**
      * @return a hashmap that associates DateTime with its events. Use this in the code to quickly search for any event at a given date
      */
-    public void sortEventsbyDate(){
+    public static HashMap<LocalDate, ArrayList<Events>> sortEventsbyDate(){
         eventList = Events.getEventList();
         for(Events e : eventList){
             LocalDate tempDate = LocalDate.parse(e.getDate());
-            if(!hashMapEvents.containsKey(tempDate)) hashMapEvents.put((tempDate), new ArrayList<Events>());
+            if(!hashMapEvents.containsKey(tempDate)) hashMapEvents.put(tempDate, new ArrayList<Events>());
             hashMapEvents.get(tempDate).add(e);
         };
+        return hashMapEvents;
     }
 
     public static HashMap<LocalDate, ArrayList<Events>> getHashMapEvents() {
@@ -52,7 +53,11 @@ public class EventsManager {
      * @param date has to be a specific day
      * @return ArrayList of Events of the day
      */
-    public static ArrayList<Events> getEvensByDate(LocalDate date){
+    public static ArrayList<Events> getEventsByDate(LocalDate date){
         return hashMapEvents.get(date);
+    }
+
+    public static boolean checkEventsByDate(LocalDate date){
+        return hashMapEvents.containsKey(date);
     }
 }

@@ -1,35 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.isep.javaprojectarchusers.GUI.AuthenticationController">
-   <children>
-      <VBox prefHeight="400.0" prefWidth="600.0">
-         <children>
-            <HBox alignment="BOTTOM_CENTER" prefHeight="126.0" prefWidth="600.0" spacing="20.0">
-               <children>
-                  <Label text="Identifier (your email) :" />
-                  <TextField fx:id="idField" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="84.0">
-               <children>
-                  <Label text="Password :" />
-                  <TextField fx:id="passwordField" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#login" text="Login" />
-                  <Button mnemonicParsing="false" onAction="#switchToRegistration" text="I don't have an account" />
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </children>
-</AnchorPane>
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.isep.javaprojectarchusers.GUI.AuthenticationController">
+    <padding>
+        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+    </padding>
+    <children>
+        <Label text="Portfolio Manager">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+        <Label text="Please log in" textFill="#757575" />
+
+        <VBox maxWidth="300.0" spacing="10.0">
+            <children>
+                <Label text="Email / User ID" />
+                <TextField fx:id="idField" promptText="admin@isep.fr" />
+
+                <Label text="Password" />
+                <PasswordField fx:id="passwordField" promptText="********" />
+            </children>
+        </VBox>
+
+        <VBox maxWidth="300.0" spacing="10.0">
+            <children>
+                <Button defaultButton="true" maxWidth="Infinity" mnemonicParsing="false" onAction="#login" style="-fx-background-color: #3498db; -fx-text-fill: white;" text="Log In" />
+
+                <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#switchToRegistration" style="-fx-background-color: transparent; -fx-border-color: #3498db; -fx-text-fill: #3498db;" text="Register" />
+            </children>
+        </VBox>
+    </children>
+</VBox>
