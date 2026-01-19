@@ -28,6 +28,7 @@ public class GeneralAssets {
 
     public GeneralAssets(@JsonProperty("assetName") String assetName, @JsonProperty("assetType") ASSET_TYPE assetType){
         this.assetName = assetName;
+        this.assetType = assetType;
         generalAssetList.add(this);
     }
 

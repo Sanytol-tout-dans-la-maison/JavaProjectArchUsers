@@ -15,6 +15,7 @@ import org.isep.javaprojectarchusers.Accounts.Account;
 import org.isep.javaprojectarchusers.Assets.Asset;
 import org.isep.javaprojectarchusers.Assets.GeneralAssets;
 import org.isep.javaprojectarchusers.Blockchain.Blockchain;
+import org.isep.javaprojectarchusers.Events.EventExtract;
 import org.isep.javaprojectarchusers.Events.Events;
 import org.isep.javaprojectarchusers.Events.EventsManager;
 import org.isep.javaprojectarchusers.MainBackEnd;
@@ -32,9 +33,10 @@ public class ApplicationGui extends Application {
 
         MainBackEnd.extractPortfolios();
         Blockchain.extractBlockchain();
-//        Events.getEventList();
-//        EventsManager.createEventsRandom(LocalDate.now().minusDays(10), LocalDate.now().plusDays(10));
 
+//        EventExtract.extract();
+//        EventsManager.createEventsRandom(LocalDate.now().minusDays(10), LocalDate.now().plusDays(10));
+//
 
 
         launch(args);
