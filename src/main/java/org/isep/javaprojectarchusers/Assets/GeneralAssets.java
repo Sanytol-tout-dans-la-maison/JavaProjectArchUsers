@@ -24,6 +24,7 @@ public class GeneralAssets {
     public GeneralAssets(){
         this.value = 0.0;
         generalAssetList.add(this);
+        assetType = ASSET_TYPE.CryptocurrencyToken;
     }
 
     public GeneralAssets(@JsonProperty("assetName") String assetName, @JsonProperty("assetType") ASSET_TYPE assetType){
