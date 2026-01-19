@@ -33,7 +33,7 @@ public class ActionController {
 
     private OHLCSeries series = new OHLCSeries("Price");
     private JFreeChart chart;
-    private GeneralAssets asset;
+    private GeneralAssets generalAsset;
     private Portfolio portfolio;
     private PortfolioController parentController;
     private double lastClosingPrice = 0.0;
@@ -41,9 +41,9 @@ public class ActionController {
     @FXML
     public void updateChart() {
         AlphaVantageClient api = AlphaVantageClient.getInstance();
-        boolean isCrypto = (asset instanceof CryptocurrencyToken);
+        boolean isCrypto = (generalAsset instanceof CryptocurrencyToken);
         // true pour forcer le refresh quand on clique sur le bouton refresh
-        ArrayList<OhlcvData> datas = api.getMarketData(asset.getGeneralAssetName(), isCrypto, false);
+        ArrayList<OhlcvData> datas = api.getMarketData(generalAsset.getGeneralAssetName(), isCrypto, false);
 
         series.clear();
         if (!datas.isEmpty()) {
@@ -58,7 +58,7 @@ public class ActionController {
     public void displayCandle() {
         OHLCSeriesCollection dataset = new OHLCSeriesCollection();
         dataset.addSeries(series);
-        chart = ChartFactory.createCandlestickChart(asset.getGeneralAssetName() + " Chart", "Time", "Price", dataset, false);
+        chart = ChartFactory.createCandlestickChart(generalAsset.getGeneralAssetName() + " Chart", "Time", "Price", dataset, false);
         ChartViewer viewer = new ChartViewer(chart);
         chartPane.getChildren().clear();
         chartPane.getChildren().add(viewer);
@@ -75,10 +75,10 @@ public class ActionController {
     }
 
     private void updateOwnedInfo() {
-        if(portfolio == null || asset == null) return;
+        if(portfolio == null || generalAsset == null) return;
         double quantityOwned = 0.0;
         for(Asset a : portfolio.getAssetList()) {
-            if(a.getAssetName().equals(asset.getGeneralAssetName())) {
+            if(a.getAssetName().equals(generalAsset.getGeneralAssetName())) {
                 quantityOwned = a.getValue();
                 break;
             }
@@ -87,7 +87,7 @@ public class ActionController {
         assetInfoLabel.setText(String.format("You own: %.4f | Value: %.2f $", quantityOwned, valueOwned));
     }
 
-    public void setAsset(GeneralAssets asset) { this.asset = asset; }
+    public void setAsset(GeneralAssets asset) { this.generalAsset = asset; }
 
     public void setPortfolio(Portfolio portfolio) {
         this.portfolio = portfolio;
@@ -183,16 +183,16 @@ public class ActionController {
 //    }
 //
 
-    public void buyExistingAsset(String address, Asset asset, Account account){
-        PortfolioManager.buyAsset(address, asset, account);
+    public void buyExistingAsset(Asset asset, Account account){
+        PortfolioManager.buyAsset(this.portfolio.getAddress(), asset, account);
     }
 
-    public void buyNewAsset(String address, String assetName, ASSET_TYPE assetType, Account account){
-        PortfolioManager.buyAsset(address, assetName, assetType, account);
+    public void buyNewAsset(Account account){
+        PortfolioManager.buyAsset(this.portfolio.getAddress(), this.generalAsset.getGeneralAssetName(), this.generalAsset.getGeneralAssetType(), account);
     }
 
-    public void sellAsset(String adress, Asset asset, Account account){
-        PortfolioManager.sellAsset(adress, asset, account);
+    public void sellAsset(Asset asset, Account account){
+        PortfolioManager.sellAsset(this.portfolio.getAddress(), asset, account);
     }
 
     private void showAlert(String title, String content) {
