@@ -104,15 +104,19 @@ public class Portfolio {
     }
 
     @JsonIgnore
-    public void createCheckingAccount(String userName) {
+    public boolean createCheckingAccount(String userName) {
+        for(CheckingAccount checkingAccount : CheckingAccount.getCheckingAccountArrayList()) if(checkingAccount.getUserName().equals(userName)) return false;
         CheckingAccount account = new CheckingAccount(userName, 2000, 1000, this.address, 0, 200);
         accountList.add(account);
+        return true;
     }
 
     @JsonIgnore
-    public void createSavingAccount(String userName) {
+    public boolean createSavingAccount(String userName) {
+        for(SavingAccount savingAccount : SavingAccount.getSavingAccountArrayList()) if(savingAccount.getUserName().equals(userName)) return false:
         SavingAccount account = new SavingAccount(userName, 2000, 1000, this.address, 500);
         accountList.add(account);
+        return true;
     }
 
     @JsonIgnore

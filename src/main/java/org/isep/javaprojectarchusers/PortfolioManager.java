@@ -88,8 +88,10 @@ public class PortfolioManager {
         }
     }
 
-    public static void createPortfolio(String address, String description) {
+    public static boolean createPortfolio(String address, String description) {
+        for(Portfolio portfolio : Portfolio.getPortfolioArrayList()) if(portfolio.getAddress().equals(address)) return false;
         portfolioList.add(new Portfolio(address, description, userName));
+        return true;
     }
 
     /**
