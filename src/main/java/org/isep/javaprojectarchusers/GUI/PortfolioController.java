@@ -11,6 +11,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import org.isep.javaprojectarchusers.Accounts.Account;
+import org.isep.javaprojectarchusers.Accounts.AccountType;
 import org.isep.javaprojectarchusers.AlphaVantageClient;
 import org.isep.javaprojectarchusers.Assets.ASSET_TYPE;
 import org.isep.javaprojectarchusers.Assets.Asset;
@@ -57,6 +58,16 @@ public class PortfolioController {
                 }
             }
         });
+
+        accountList.getSelectionModel().selectedItemProperty().addListener(
+                (obs, o, selectedAccount) -> {
+                    if (selectedAccount != null) {
+                        if (selectedAccount.getAccountType() == AccountType.CHECKING) {
+                            showCheckingAccount(selectedAccount);
+                        }
+                    };
+                }
+        );
 
         assetList.setCellFactory(lv -> new ListCell<Asset>() {
             @Override
@@ -250,7 +261,10 @@ public class PortfolioController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("actionView.fxml"));
             actionPane.getChildren().clear();
-            actionPane.getChildren().add(loader.load());
+            AnchorPane assetPane = loader.load();
+            HBox.setHgrow(assetPane,Priority.ALWAYS);
+
+            actionPane.getChildren().add(assetPane);
 
             ActionController controller = loader.getController();
             controller.setAsset(generalAssets);
@@ -277,7 +291,7 @@ public class PortfolioController {
         }
     }
 
-    private void genAccountList() {
+    void genAccountList() {
         accountList.getItems().clear();
         if (portfolio != null) {
             for (Account account : portfolio.getAccountList()) {
@@ -417,6 +431,7 @@ public class PortfolioController {
 
                 }
 
+
                 genAccountList();
             }
 
@@ -424,4 +439,28 @@ public class PortfolioController {
 
     }
 
+    public void showCheckingAccount(Account account) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("checkingAccountView.fxml"));
+            actionPane.getChildren().clear();
+            AnchorPane assetPane = loader.load();
+            HBox.setHgrow(assetPane,Priority.ALWAYS);
+
+            actionPane.getChildren().add(assetPane);
+
+            CheckingAccountController controller = loader.getController();
+
+            controller.setAccount(account);
+            controller.setPortfolioController(this);
+
+            controller.updateDisplay();
+        } catch (IOException e) {
+            logger.severe("Erreur chargement ActionView: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public Portfolio getPortfolio() {
+        return portfolio;
+    }
 }
