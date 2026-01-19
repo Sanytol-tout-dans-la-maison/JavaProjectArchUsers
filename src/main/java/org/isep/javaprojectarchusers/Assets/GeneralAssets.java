@@ -40,7 +40,7 @@ public class GeneralAssets {
     /**
      * @return La map complète de l'historique (Date -> Prix).
      */
-    @JsonIgnore // On ne sauvegarde pas tout l'historique en JSON pour le moment
+    @JsonIgnore
     public Map<LocalDate, Double> getPriceHistory() {
         return priceHistory;
     }

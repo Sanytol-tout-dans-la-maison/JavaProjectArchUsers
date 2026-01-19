@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class SavingAccount extends Account {
     /**This is the rent the account user has to pay per month?*/
     @JsonProperty("RENT")
-    private float RENT ; // I don't think this is final. but I'll set this like that for now.
+    private float RENT ;
     private static ArrayList<SavingAccount> savingAccountArrayList = new ArrayList<>();
 
     public SavingAccount(@JsonProperty("userName") String userName, @JsonProperty("OVERDRAW_LIMIT") float OVERDRAW_LIMIT, @JsonProperty("balance") double balance, @JsonProperty("portfolio") String portfolio, @JsonProperty("RENT") float RENT) {

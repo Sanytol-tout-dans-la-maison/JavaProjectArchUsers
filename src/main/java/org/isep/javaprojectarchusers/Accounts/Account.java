@@ -68,15 +68,13 @@ public class Account {
      * @return true si succès, false si fonds insuffisants.
      */
     public boolean withdraw(double amount) {
-        // On ajoute une petite tolérance (epsilon) pour corriger les bugs de précision
-        // Si la différence est minuscule (0.001), on considère que c'est bon.
         if (amount > balance + 0.001) {
-            return false; // Vraiment pas assez d'argent
+            return false;
         }
 
         balance -= amount;
 
-        // Sécurité : Si le solde devient négatif à cause de la tolérance (ex: -0.00001), on le remet à 0
+
         if (balance < 0) {
             balance = 0.0;
         }
