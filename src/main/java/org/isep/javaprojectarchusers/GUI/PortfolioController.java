@@ -240,8 +240,8 @@ public class PortfolioController {
     }
 
     public void updateVisuals() {
-        assetList.refresh();
-        accountList.refresh();
+        //assetList.refresh();
+        //accountList.refresh();
         genAssetList();
         genAccountList();
         handleStats();

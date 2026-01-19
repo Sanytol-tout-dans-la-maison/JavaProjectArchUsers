@@ -2,6 +2,7 @@ package org.isep.javaprojectarchusers.Assets;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,20 +15,21 @@ import java.util.Map;
 public class Asset extends GeneralAssets {
     private double value;
     private static ArrayList<Asset> assetList = new ArrayList<>();
-    private ASSET_TYPE assetType;
-    private String assetName;
+
+
+    @NotNull
     private String portfolio;
 
     // --- AJOUT : Historique pour les graphiques ---
     // On utilise LinkedHashMap pour garantir que les dates restent dans l'ordre
     private Map<LocalDate, Double> priceHistory = new LinkedHashMap<>();
 
-    public Asset(){
-        this.value = 0.0;
-        assetList.add(this);
-    }
+//    public Asset(){
+//        this.value = 0.0;
+//        assetList.add(this);
+//    }
 
-    public Asset(@JsonProperty("assetName") String assetName, @JsonProperty("assetType") ASSET_TYPE assetType,@JsonProperty("portfolio") String portfolio){
+    public Asset(@JsonProperty("assetName") @NotNull String assetName, @JsonProperty("assetType") @NotNull ASSET_TYPE assetType, @JsonProperty("portfolio") @NotNull String portfolio){
         super(assetName, assetType);
         this.portfolio = portfolio;
         assetList.add(this);
@@ -37,7 +39,7 @@ public class Asset extends GeneralAssets {
 
     @JsonIgnore
     public String getInfo(){
-        return assetName + ": " + value;
+        return getAssetName() + ": " + value;
     }
 
     public @JsonProperty("assetValue") double getValue() {return value;}
@@ -55,19 +57,19 @@ public class Asset extends GeneralAssets {
     }
 
     public @JsonProperty("assetType") ASSET_TYPE getGeneralAssetType() {
-        return assetType;
+        return super.getGeneralAssetType();
     }
 
     public void setAssetType(@JsonProperty("assetType") ASSET_TYPE assetType) {
-        this.assetType = assetType;
+        super.setAssetType(assetType);
     }
 
     public @JsonProperty("assetName") String getAssetName() {
-        return assetName;
+        return super.getGeneralAssetName();
     }
 
     public void setGeneralAssetName(@JsonProperty("assetName") String assetName) {
-        this.assetName = assetName;
+        super.setGeneralAssetName(assetName);
     }
 
     public String getPortfolio() {
