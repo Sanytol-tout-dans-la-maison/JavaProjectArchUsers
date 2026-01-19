@@ -1,5 +1,6 @@
 package org.isep.javaprojectarchusers.GUI;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
@@ -35,6 +36,7 @@ public class ActionController {
     private JFreeChart chart;
     private GeneralAssets generalAsset;
     private Portfolio portfolio;
+    private Account selectedAccount;
     private PortfolioController parentController;
     private double lastClosingPrice = 0.0;
 
@@ -190,8 +192,8 @@ public class ActionController {
         PortfolioManager.buyAsset(this.portfolio.getAddress(), this.generalAsset.getGeneralAssetName(), this.generalAsset.getGeneralAssetType(), account);
     }
 
-    public boolean sellAsset(String assetName, Account account){
-        return PortfolioManager.sellAsset(this.portfolio.getAddress(), assetName, account);
+    public boolean sellAsset(){
+        return PortfolioManager.sellAsset(this.portfolio.getAddress(), generalAsset.getGeneralAssetName(), selectedAccount);
     }
 
     private void showAlert(String title, String content) {
@@ -200,5 +202,10 @@ public class ActionController {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+
+    public void buyAsset(ActionEvent actionEvent) {
+        //buyNewAsset(account);
     }
 }
