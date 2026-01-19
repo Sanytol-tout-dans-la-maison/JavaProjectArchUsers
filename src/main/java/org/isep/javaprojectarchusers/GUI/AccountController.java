@@ -8,7 +8,6 @@ import javafx.scene.control.TextFormatter;
 import org.isep.javaprojectarchusers.Accounts.Account;
 import org.isep.javaprojectarchusers.Portfolio;
 import org.isep.javaprojectarchusers.PortfolioManager;
-import org.isep.javaprojectarchusers.Transaction;
 
 import java.util.List;
 
@@ -17,18 +16,6 @@ public class AccountController {
     protected List accountList;
     protected Portfolio portfolio;
     protected PortfolioController portfolioController;
-
-
-    protected TextFormatter<String> numberOnly() {
-        return new TextFormatter<>(change -> {
-            if (change.getControlNewText().matches("\\d*(\\.\\d*)?")) {
-                return change;
-            }
-            return null;
-        });
-    }
-
-
     @FXML
     protected ComboBox<Account> senderMenu;
     @FXML
@@ -40,6 +27,14 @@ public class AccountController {
     @FXML
     protected Label balanceLabel;
 
+    protected TextFormatter<String> numberOnly() {
+        return new TextFormatter<>(change -> {
+            if (change.getControlNewText().matches("\\d*(\\.\\d*)?")) {
+                return change;
+            }
+            return null;
+        });
+    }
 
     @FXML
     public void initialize() {
@@ -78,7 +73,9 @@ public class AccountController {
 
     }
 
-    private void addAllAccounts() {
+    protected void addAllAccounts() {
+        senderMenu.getItems().clear();
+        receiverMenu.getItems().clear();
         senderMenu.getItems().addAll(accountList);
         receiverMenu.getItems().addAll(accountList);
         senderMenu.getSelectionModel().select(account);

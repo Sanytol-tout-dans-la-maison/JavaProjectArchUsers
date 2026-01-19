@@ -67,7 +67,8 @@ public class PortfolioController {
                         } else {
                             showSavingAccount(selectedAccount);
                         }
-                    };
+                    }
+                    ;
                 }
         );
 
@@ -264,7 +265,7 @@ public class PortfolioController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("actionView.fxml"));
             actionPane.getChildren().clear();
             AnchorPane assetPane = loader.load();
-            HBox.setHgrow(assetPane,Priority.ALWAYS);
+            HBox.setHgrow(assetPane, Priority.ALWAYS);
 
             actionPane.getChildren().add(assetPane);
 
@@ -278,10 +279,6 @@ public class PortfolioController {
             logger.severe("Erreur chargement ActionView: " + e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    public void setPortfolio(Portfolio portfolio) {
-        this.portfolio = portfolio;
     }
 
     private void genAssetList() {
@@ -446,7 +443,7 @@ public class PortfolioController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("checkingAccountView.fxml"));
             actionPane.getChildren().clear();
             AnchorPane assetPane = loader.load();
-            HBox.setHgrow(assetPane,Priority.ALWAYS);
+            HBox.setHgrow(assetPane, Priority.ALWAYS);
 
             actionPane.getChildren().add(assetPane);
 
@@ -462,13 +459,12 @@ public class PortfolioController {
         }
     }
 
-
     public void showSavingAccount(Account account) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("savingAccountView.fxml"));
             actionPane.getChildren().clear();
             AnchorPane assetPane = loader.load();
-            HBox.setHgrow(assetPane,Priority.ALWAYS);
+            HBox.setHgrow(assetPane, Priority.ALWAYS);
 
             actionPane.getChildren().add(assetPane);
 
@@ -476,6 +472,7 @@ public class PortfolioController {
 
             controller.setAccount(account);
             controller.setPortfolioController(this);
+
             controller.init();
 
             controller.updateDisplay();
@@ -486,8 +483,11 @@ public class PortfolioController {
         }
     }
 
-
     public Portfolio getPortfolio() {
         return portfolio;
+    }
+
+    public void setPortfolio(Portfolio portfolio) {
+        this.portfolio = portfolio;
     }
 }

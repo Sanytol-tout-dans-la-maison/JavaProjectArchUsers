@@ -47,16 +47,15 @@ public class SavingAccount extends Account {
      * @return Retirement money, if I understand this correctly?
      */
     public double calculateRetirement() {
-        LocalDate givenDate = retirementDate;
         LocalDate now = LocalDate.now();
-        long monthsUntilRetirement = ChronoUnit.MONTHS.between(givenDate, now);
+        long monthsUntilRetirement = ChronoUnit.MONTHS.between(now, retirementDate);
 
         double balance = this.getBalance();
 
         for (long i = 1; i <= monthsUntilRetirement; i++) {
             balance -= RENT;
-            if (monthsUntilRetirement % 12 == 0) {
-                balance += (1 + (INTEREST_RATES / 100)) * balance;
+            if (i % 12 == 0) {
+                balance *= (1 + (INTEREST_RATES / 100));
             }
         }
 

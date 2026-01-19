@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import org.isep.javaprojectarchusers.Accounts.Account;
 import org.isep.javaprojectarchusers.Accounts.SavingAccount;
 
 import java.time.LocalDate;
@@ -18,15 +17,14 @@ public class SavingAcountController extends AccountController {
     public DatePicker retirementDatePicker;
     @FXML
     public Label retirementResultLabel;
-
-    SavingAccount account;
+    private SavingAccount savingAccount = (SavingAccount) account;
 
     @FXML
     public void initialize() {
         rentField.setTextFormatter(numberOnly());
 
         rentField.textProperty().addListener(
-                (_,oldText,newText)->{
+                (_, oldText, newText) -> {
                     if (newText == null || newText.isBlank()) {
                         rentField.setText(oldText);
                     }
@@ -34,7 +32,7 @@ public class SavingAcountController extends AccountController {
         );
 
         rentField.focusedProperty().addListener(
-                (_,_,focused) -> {
+                (_, _, focused) -> {
                     if (!focused) updateRentField();
                 }
         );
@@ -42,7 +40,7 @@ public class SavingAcountController extends AccountController {
 
         ratesFiels.setTextFormatter(numberOnly());
         ratesFiels.textProperty().addListener(
-                (_,oldText,newText)->{
+                (_, oldText, newText) -> {
                     if (newText == null || newText.isBlank()) {
                         ratesFiels.setText(oldText);
                     }
@@ -50,13 +48,13 @@ public class SavingAcountController extends AccountController {
         );
 
         ratesFiels.focusedProperty().addListener(
-                (_,_,focused) -> {
+                (_, _, focused) -> {
                     if (!focused) updateRateField();
                 }
         );
 
         retirementDatePicker.valueProperty().addListener(
-                (_,oldDate,newDate) -> {
+                (_, oldDate, newDate) -> {
                     if (newDate == null) {
                         retirementDatePicker.setValue(oldDate);
                     }
@@ -66,21 +64,21 @@ public class SavingAcountController extends AccountController {
     }
 
     public void updateRentField() {
-        account.setRENT(Float.parseFloat(rentField.getText()));
+        savingAccount.setRENT(Float.parseFloat(rentField.getText()));
     }
 
     public void updateRateField() {
-        account.setINTEREST_RATES(Double.parseDouble(ratesFiels.getText()));
+        savingAccount.setINTEREST_RATES(Double.parseDouble(ratesFiels.getText()));
     }
 
     public void updateRetirementDateField() {
-        account.setRetirementDate(retirementDatePicker.getValue());
+        savingAccount.setRetirementDate(retirementDatePicker.getValue());
     }
 
     public void calculateRetirement() {
         retirementDatePicker.getValue();
         try {
-            double afterRetirement= account.calculateRetirement();
+            double afterRetirement = savingAccount.calculateRetirement();
             retirementResultLabel.setText(String.valueOf(afterRetirement));
         } catch (Exception e) {
 
@@ -88,17 +86,17 @@ public class SavingAcountController extends AccountController {
 
     }
 
-    @Override
-    public void setAccount(Account account) {
-        this.account = (SavingAccount) account;
-    }
-
     public void init() {
-        account.setRetirementDate(LocalDate.now());
-        account.setINTEREST_RATES(2.0);
+        savingAccount.setRetirementDate(LocalDate.now());
+        savingAccount.setINTEREST_RATES(2.0);
     }
 
+    @Override
     public void updateDisplay() {
+        super.updateDisplay();
+        rentField.setText(String.valueOf(savingAccount.getRENT()));
+        ratesFiels.setText(String.valueOf(savingAccount.getINTEREST_RATES()));
+        retirementDatePicker.setValue(savingAccount.getRetirementDate());
 
 
     }
