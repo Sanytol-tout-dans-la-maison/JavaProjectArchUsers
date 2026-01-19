@@ -43,7 +43,7 @@ public class Portfolio {
         this.assetList = new ArrayList<>();
         this.accountList = new ArrayList<>();
         this.blockchain = blockchain;
-        portfolioArrayList.add(this);
+        addToListIfPossible(this);
     }
 
 
@@ -56,7 +56,7 @@ public class Portfolio {
         this.blockchain = blockchain;
         this.assetList = assetList;
         this.accountList = accountList;
-        portfolioArrayList.add(this);
+        addToListIfPossible(this);
     }
 
     @JsonIgnore
@@ -67,7 +67,7 @@ public class Portfolio {
         this.assetList = new ArrayList<>();
         this.accountList = new ArrayList<>();
         this.blockchain = Blockchain.getBlockchainList();
-        MainBackEnd.addPortfolio(this);
+        addToListIfPossible(this);
     }
 
     // Constructeur vide nécessaire
@@ -190,5 +190,14 @@ public class Portfolio {
     public Asset getAssetFromName(String assetName){
         for(Asset asset : assetList) if(asset.getAssetName().equals(assetName)) return asset;
         return null;
+    }
+
+    public void updateBlockchain(){
+        blockchain = Blockchain.getBlockchainList();
+    }
+
+    private void addToListIfPossible(Portfolio portfolio){
+        for(Portfolio p : portfolioArrayList) if(p.getAddress() == portfolio.getAddress()) return;
+        portfolioArrayList.add(portfolio);
     }
 }

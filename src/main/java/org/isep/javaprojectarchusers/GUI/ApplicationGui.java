@@ -1,16 +1,22 @@
 package org.isep.javaprojectarchusers.GUI;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
+import com.sun.tools.javac.Main;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.isep.javaprojectarchusers.Accounts.Account;
 import org.isep.javaprojectarchusers.Assets.Asset;
+import org.isep.javaprojectarchusers.Assets.GeneralAssets;
+import org.isep.javaprojectarchusers.Blockchain.Blockchain;
+import org.isep.javaprojectarchusers.Events.Events;
+import org.isep.javaprojectarchusers.Events.EventsManager;
 import org.isep.javaprojectarchusers.MainBackEnd;
 import org.isep.javaprojectarchusers.Portfolio;
 import org.isep.javaprojectarchusers.PortfolioManager;
@@ -22,16 +28,14 @@ public class ApplicationGui extends Application {
     private static final Logger logger = Logger.getLogger(ApplicationGui.class.getName());
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+
+        MainBackEnd.extractPortfolios();
+        Blockchain.extractBlockchain();
+//        Events.getEventList();
+//        EventsManager.createEventsRandom(LocalDate.now().minusDays(10), LocalDate.now().plusDays(10));
 
 
-
-        PortfolioManager.createPortfolio("testPortfolio", "Desc for the test");
-        Portfolio portfolio1 = PortfolioManager.getPortfolio("testPortfolio");
-
-        portfolio1.createCheckingAccount("test");
-        Account account1 = portfolio1.getAccount("test");
-        MainBackEnd.addAccount(account1);
 
         launch(args);
     }

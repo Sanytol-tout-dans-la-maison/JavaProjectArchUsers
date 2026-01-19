@@ -22,14 +22,15 @@ public class MainBackEnd {
     private static ArrayList<Account> accountArrayList = new ArrayList<>();
     private static LinkedList blockchain;
 
-    public static ArrayList<Portfolio> getPortfolioArrayList() throws IOException {
-        extractPortfolios();
-        return portfolioArrayList;
-    }
+//    public static ArrayList<Portfolio> getPortfolioArrayList() throws IOException {
+//        extractPortfolios();
+//        return portfolioArrayList;
+//    }
 
 
     public static void savePortfolios(ArrayList<Portfolio> portfolios) {
         try {
+            portfolioArrayList = Portfolio.getPortfolioArrayList();
             ObjectMapper mapper = new ObjectMapper();
             // Pour que le JSON soit joli et lisible (optionnel)
             mapper.enable(SerializationFeature.INDENT_OUTPUT);

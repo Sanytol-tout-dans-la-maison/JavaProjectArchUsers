@@ -12,6 +12,7 @@ module org.isep.javaprojectarchusers {
     requires java.desktop;
     requires org.jfree.jfreechart;
     requires org.jfree.chart.fx;
+    requires jdk.compiler;
 
     opens org.isep.javaprojectarchusers to javafx.fxml;
     exports org.isep.javaprojectarchusers;

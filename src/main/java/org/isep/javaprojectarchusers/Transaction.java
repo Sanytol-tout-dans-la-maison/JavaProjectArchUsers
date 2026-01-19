@@ -96,6 +96,14 @@ public class Transaction {
         return isAccepted;
     }
 
+    public @JsonProperty("date") LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(@JsonProperty("date") LocalDate date) {
+        this.date = date;
+    }
+
     public void setAccepted(@JsonProperty("isAccepted") boolean accepted) {
         isAccepted = accepted;
     }
