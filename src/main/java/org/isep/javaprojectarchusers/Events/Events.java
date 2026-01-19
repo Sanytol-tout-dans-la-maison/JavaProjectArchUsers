@@ -3,6 +3,7 @@ package org.isep.javaprojectarchusers.Events;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.isep.javaprojectarchusers.Assets.Asset;
+import org.isep.javaprojectarchusers.Assets.GeneralAssets;
 
 import java.util.ArrayList;
 
@@ -18,17 +19,17 @@ public class Events {
     private EVENT_TYPE eventType;
     @JsonProperty("date")
     private String date;
-    @JsonProperty("asset")
-    private Asset asset;
+    @JsonProperty("generalAsset")
+    private GeneralAssets generalAsset;
 
     private static ArrayList<Events> eventList = new ArrayList<>();
 
     @JsonCreator
-    public Events(@JsonProperty("eventType") EVENT_TYPE eventType, @JsonProperty("valueImpact") double valueImpact, @JsonProperty("date") String date, @JsonProperty("asset") Asset asset){
+    public Events(@JsonProperty("eventType") EVENT_TYPE eventType, @JsonProperty("valueImpact") double valueImpact, @JsonProperty("date") String date, @JsonProperty("generalAsset") GeneralAssets generalAsset){
         this.eventType = eventType;
         this.valueImpact = valueImpact;
         this.date = date;
-        this.asset = asset;
+        this.generalAsset = generalAsset;
         eventList.add(this);
     }
 
@@ -55,12 +56,12 @@ public class Events {
         this.date = date;
     }
 
-    public @JsonProperty("asset")Asset getAsset() {
-        return asset;
+    public @JsonProperty("generalAsset")GeneralAssets getGeneralAsset() {
+        return generalAsset;
     }
 
-    public void setAsset(@JsonProperty("asset")Asset asset) {
-        this.asset = asset;
+    public void setGeneralAsset(@JsonProperty("generalAsset")GeneralAssets generalAsset) {
+        this.generalAsset = generalAsset;
     }
 
     public static ArrayList<Events> getEventList() {

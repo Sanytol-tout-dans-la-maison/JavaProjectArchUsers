@@ -18,6 +18,7 @@ import org.isep.javaprojectarchusers.Blockchain.Blockchain;
 import org.isep.javaprojectarchusers.Events.EventExtract;
 import org.isep.javaprojectarchusers.Events.Events;
 import org.isep.javaprojectarchusers.Events.EventsManager;
+import org.isep.javaprojectarchusers.GenerateGeneralAssets;
 import org.isep.javaprojectarchusers.MainBackEnd;
 import org.isep.javaprojectarchusers.Portfolio;
 import org.isep.javaprojectarchusers.PortfolioManager;
@@ -35,7 +36,9 @@ public class ApplicationGui extends Application {
 //        Blockchain.extractBlockchain();
 
 //        EventExtract.extract();
-//        EventsManager.createEventsRandom(LocalDate.now().minusDays(10), LocalDate.now().plusDays(10));
+        GenerateGeneralAssets.generate();
+        EventsManager.createEventsRandom(LocalDate.now().minusDays(10), LocalDate.now().plusDays(10));
+        EventsManager.sortEventsbyDate();
 //
 
 
