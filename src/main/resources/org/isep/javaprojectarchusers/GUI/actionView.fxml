@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.isep.javaprojectarchusers.GUI.ActionController">
+<AnchorPane minHeight="392.0" minWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.isep.javaprojectarchusers.GUI.ActionController">
     <children>
         <AnchorPane fx:id="chartPane" prefHeight="300.0" prefWidth="587.0" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="6.0" />
         <Label fx:id="assetInfoLabel" text="You own: - | Value: -" textFill="#2c3e50" AnchorPane.bottomAnchor="49.999999999999986" AnchorPane.leftAnchor="64.0">
@@ -16,10 +16,10 @@
             </font>
         </Label>
         <ChoiceBox fx:id="accountPicker" prefWidth="150.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="64.0" />
-        <Label  text="Account: " AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="14.0" />
-        <Button  mnemonicParsing="false" onAction="#updateChart" text="Refresh graph" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
-        <Button  mnemonicParsing="false" onAction="#buyAsset" style="-fx-background-color: #27ae60; -fx-text-fill: white;" text="Buy" AnchorPane.bottomAnchor="2.0" AnchorPane.rightAnchor="68.0" />
-        <Button  mnemonicParsing="false" onAction="#sellAsset" style="-fx-background-color: #c0392b; -fx-text-fill: white;" text="Sell" AnchorPane.bottomAnchor="2.0" AnchorPane.rightAnchor="20.0" />
+        <Label text="Account: " AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="14.0" />
+        <Button mnemonicParsing="false" onAction="#updateChart" text="Refresh graph" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+        <Button mnemonicParsing="false" onAction="#buyAsset" style="-fx-background-color: #27ae60; -fx-text-fill: white;" text="Buy" AnchorPane.bottomAnchor="2.0" AnchorPane.rightAnchor="68.0" />
+        <Button mnemonicParsing="false" onAction="#sellAsset" style="-fx-background-color: #c0392b; -fx-text-fill: white;" text="Sell" AnchorPane.bottomAnchor="2.0" AnchorPane.rightAnchor="20.0" />
         <TextField fx:id="amount" promptText="Amount in $" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="276.0" />
         <Label text="Amount:" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="225.0" />
     </children>
