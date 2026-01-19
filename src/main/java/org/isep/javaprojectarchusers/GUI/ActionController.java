@@ -130,7 +130,8 @@ public class ActionController {
     }
 
 
-    public void buyAsset(ActionEvent actionEvent) {
+    public void buyAsset() {
         buyNewAsset(portfolio.getAccount(accountPicker.getValue()));
+
     }
 }

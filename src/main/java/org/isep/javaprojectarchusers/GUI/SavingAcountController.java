@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import org.isep.javaprojectarchusers.Accounts.Account;
 import org.isep.javaprojectarchusers.Accounts.SavingAccount;
 
 import java.time.LocalDate;
@@ -17,7 +18,7 @@ public class SavingAcountController extends AccountController {
     public DatePicker retirementDatePicker;
     @FXML
     public Label retirementResultLabel;
-    private SavingAccount savingAccount = (SavingAccount) account;
+    private SavingAccount savingAccount;
 
     @FXML
     public void initialize() {
@@ -61,6 +62,12 @@ public class SavingAcountController extends AccountController {
                 }
         );
 
+    }
+
+    @Override
+    public void setAccount(Account account) {
+        super.setAccount(account);
+        savingAccount = (SavingAccount) account;
     }
 
     public void updateRentField() {
