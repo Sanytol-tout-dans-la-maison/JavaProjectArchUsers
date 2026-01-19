@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class EventSave {
     public static void save(ArrayList<Events> eventsList) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.writeValue(new File("src/main/resources/org/isep/javaprojectarchusers/events.csv"), eventsList);
+        objectMapper.writeValue(new File("src/main/resources/org/isep/javaprojectarchusers/events.json"), eventsList);
 
     }
 }
