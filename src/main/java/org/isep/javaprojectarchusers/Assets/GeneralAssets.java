@@ -2,6 +2,7 @@ package org.isep.javaprojectarchusers.Assets;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.isep.javaprojectarchusers.AlphaVantageClient;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,25 +18,16 @@ public class GeneralAssets {
     private ASSET_TYPE assetType;
     private String assetName;
 
-    // --- AJOUT : Historique pour les graphiques ---
-    // On utilise LinkedHashMap pour garantir que les dates restent dans l'ordre
+
     private Map<LocalDate, Double> priceHistory = new LinkedHashMap<>();
 
-    public GeneralAssets(){
-        this.value = 0.0;
-        generalAssetList.add(this);
-        assetType = ASSET_TYPE.CryptocurrencyToken;
-    }
 
-    public GeneralAssets(@JsonProperty("assetName") String assetName, @JsonProperty("assetType") ASSET_TYPE assetType){
+    public GeneralAssets(@JsonProperty("assetName") String assetName, @JsonProperty("assetType") ASSET_TYPE assetType) {
         this.assetName = assetName;
         this.assetType = assetType;
         generalAssetList.add(this);
     }
 
-    // =========================================================================
-    // GESTION DE L'HISTORIQUE (Requis pour Market et les graphiques)
-    // =========================================================================
 
     /**
      * Ajoute une valeur à l'historique pour une date donnée.
@@ -53,12 +45,9 @@ public class GeneralAssets {
         return priceHistory;
     }
 
-    // =========================================================================
-    // GETTERS / SETTERS CLASSIQUES
-    // =========================================================================
 
     @JsonIgnore
-    public String getInfo(){
+    public String getInfo() {
         return assetName + ": " + value;
     }
 
@@ -92,7 +81,8 @@ public class GeneralAssets {
 
 
     @Override
-    public String toString(){
+    public String toString() {
         return this.getGeneralAssetName() + " (" + this.getValue() + ")";
     }
+
 }

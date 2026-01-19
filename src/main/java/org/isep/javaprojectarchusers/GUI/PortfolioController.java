@@ -84,7 +84,6 @@ public class PortfolioController {
      */
     private String getPrettyName(String symbol) {
         switch (symbol) {
-            // --- CRYPTOS ---
             case "BTC":
                 return "Bitcoin";
             case "ETH":
@@ -106,7 +105,7 @@ public class PortfolioController {
             case "MATIC":
                 return "Polygon";
 
-            // --- STOCKS ---
+
             case "AAPL":
                 return "Apple";
             case "NVDA":
@@ -134,7 +133,7 @@ public class PortfolioController {
             case "V":
                 return "Visa";
 
-            // --- COMMODITIES ---
+
             case "GC=F":
                 return "Gold";
             case "SI=F":

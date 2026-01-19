@@ -15,18 +15,10 @@ import java.io.IOException;
 
 public class AuthenticationController {
 
-    // J'ai gardé les noms de variables de ton camarade
     @FXML
     private TextField idField;
     @FXML
-    private PasswordField passwordField; // J'utilise PasswordField pour la sécurité, mais ça map sur leur FXML si l'ID est bon
-
-    /**
-     * Méthode de connexion.
-     * J'ai réactivé le code qui était en commentaire en le branchant sur TON PortfolioManager.
-     */
-    @FXML
-    // Dans AuthenticationController.java
+    private PasswordField passwordField;
 
 
     public void login() throws IOException {
@@ -37,7 +29,6 @@ public class AuthenticationController {
             boolean success = PortfolioManager.login(email, password);
 
             if (success) {
-                // MODIFICATION : On va vers la page de bienvenue
                 switchToWelcomePage(email);
             } else {
                 showAlert();
@@ -48,19 +39,16 @@ public class AuthenticationController {
         }
     }
 
-    // Ajoute cette nouvelle méthode pour charger la page de bienvenue
     private void switchToWelcomePage(String email) throws IOException {
         FXMLLoader loader = new FXMLLoader(AuthenticationController.class.getResource("MainPageView.fxml"));
-        Parent root = loader.load(); // Charge la vue du camarade (TabPane, Liste...)
+        Parent root = loader.load();
 
-        // On récupère le contrôleur fusionné
         MainPageController controller = loader.getController();
 
 
-        // 2. On met à jour le titre "Bienvenue Benjamin"
         controller.setUserName(email);
 
-        Scene scene = new Scene(root, 1000, 700); // Taille confortable
+        Scene scene = new Scene(root, 1000, 700);
         Stage stage = (Stage) idField.getScene().getWindow();
         stage.setTitle("Portfolio Manager - Accueil");
         stage.setScene(scene);
@@ -68,10 +56,7 @@ public class AuthenticationController {
         stage.centerOnScreen();
     }
 
-    /**
-     * Méthode de ton camarade pour aller vers l'inscription.
-     * JE N'AI RIEN TOUCHÉ ICI.
-     */
+
     @FXML
     public void switchToRegistration() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("registration-window.fxml"));
@@ -84,10 +69,7 @@ public class AuthenticationController {
         stage.setScene(scene);
     }
 
-    /**
-     * NOUVELLE MÉTHODE : Pour aller vers ton Dashboard.
-     * C'est la seule chose que j'ai ajoutée pour que ton travail s'affiche.
-     */
+
     private void switchToPortfolioView() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("PortfolioView.fxml"));
         Parent root = loader.load();
@@ -107,11 +89,8 @@ public class AuthenticationController {
         stage.centerOnScreen();
     }
 
-    /**
-     * Méthode d'alerte de ton camarade.
-     * JE N'AI RIEN TOUCHÉ ICI.
-     */
-    private static void showAlert(){
+
+    private static void showAlert() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("User information");
         alert.setHeaderText(null);

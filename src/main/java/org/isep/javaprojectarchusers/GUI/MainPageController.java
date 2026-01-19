@@ -18,34 +18,25 @@ import java.util.logging.Logger;
 public class MainPageController {
     private static final Logger logger = Logger.getLogger(MainPageController.class.getName());
 
-    // --- ELEMENTS DE TON CAMARADE ---
-    @FXML private TabPane portfolioHolder;
-    @FXML private ListView<Portfolio> portfolioViewList;
-    @FXML private TextField portfolioNameView;
-    @FXML private TextField portfolioDescView;
-
-    // --- TES ELEMENTS (AJOUTÉS) ---
-    @FXML private Label welcomeLabel; // N'oublie pas d'ajouter ce Label dans le FXML !
-
-
-    Map<Portfolio,ArrayList<Tab>> tabsMap = new HashMap<>();
-    Map<Portfolio,ArrayList<Stage>> windowMap = new HashMap<>();
+    @FXML
+    private TabPane portfolioHolder;
+    @FXML
+    private ListView<Portfolio> portfolioViewList;
+    @FXML
+    private TextField portfolioNameView;
+    @FXML
+    private TextField portfolioDescView;
+    @FXML
+    private Label welcomeLabel;
 
 
-    // =========================================================================
-    // 1. LOGIQUE DE BIENVENUE (TA PARTIE)
-    // =========================================================================
+    Map<Portfolio, ArrayList<Tab>> tabsMap = new HashMap<>();
+    Map<Portfolio, ArrayList<Stage>> windowMap = new HashMap<>();
 
-    /**
-     * Met à jour le label de bienvenue avec le nom de l'utilisateur.
-     * Appelée juste après le login.
-     */
     public void setUserName(String email) {
         if (email == null || email.isEmpty()) return;
 
-        // On garde juste la partie avant le @ pour faire plus joli
         String name = email.split("@")[0];
-        // Met la première lettre en majuscule
         name = name.substring(0, 1).toUpperCase() + name.substring(1);
 
         if (welcomeLabel != null) {
@@ -53,14 +44,6 @@ public class MainPageController {
         }
     }
 
-
-    // =========================================================================
-    // 2. LOGIQUE DES ONGLETS / FENETRES (PARTIE DU CAMARADE)
-    // =========================================================================
-
-    /**
-     * Create the portfolio interface in a tab on the main window.
-     */
     public void portfolioAsTab(Portfolio portfolio) {
         String portfolioName = portfolio.getAddress();
         logger.fine("Finding resource.");
@@ -76,7 +59,7 @@ public class MainPageController {
 
         Tab portfolioContainer = new Tab(portfolioName);
 
-        tabsMap.computeIfAbsent(portfolio,k -> new ArrayList<Tab>()).add(portfolioContainer);
+        tabsMap.computeIfAbsent(portfolio, k -> new ArrayList<Tab>()).add(portfolioContainer);
 
 
         ContextMenu contextMenu = new ContextMenu();
@@ -105,13 +88,9 @@ public class MainPageController {
         }
 
         portfolioHolder.getTabs().add(portfolioContainer);
-        // On sélectionne l'onglet qu'on vient de créer
         portfolioHolder.getSelectionModel().select(portfolioContainer);
     }
 
-    /**
-     * Create the portfolio interface in a separate window.
-     */
     public void portfolioAsWindow(Portfolio portfolio) {
         String portfolioName = portfolio.getAddress();
         URL resourcePath;
@@ -125,7 +104,7 @@ public class MainPageController {
         Stage portfolioStage = new Stage();
         AnchorPane portfolioAnchor;
 
-        windowMap.computeIfAbsent(portfolio,k -> new ArrayList<Stage>()).add(portfolioStage);
+        windowMap.computeIfAbsent(portfolio, k -> new ArrayList<Stage>()).add(portfolioStage);
 
         try {
             FXMLLoader loader = new FXMLLoader(resourcePath);
@@ -147,11 +126,10 @@ public class MainPageController {
 
     @FXML
     public void initialize() {
-        // Logique de la liste (Clic droit, etc.)
         portfolioViewList.setCellFactory(lv -> new ListCell<Portfolio>() {
             private final MenuItem openInWindow = new MenuItem("Open in another window");
             private final MenuItem deletePortfolio = new MenuItem("Delete");
-            private final ContextMenu contextMenu = new ContextMenu(openInWindow,deletePortfolio);
+            private final ContextMenu contextMenu = new ContextMenu(openInWindow, deletePortfolio);
 
             {
                 openInWindow.setOnAction(e -> {
@@ -193,7 +171,6 @@ public class MainPageController {
             }
         });
 
-        // Double clic (ou simple clic selon config) pour ouvrir dans un onglet
         portfolioViewList.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
                 Portfolio item = portfolioViewList.getSelectionModel().getSelectedItem();
@@ -218,7 +195,7 @@ public class MainPageController {
 
 
             List<Tab> tabs = tabsMap.remove(portfolio);
-            if (tabs!= null) {
+            if (tabs != null) {
                 portfolioHolder.getTabs().removeAll(tabs);
 
             }
@@ -227,8 +204,6 @@ public class MainPageController {
             if (windows != null) {
                 windows.forEach(Stage::close);
             }
-
-
 
 
         }
@@ -252,8 +227,6 @@ public class MainPageController {
 
         PortfolioManager.createPortfolio(portfolioNameView.getText(), portfolioDescView.getText());
         updateVisuals();
-
-        // Optionnel : vider les champs après ajout
         portfolioNameView.clear();
         portfolioDescView.clear();
     }

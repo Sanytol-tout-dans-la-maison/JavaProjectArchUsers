@@ -195,4 +195,10 @@ public class Portfolio {
         for(Portfolio p : portfolioArrayList) if(p.getAddress() == portfolio.getAddress()) return;
         portfolioArrayList.add(portfolio);
     }
+
+    public int getNumberOfAssets(String assetName){
+        int i = 0;
+        for(Asset asset : assetList) if(assetName.equals(asset.getAssetName())) i++;
+        return i;
+    }
 }

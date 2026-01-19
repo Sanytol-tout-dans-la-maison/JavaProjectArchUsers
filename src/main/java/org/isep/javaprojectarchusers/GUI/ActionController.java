@@ -43,7 +43,6 @@ public class ActionController {
     public void updateChart() {
         AlphaVantageClient api = AlphaVantageClient.getInstance();
         boolean isCrypto = (generalAsset instanceof CryptocurrencyToken);
-        // true pour forcer le refresh quand on clique sur le bouton refresh
         ArrayList<OhlcvData> datas = api.getMarketData(generalAsset.getGeneralAssetName(), isCrypto, false);
 
         series.clear();
@@ -76,10 +75,10 @@ public class ActionController {
     }
 
     private void updateOwnedInfo() {
-        if(portfolio == null || generalAsset == null) return;
+        if (portfolio == null || generalAsset == null) return;
         double quantityOwned = 0.0;
-        for(Asset a : portfolio.getAssetList()) {
-            if(a.getAssetName().equals(generalAsset.getGeneralAssetName())) {
+        for (Asset a : portfolio.getAssetList()) {
+            if (a.getAssetName().equals(generalAsset.getGeneralAssetName())) {
                 quantityOwned = a.getValue();
                 break;
             }
@@ -88,7 +87,9 @@ public class ActionController {
         assetInfoLabel.setText(String.format("You own: %.4f | Value: %.2f $", quantityOwned, valueOwned));
     }
 
-    public void setAsset(GeneralAssets asset) { this.generalAsset = asset; }
+    public void setAsset(GeneralAssets asset) {
+        this.generalAsset = asset;
+    }
 
     public void setPortfolio(Portfolio portfolio) {
         this.portfolio = portfolio;
@@ -105,93 +106,16 @@ public class ActionController {
         this.parentController = parentController;
     }
 
-    // --- LOGIQUE ACHAT ---
-    // Dans ActionController.java
-
-//    @FXML
-//    public void buyAsset() {
-//        processTransaction(true);
-//    }
-//
-//    private void processTransaction(boolean isBuying) {
-//        try {
-//            if (amount.getText().isEmpty() || lastClosingPrice <= 0) {
-//                showAlert("Error", "Check amount or internet connection.");
-//                return;
-//            }
-//
-//            double amountMoney = Double.parseDouble(amount.getText());
-//            double quantity = amountMoney / lastClosingPrice;
-//            String accountName = accountPicker.getValue();
-//            if(accountName == null) {
-//                showAlert("Error", "Please select an account first.");
-//                return;
-//            }
-//
-//            Account account = portfolio.getAccount(accountName);
-//
-//            // Préparation de l'asset
-//            Asset transAsset = (asset instanceof CryptocurrencyToken) ?
-//                    new CryptocurrencyToken(asset.getAssetName()) : new Stock(asset.getAssetName(), 0.0);
-//            transAsset.setValue(quantity);
-//
-//            boolean success = false;
-//
-//            if (isBuying) {
-//                // --- CORRECTION BUDGET ---
-//                // On tente de retirer l'argent.
-//                // La méthode withdraw renvoie TRUE si ça marche, FALSE si fonds insuffisants.
-//                boolean canPay = account.withdraw(amountMoney);
-//
-//                if (!canPay) {
-//                    // ECHEC : Pas assez d'argent
-//                    showAlert("Insufficient Funds",
-//                            "You tried to spend " + amountMoney + "$ but you only have " + account.getBalance() + "$");
-//                    return; // On arrête tout, la transaction ne se fait pas.
-//                }
-//
-//                // Si on est ici, c'est que l'argent a été retiré de l'objet Account.
-//                // On peut lancer l'achat dans le Manager.
-//                success = PortfolioManager.buyAsset(portfolio.getAddress(), transAsset, account);
-//
-//            } else {
-//                // Vente (Sell)
-//                success = PortfolioManager.sellAsset(portfolio.getAddress(), transAsset, account);
-//                if(success) {
-//                    account.deposit(amountMoney); // On crédite le compte
-//                } else {
-//                    showAlert("Error", "Not enough assets to sell!");
-//                    return;
-//                }
-//            }
-//
-//            if (success) {
-//                showAlert("Success", (isBuying ? "Bought " : "Sold ") + String.format("%.4f", quantity) + " units.");
-//                updateOwnedInfo();
-//                if (parentController != null) parentController.updateVisuals(); // Met à jour le solde affiché
-//                amount.clear();
-//            }
-//
-//        } catch (NumberFormatException e) {
-//            showAlert("Input Error", "Invalid number.");
-//        }
-//    }
-//
-//    // --- LOGIQUE VENTE ---
-//    @FXML
-//    public void sellAsset() { // Assure-toi que ton FXML a onAction="#sellAsset" sur le bouton Sell
-//        processTransaction(false);
-//    }
-
-    public void buyExistingAsset(Asset asset, Account account){
+    public void buyExistingAsset(Asset asset, Account account) {
         PortfolioManager.buyAsset(this.portfolio.getAddress(), asset, portfolio.getAccount(accountPicker.getValue()));
     }
 
-    public void buyNewAsset(Account account){
+    public void buyNewAsset(Account account) {
         PortfolioManager.buyAsset(this.portfolio.getAddress(), this.generalAsset.getGeneralAssetName(), this.generalAsset.getGeneralAssetType(), account);
+        assetInfoLabel.setText("You own: " + portfolio.getNumberOfAssets(generalAsset.getGeneralAssetName()) + " | Value: " + generalAsset.getValue());
     }
 
-    public boolean sellAsset(){
+    public boolean sellAsset() {
         return PortfolioManager.sellAsset(this.portfolio.getAddress(), generalAsset.getGeneralAssetName(), portfolio.getAccount(accountPicker.getValue()));
     }
 

@@ -12,9 +12,7 @@ import org.isep.javaprojectarchusers.PortfolioManager;
 
 import java.io.IOException;
 
-/**
- * Contrôleur gérant l'inscription d'un nouvel utilisateur.
- */
+
 public class RegistrationController {
 
     @FXML
@@ -24,10 +22,7 @@ public class RegistrationController {
     @FXML
     private PasswordField confirmPasswordField;
 
-    /**
-     * Appelé par le bouton "Register".
-     * Tente de créer le compte via le PortfolioManager.
-     */
+
     @FXML
     public void register() {
         String email = emailField.getText();
@@ -35,12 +30,11 @@ public class RegistrationController {
         String confirm = confirmPasswordField.getText();
 
         try {
-            // Appel à la méthode statique que nous avons réparée
             int code = PortfolioManager.register(email, password, confirm);
 
             if (code == 1) {
                 showAlert(Alert.AlertType.INFORMATION, "Succès", "Compte créé avec succès !");
-                returnToLogin(); // On retourne automatiquement au login
+                returnToLogin();
             } else if (code == 0) {
                 showAlert(Alert.AlertType.WARNING, "Attention", "Veuillez remplir tous les champs.");
             } else if (code == -1) {
@@ -54,10 +48,6 @@ public class RegistrationController {
         }
     }
 
-    /**
-     * Appelé par le bouton "Clear".
-     * Vide tous les champs.
-     */
     @FXML
     public void clear() {
         emailField.clear();
@@ -65,9 +55,6 @@ public class RegistrationController {
         confirmPasswordField.clear();
     }
 
-    /**
-     * Retourne à l'écran de connexion.
-     */
     @FXML
     private void returnToLogin() {
         try {
