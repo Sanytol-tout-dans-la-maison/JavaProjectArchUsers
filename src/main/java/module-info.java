@@ -13,6 +13,7 @@ module org.isep.javaprojectarchusers {
     requires org.jfree.jfreechart;
     requires org.jfree.chart.fx;
     requires jdk.compiler;
+    requires org.jetbrains.annotations;
 
     opens org.isep.javaprojectarchusers to javafx.fxml;
     exports org.isep.javaprojectarchusers;

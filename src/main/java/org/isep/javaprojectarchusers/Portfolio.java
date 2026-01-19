@@ -70,11 +70,6 @@ public class Portfolio {
         addToListIfPossible(this);
     }
 
-    // Constructeur vide nécessaire
-    public Portfolio() {
-        this.assetList = new ArrayList<>();
-        this.accountList = new ArrayList<>();
-    }
 
     @JsonIgnore
     public boolean buyAsset(Asset asset, String emitterAccount) {
