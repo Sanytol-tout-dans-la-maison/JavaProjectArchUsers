@@ -116,7 +116,9 @@ public class ActionController {
     }
 
     public boolean sellAsset() {
-        return PortfolioManager.sellAsset(this.portfolio.getAddress(), generalAsset.getGeneralAssetName(), portfolio.getAccount(accountPicker.getValue()));
+        boolean b = PortfolioManager.sellAsset(this.portfolio.getAddress(), generalAsset.getGeneralAssetName(), portfolio.getAccount(accountPicker.getValue()));
+        assetInfoLabel.setText("You own: " + portfolio.getNumberOfAssets(generalAsset.getGeneralAssetName()) + " | Value: " + generalAsset.getValue());
+        return b;
     }
 
     private void showAlert(String title, String content) {
