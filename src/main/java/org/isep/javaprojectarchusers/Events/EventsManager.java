@@ -58,6 +58,6 @@ public class EventsManager {
     }
 
     public static boolean checkEventsByDate(LocalDate date){
-        return !hashMapEvents.containsKey(date);
+        return hashMapEvents.containsKey(date);
     }
 }
