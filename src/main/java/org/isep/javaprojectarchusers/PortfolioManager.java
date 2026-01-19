@@ -122,8 +122,8 @@ public class PortfolioManager {
         return false;
     }
 
-    public static boolean sellAsset(String address, Asset asset, Account account) {
-        for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.sellAsset(asset, account.getUserName());
+    public static boolean sellAsset(String address, String assetName, Account account) {
+        for (Portfolio portfolio : portfolioList) if(portfolio.getAddress().equals(address)) return portfolio.sellAsset(assetName, account.getUserName());
         return false;
     }
 
@@ -163,6 +163,5 @@ public class PortfolioManager {
 
     public static void removePortfolio(Portfolio portfolio) {
         portfolioList.remove(portfolio);
-
     }
 }

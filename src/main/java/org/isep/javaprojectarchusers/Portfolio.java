@@ -31,12 +31,12 @@ public class Portfolio {
     private static ArrayList<Portfolio> portfolioArrayList = new ArrayList<>();
 
     @Override
-    public String toString(){
+    public String toString() {
         return this.address + " : " + this.description + ", manager: " + (manager != null ? manager.toString() : "null");
     }
 
     @JsonIgnore
-    public Portfolio(@JsonProperty("address") String address, @JsonProperty("description") String description, @JsonProperty("manager") String manager, @JsonProperty("blockchain")LinkedList<Block> blockchain){
+    public Portfolio(@JsonProperty("address") String address, @JsonProperty("description") String description, @JsonProperty("manager") String manager, @JsonProperty("blockchain") LinkedList<Block> blockchain) {
         this.address = address;
         this.description = description;
         this.manager = manager;
@@ -47,7 +47,7 @@ public class Portfolio {
     }
 
 
-    public Portfolio(@JsonProperty("address") String address, @JsonProperty("description") String description, @JsonProperty("manager") String manager, @JsonProperty("blockchain")LinkedList<Block> blockchain,  @JsonProperty("assets") ArrayList<Asset> assetList, @JsonProperty("accounts") ArrayList<Account> accountList){
+    public Portfolio(@JsonProperty("address") String address, @JsonProperty("description") String description, @JsonProperty("manager") String manager, @JsonProperty("blockchain") LinkedList<Block> blockchain, @JsonProperty("assets") ArrayList<Asset> assetList, @JsonProperty("accounts") ArrayList<Account> accountList) {
         this.address = address;
         this.description = description;
         this.manager = manager;
@@ -60,7 +60,7 @@ public class Portfolio {
     }
 
     @JsonIgnore
-    public Portfolio(String address, String description, String manager){
+    public Portfolio(String address, String description, String manager) {
         this.address = address;
         this.description = description;
         this.manager = manager;
@@ -77,48 +77,47 @@ public class Portfolio {
     }
 
     @JsonIgnore
-    public boolean buyAsset(Asset asset, String emitterAccount){
+    public boolean buyAsset(Asset asset, String emitterAccount) {
         Transaction transaction = new Transaction(address, emitterAccount, asset, asset.getValue(), LocalDate.now());
-        if (transaction.validateTransaction()){
+        if (transaction.validateTransaction()) {
             assetList.add(asset);
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
     @JsonIgnore
-    public boolean sellAsset(Asset asset, String account){
+    public boolean sellAsset(String assetName, String account) {
+        Asset asset = getAssetFromName(assetName);
         Transaction transaction = new Transaction(MainBackEnd.searchAccount(account).getPortfolio(), account, asset, asset.getValue(), LocalDate.now());
-        if(transaction.validateTransaction()){
-            for(int i = 0; i < assetList.size(); i++) if(assetList.get(i).equals(asset)) assetList.remove(i);
+        if (transaction.validateTransaction()) {
+            for (int i = 0; i < assetList.size(); i++) if (assetList.get(i).equals(asset)) assetList.remove(i);
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
     @JsonIgnore
-    public boolean transferMoney(String emitterAccount, String receiverAccount, double amountOfMoney){
+    public boolean transferMoney(String emitterAccount, String receiverAccount, double amountOfMoney) {
         Account receiver = MainBackEnd.searchAccount(receiverAccount);
-        if(receiver == null) return false;
+        if (receiver == null) return false;
         Transaction transaction = new Transaction(this.getAddress(), receiver.getPortfolio(), emitterAccount, receiverAccount, amountOfMoney, LocalDate.now());
         return transaction.validateTransaction();
     }
 
     @JsonIgnore
-    public void createCheckingAccount(String userName){
+    public void createCheckingAccount(String userName) {
         CheckingAccount account = new CheckingAccount(userName, 2000, 1000, this.address, 0, 200);
         accountList.add(account);
     }
 
     @JsonIgnore
-    public void createSavingAccount(String userName){
-        SavingAccount account = new SavingAccount(userName, 2000,1000,this.address,500);
+    public void createSavingAccount(String userName) {
+        SavingAccount account = new SavingAccount(userName, 2000, 1000, this.address, 500);
         accountList.add(account);
     }
 
     @JsonIgnore
-    public Account getAccount(String userName){
-        for(Account a : accountList) if(a.getUserName().equals(userName)) return a;
+    public Account getAccount(String userName) {
+        for (Account a : accountList) if (a.getUserName().equals(userName)) return a;
         return null;
     }
 
@@ -134,7 +133,7 @@ public class Portfolio {
         return address;
     }
 
-    public void setAddress(String address){
+    public void setAddress(String address) {
         this.address = address;
     }
 
@@ -176,5 +175,16 @@ public class Portfolio {
 
     public static void setPortfolioArrayList(ArrayList<Portfolio> portfolioArrayList) {
         Portfolio.portfolioArrayList = portfolioArrayList;
+    }
+
+    @JsonIgnore
+    public boolean checkAssetExistence(String assetName){
+        for(Asset asset : assetList) if(asset.getAssetName().equals(assetName)) return true;
+        return false;
+    }
+
+    public Asset getAssetFromName(String assetName){
+        for(Asset asset : assetList) if(asset.getAssetName().equals(assetName)) return asset;
+        return null;
     }
 }

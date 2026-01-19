@@ -190,8 +190,8 @@ public class ActionController {
         PortfolioManager.buyAsset(this.portfolio.getAddress(), this.generalAsset.getGeneralAssetName(), this.generalAsset.getGeneralAssetType(), account);
     }
 
-    public void sellAsset(Asset asset, Account account){
-        PortfolioManager.sellAsset(this.portfolio.getAddress(), asset, account);
+    public boolean sellAsset(String assetName, Account account){
+        return PortfolioManager.sellAsset(this.portfolio.getAddress(), assetName, account);
     }
 
     private void showAlert(String title, String content) {
