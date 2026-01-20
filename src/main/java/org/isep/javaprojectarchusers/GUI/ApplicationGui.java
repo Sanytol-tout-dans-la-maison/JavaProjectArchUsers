@@ -37,7 +37,7 @@ public class ApplicationGui extends Application {
         //Encryption.decryptAllFiles(Encryption.getKey());
 //        MainBackEnd.extractPortfolios();
 //        Blockchain.extractBlockchain();
-//        EventExtract.extract();
+ //       EventExtract.extract();
         GenerateGeneralAssets.generate();
         EventsManager.createEventsRandom(LocalDate.now().minusDays(10), LocalDate.now().plusDays(10));
         EventsManager.sortEventsbyDate();
@@ -61,7 +61,6 @@ public class ApplicationGui extends Application {
         URL resourcePath;
 
         try {
-            // ON CHANGE ICI : On vise l'authentification, pas la MainPage
             resourcePath = Objects.requireNonNull(getClass().getResource("authentication-interface.fxml"));
             logger.fine("Resource path: " + resourcePath);
 
@@ -76,12 +75,8 @@ public class ApplicationGui extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(resourcePath);
 
-            // On charge la scène
-            // On peut définir une taille fixe pour le login (ex: 600x400) ou laisser faire
             scene = new Scene(loader.load());
 
-            // NOTE : On n'a plus besoin de récupérer le controller ici pour setManager
-            // car AuthenticationController utilise ApplicationGui.pManager directement (static).
 
         } catch (IOException e) {
             logger.severe("IOException error during FXMLLoader.load(resourcePath): " + e);
@@ -94,7 +89,7 @@ public class ApplicationGui extends Application {
         logger.fine("Putting loaded scene in the stage.");
         primaryStage.setScene(scene);
 
-        // Optionnel : Bloquer le redimensionnement pour l'écran de login (c'est plus propre)
+
         primaryStage.setResizable(false);
 
         logger.info("Showing stage");

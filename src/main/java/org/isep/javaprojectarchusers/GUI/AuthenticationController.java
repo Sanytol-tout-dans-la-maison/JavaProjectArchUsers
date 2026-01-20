@@ -62,7 +62,6 @@ public class AuthenticationController {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("registration-window.fxml"));
         Parent root = fxmlLoader.load();
 
-        // Note: Assure-toi que registration-window.fxml existe bien
         Scene scene = new Scene(root);
         Stage stage = (Stage) idField.getScene().getWindow();
         stage.setTitle("Register");
@@ -74,7 +73,6 @@ public class AuthenticationController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("PortfolioView.fxml"));
         Parent root = loader.load();
 
-        // On passe les infos à ton contrôleur
         PortfolioController controller = loader.getController();
         if (!PortfolioManager.getPortfolioList().isEmpty()) {
             controller.setPortfolio(PortfolioManager.getPortfolioList().get(0));
@@ -82,7 +80,7 @@ public class AuthenticationController {
         }
 
         Stage stage = (Stage) idField.getScene().getWindow();
-        Scene scene = new Scene(root, 1200, 800); // Taille confortable
+        Scene scene = new Scene(root, 1200, 800);
         stage.setTitle("My Crypto Portfolio - Dashboard");
         stage.setScene(scene);
         stage.setResizable(true);

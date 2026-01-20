@@ -330,7 +330,7 @@ public class PortfolioController {
         handleSelection(materialMenu, stockMenu, cryptoMenu, false);
     }
 
-    // --- SELECTION ET MAPPING DES SYMBOLES ---
+
     private void handleSelection(ComboBox<String> active, ComboBox<String> other1, ComboBox<String> other2, boolean isCrypto) {
         String selectedName = active.getValue();
         if (selectedName == null) return;

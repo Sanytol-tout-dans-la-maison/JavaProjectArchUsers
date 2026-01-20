@@ -16,7 +16,6 @@ public class Market {
     private Market() {
         marketAssets = new ArrayList<>();
 
-        // Initialisation des actifs avec les noms corrects
         GeneralAssets btc = new GeneralAssets("Bitcoin",  ASSET_TYPE.CryptocurrencyToken);
         btc.setValue(35000.0);
         marketAssets.add(btc);
@@ -42,7 +41,7 @@ public class Market {
         LocalDate startDate = LocalDate.now().minusDays(30);
         LocalDate endDate = LocalDate.now();
 
-        // On utilise la classe EventsManager pour classer les events par date
+
         EventsManager em = new EventsManager();
         HashMap<LocalDate, ArrayList<Events>> eventsMap = em.sortEventsbyDate();
 
@@ -56,7 +55,7 @@ public class Market {
                 }
             }
 
-            // Enregistrement dans l'historique pour les graphiques
+
             for (GeneralAssets generalAsset : marketAssets) {
                 generalAsset.addHistory(date, generalAsset.getValue());
             }

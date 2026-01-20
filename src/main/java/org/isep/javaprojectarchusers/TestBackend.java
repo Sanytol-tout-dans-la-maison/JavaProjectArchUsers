@@ -6,7 +6,7 @@ public class TestBackend {
     public static void main(String[] args) {
         System.out.println("=== TEST DU BACKEND (Données Boursières) ===");
 
-        // Test de ta méthode
+
         String symbol = "^IXIC";
         ArrayList<OhlcvData> data = AlphaVantageClient.getInstance().getMarketData(symbol, false, false);        // Vérification
         if (data.isEmpty()) {
@@ -14,7 +14,6 @@ public class TestBackend {
         } else {
             System.out.println("SUCCÈS : Récupération de " + data.size() + " éléments.");
 
-            // Afficher les 3 premiers et 3 derniers pour prouver que c'est cohérent
             System.out.println("\n--- Aperçu des données ---");
             System.out.println("Première donnée : " + data.get(0));
             System.out.println("Dernière donnée : " + data.get(data.size() - 1));
