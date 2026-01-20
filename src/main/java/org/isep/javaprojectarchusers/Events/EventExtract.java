@@ -1,6 +1,7 @@
 package org.isep.javaprojectarchusers.Events;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +13,10 @@ public class EventExtract {
     public static void extract() throws IOException{
 
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.readValue(new File("src/main/resources/org/isep/javaprojectarchusers/events.json"), new TypeReference<ArrayList<Events>>(){});
+        try {
+            objectMapper.readValue(new File("src/main/resources/org/isep/javaprojectarchusers/events.json"), new TypeReference<ArrayList<Events>>() {
+            });
+        }
+        catch (MismatchedInputException e){}
     }
 }

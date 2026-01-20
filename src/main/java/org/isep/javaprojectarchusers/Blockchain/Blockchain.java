@@ -2,6 +2,7 @@ package org.isep.javaprojectarchusers.Blockchain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +39,9 @@ public class Blockchain {
 
     public static void extractBlockchain() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        Blockchain.setBlockchain(objectMapper.readValue(new File("src/main/resources/org/isep/javaprojectarchusers/blockchain.json"), new TypeReference<LinkedList<Block>>(){}));
+        try {
+            Blockchain.setBlockchain(objectMapper.readValue(new File("src/main/resources/org/isep/javaprojectarchusers/blockchain.json"), new TypeReference<LinkedList<Block>>() {}));
+        } catch (MismatchedInputException e) {}
     }
     public static void saveBlockchain() throws IOException {
         blockchain = Blockchain.getBlockchainList();

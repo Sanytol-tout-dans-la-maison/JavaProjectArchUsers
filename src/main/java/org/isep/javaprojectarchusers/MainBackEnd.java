@@ -3,12 +3,14 @@ package org.isep.javaprojectarchusers;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import org.isep.javaprojectarchusers.Accounts.Account;
 import org.isep.javaprojectarchusers.Blockchain.Block;
 import org.isep.javaprojectarchusers.Blockchain.Blockchain;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -50,8 +52,10 @@ public class MainBackEnd {
 
     public static void extractPortfolios() throws IOException{
         ObjectMapper objectMapper = new ObjectMapper();
-        portfolioArrayList = objectMapper.readValue(new File("src/main/resources/org/isep/javaprojectarchusers/portfolios.json"), new TypeReference<ArrayList<Portfolio>>() {
-        });
+       try{
+           portfolioArrayList = objectMapper.readValue(new File("src/main/resources/org/isep/javaprojectarchusers/portfolios.json"), new TypeReference<ArrayList<Portfolio>>(){});
+       }
+       catch(MismatchedInputException e){};
     }
 
     public static void addPortfolio(Portfolio portfolio){
