@@ -29,6 +29,20 @@ public class Transaction {
     LocalDate date;
 
 
+    public Transaction(@JsonProperty("emitter") String emitter, @JsonProperty("receiver") String receiver, @JsonProperty("emitterAccount") String emitterAccount,@JsonProperty("receiverAccount") String receiverAccount, @JsonProperty("transactionAsset") Asset transactionAsset, @JsonProperty("amountOfMoney")double amountOfMoney,@JsonProperty("date") String date, @JsonProperty("isAccepted")boolean isAccepted){
+        this.emitter = emitter;
+        this.receiver = receiver;
+        this.emitterAccount = emitterAccount;
+        this.receiverAccount = receiverAccount;
+        this.transactionAsset = null;
+        this.amountOfMoney = amountOfMoney;
+        this.transactionAsset = transactionAsset;
+        this.date = LocalDate.parse(date);
+        this.isAccepted = isAccepted;
+        addToBlockchain();
+    }
+
+    @JsonIgnore
     public Transaction(@JsonProperty("emitter") String emitter, @JsonProperty("receiver") String receiver, @JsonProperty("emitterAccount") String emitterAccount,@JsonProperty("receiverAccount") String receiverAccount, @JsonProperty("transactionAsset") Asset transactionAsset, @JsonProperty("amountOfMoney")double amountOfMoney,@JsonProperty("date") LocalDate date, @JsonProperty("isAccepted")boolean isAccepted){
         this.emitter = emitter;
         this.receiver = receiver;
@@ -96,12 +110,12 @@ public class Transaction {
         return isAccepted;
     }
 
-    public @JsonProperty("date") LocalDate getDate() {
-        return date;
+    public @JsonProperty("date") String getDate() {
+        return date.toString();
     }
 
-    public void setDate(@JsonProperty("date") LocalDate date) {
-        this.date = date;
+    public void setDate(@JsonProperty("date") String date) {
+        this.date = LocalDate.parse(date);
     }
 
     public void setAccepted(@JsonProperty("isAccepted") boolean accepted) {
