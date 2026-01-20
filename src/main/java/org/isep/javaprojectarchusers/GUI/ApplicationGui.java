@@ -34,20 +34,16 @@ public class ApplicationGui extends Application {
 
     public static void main(String[] args) throws Exception {
 
-        //Encryption.decryptAllFiles(Encryption.getKey());
-//        MainBackEnd.extractPortfolios();
-//        Blockchain.extractBlockchain();
- //       EventExtract.extract();
+        Encryption.decryptAllFiles(Encryption.getKey());
+        MainBackEnd.extractPortfolios();
+        Blockchain.extractBlockchain();
+        EventExtract.extract();
         GenerateGeneralAssets.generate();
         EventsManager.createEventsRandom(LocalDate.now().minusDays(10), LocalDate.now().plusDays(10));
         EventsManager.sortEventsbyDate();
 //
 
-//        //à mettre à la fin
-//        MainBackEnd.savePortfolios(Portfolio.getPortfolioArrayList());
-//        Blockchain.saveBlockchain();
-//        EventSave.save(Events.getEventList());
-//        Encryption.encryptAllFiles(Encryption.getKey());
+
 
         launch(args);
     }
@@ -94,5 +90,18 @@ public class ApplicationGui extends Application {
 
         logger.info("Showing stage");
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(event -> {
+            System.out.println("Window is closing");
+            //        //à mettre à la fin
+        MainBackEnd.savePortfolios(Portfolio.getPortfolioArrayList());
+            try {
+                Blockchain.saveBlockchain();
+                EventSave.save(Events.getEventList());
+                Encryption.encryptAllFiles(Encryption.getKey());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }
